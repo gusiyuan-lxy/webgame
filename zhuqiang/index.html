@@ -97,6 +97,7 @@
             padding: 1.5rem;
             transition: transform 0.3s;
             border-top: 3px solid var(--primary);
+            position: relative;
         }
         
         .character-card:hover {
@@ -183,6 +184,75 @@
             color: var(--secondary);
         }
         
+        /* 新增样式 */
+        .name-input {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .confirm-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .selected-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0 8px 0 8px;
+            font-size: 0.8rem;
+        }
+        
+        /* 跳转按钮样式 */
+        .next-page-btn {
+            display: block;
+            width: 200px;
+            margin: 2rem auto;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        }
+
+        .next-page-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-page-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .next-page-btn i {
+            margin-left: 0.5rem;
+        }
+
         @media (max-width: 768px) {
             .character-cards {
                 flex-direction: column;
@@ -200,6 +270,11 @@
         <header>
             <h1>朱墙玉碎：X染深宫</h1>
             <p class="subtitle">深宫秘闻 · 权谋斗争 · 爱恨情仇</p>
+            
+            <div class="mvp-section">
+                <p><strong>本期MVP：</strong> 天一</p>
+                <p><strong>赛季MVP次数：</strong> 天一：1 | 二木：包子</p>
+            </div>
         </header>
         
         <section>
@@ -208,7 +283,7 @@
             
             <div class="character-cards">
                 <!-- 秀女素素 -->
-                <div class="character-card">
+                <div class="character-card" id="susu-card">
                     <div class="character-name">秀女素素</div>
                     <div class="character-title">户部尚书之女</div>
                     <p>大家闺秀，琴棋书画样样精通。但从小身体孱弱，今年大选时被皇帝选为X妃，成为了最得宠的妃子。</p>
@@ -222,10 +297,12 @@
                             <span class="stat-value">70</span>
                         </div>
                     </div>
+                    <input type="text" class="name-input" id="susu-name" placeholder="输入您的姓名">
+                    <button class="confirm-btn" onclick="selectCharacter('susu')">确认选择</button>
                 </div>
                 
                 <!-- 民女海燕 -->
-                <div class="character-card">
+                <div class="character-card" id="haiyan-card">
                     <div class="character-name">民女海燕</div>
                     <div class="character-title">轻功高手</div>
                     <p>皇帝在微服私访时遇险，幸得海燕出手相救，而后随皇帝入宫。由于轻功了得，身轻如燕，被皇帝封为嫔，时常教小皇子练功。</p>
@@ -239,10 +316,12 @@
                             <span class="stat-value">40</span>
                         </div>
                     </div>
+                    <input type="text" class="name-input" id="haiyan-name" placeholder="输入您的姓名">
+                    <button class="confirm-btn" onclick="selectCharacter('haiyan')">确认选择</button>
                 </div>
                 
                 <!-- 高女大壮 -->
-                <div class="character-card">
+                <div class="character-card" id="dazhuang-card">
                     <div class="character-name">高女大壮</div>
                     <div class="character-title">力大宫女</div>
                     <p>一个力大无穷的宫女，一人需三人食，但可做五人工。厨艺精湛，是后宫、后厨的好帮手~</p>
@@ -256,6 +335,8 @@
                             <span class="stat-value">0</span>
                         </div>
                     </div>
+                    <input type="text" class="name-input" id="dazhuang-name" placeholder="输入您的姓名">
+                    <button class="confirm-btn" onclick="selectCharacter('dazhuang')">确认选择</button>
                 </div>
             </div>
         </section>
@@ -303,9 +384,124 @@
             <p><strong>当前进度：</strong> 1/16</p>
         </section>
         
+        <!-- 新增跳转按钮 -->
+        <a href="next-page.html" class="next-page-btn" id="nextPageBtn">
+            进入下一幕 →
+        </a>
+        
         <footer>
-            <p>© 2026 宫斗游戏 · 朱墙玉碎系列</p>
+            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
         </footer>
     </div>
+
+    <script>
+        // 检查是否有已选择的角色
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedCharacter = localStorage.getItem('selectedCharacter');
+            const playerName = localStorage.getItem('playerName');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            
+            if (selectedCharacter && playerName) {
+                // 显示已选择的角色
+                highlightSelectedCharacter(selectedCharacter, playerName);
+                // 启用跳转按钮
+                enableNextPageButton();
+            } else {
+                // 禁用跳转按钮
+                disableNextPageButton();
+            }
+        });
+
+        // 选择角色函数
+        function selectCharacter(characterType) {
+            const nameInput = document.getElementById(`${characterType}-name`);
+            const playerName = nameInput.value.trim();
+            
+            if (!playerName) {
+                alert('请输入您的姓名');
+                return;
+            }
+            
+            // 保存到本地存储
+            localStorage.setItem('selectedCharacter', characterType);
+            localStorage.setItem('playerName', playerName);
+            
+            // 高亮显示已选择的角色
+            highlightSelectedCharacter(characterType, playerName);
+            
+            // 启用跳转按钮
+            enableNextPageButton();
+            
+            alert(`角色选择成功！欢迎${playerName}扮演${getCharacterTitle(characterType)}`);
+        }
+        
+        // 高亮显示已选择的角色
+        function highlightSelectedCharacter(characterType, playerName) {
+            // 移除所有卡片的选择状态
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.style.borderTop = '3px solid var(--primary)';
+                const indicator = card.querySelector('.selected-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            });
+            
+            // 为当前选择的卡片添加高亮
+            const selectedCard = document.getElementById(`${characterType}-card`);
+            selectedCard.style.borderTop = '3px solid var(--accent)';
+            
+            // 添加选择标记
+            const indicator = document.createElement('div');
+            indicator.className = 'selected-indicator';
+            indicator.textContent = `已选择: ${playerName}`;
+            selectedCard.appendChild(indicator);
+            
+            // 禁用其他角色的输入和按钮
+            document.querySelectorAll('.character-card').forEach(card => {
+                if (card.id !== `${characterType}-card`) {
+                    const inputs = card.querySelectorAll('input');
+                    const buttons = card.querySelectorAll('button');
+                    
+                    inputs.forEach(input => input.disabled = true);
+                    buttons.forEach(button => button.disabled = true);
+                }
+            });
+        }
+        
+        // 获取角色标题
+        function getCharacterTitle(characterType) {
+            const titles = {
+                'susu': '秀女素素',
+                'haiyan': '民女海燕',
+                'dazhuang': '高女大壮'
+            };
+            return titles[characterType] || '';
+        }
+        
+        // 启用跳转按钮
+        function enableNextPageButton() {
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            nextPageBtn.style.pointerEvents = 'auto';
+            nextPageBtn.style.opacity = '1';
+            nextPageBtn.style.cursor = 'pointer';
+            nextPageBtn.title = '';
+            
+            // 添加点击事件
+            nextPageBtn.addEventListener('click', function(e) {
+                const playerName = localStorage.getItem('playerName');
+                if (!confirm(`${playerName}，确定要进入下一幕吗？`)) {
+                    e.preventDefault();
+                }
+            });
+        }
+        
+        // 禁用跳转按钮
+        function disableNextPageButton() {
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            nextPageBtn.style.pointerEvents = 'none';
+            nextPageBtn.style.opacity = '0.6';
+            nextPageBtn.title = '请先选择角色';
+        }
+    </script>
 </body>
 </html>
