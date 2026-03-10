@@ -279,7 +279,7 @@
         
         <section>
             <h2>第一幕 · 引子</h2>
-            <p>三位冒险者醒来后，发现自己来到了一个全新的世界，并有了新的身份。请选择你的角色：</p>
+            <p>三位冒险者醒来后，发现自己来到了一个全新的世界，并有了新的身份。请为每个角色分配玩家：</p>
             
             <div class="character-cards">
                 <!-- 秀女素素 -->
@@ -297,7 +297,7 @@
                             <span class="stat-value">70</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="susu-name" placeholder="输入您的姓名">
+                    <input type="text" class="name-input" id="susu-name" placeholder="输入玩家姓名">
                     <button class="confirm-btn" onclick="selectCharacter('susu')">确认选择</button>
                 </div>
                 
@@ -316,7 +316,7 @@
                             <span class="stat-value">40</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="haiyan-name" placeholder="输入您的姓名">
+                    <input type="text" class="name-input" id="haiyan-name" placeholder="输入玩家姓名">
                     <button class="confirm-btn" onclick="selectCharacter('haiyan')">确认选择</button>
                 </div>
                 
@@ -335,7 +335,7 @@
                             <span class="stat-value">0</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="dazhuang-name" placeholder="输入您的姓名">
+                    <input type="text" class="name-input" id="dazhuang-name" placeholder="输入玩家姓名">
                     <button class="confirm-btn" onclick="selectCharacter('dazhuang')">确认选择</button>
                 </div>
             </div>
@@ -384,7 +384,7 @@
             <p><strong>当前进度：</strong> 1/16</p>
         </section>
         
-        <!-- 新增跳转按钮 -->
+        <!-- 跳转按钮 -->
         <a href="next-page.html" class="next-page-btn" id="nextPageBtn">
             进入下一幕 →
         </a>
@@ -397,22 +397,32 @@
     <script>
         // 检查是否有已选择的角色
         document.addEventListener('DOMContentLoaded', function() {
-            const selectedCharacter = localStorage.getItem('selectedCharacter');
-            const playerName = localStorage.getItem('playerName');
+            // 新的存储结构：保存所有玩家的选择
+            const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
             const nextPageBtn = document.getElementById('nextPageBtn');
             
-            if (selectedCharacter && playerName) {
-                // 显示已选择的角色
-                highlightSelectedCharacter(selectedCharacter, playerName);
-                // 启用跳转按钮
+            // 恢复所有已选择的角色
+            let hasSelection = false;
+            for (const [characterType, playerName] of Object.entries(savedPlayers)) {
+                if (playerName) {
+                    document.getElementById(`${characterType}-name`).value = playerName;
+                    highlightSelectedCharacter(characterType, playerName, false); // false表示不禁用其他输入
+                    hasSelection = true;
+                }
+            }
+            
+            // 检查是否所有角色都已选择
+            const allSelected = Object.keys(savedPlayers).length === 3 && 
+                               Object.values(savedPlayers).every(name => name);
+            
+            if (allSelected) {
                 enableNextPageButton();
             } else {
-                // 禁用跳转按钮
                 disableNextPageButton();
             }
         });
 
-        // 选择角色函数
+        // 选择角色函数 - 修改为支持多角色选择
         function selectCharacter(characterType) {
             const nameInput = document.getElementById(`${characterType}-name`);
             const playerName = nameInput.value.trim();
@@ -422,50 +432,52 @@
                 return;
             }
             
-            // 保存到本地存储
-            localStorage.setItem('selectedCharacter', characterType);
-            localStorage.setItem('playerName', playerName);
+            // 保存到本地存储 - 使用新的存储结构
+            const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+            savedPlayers[characterType] = playerName;
+            localStorage.setItem('players', JSON.stringify(savedPlayers));
             
             // 高亮显示已选择的角色
-            highlightSelectedCharacter(characterType, playerName);
+            highlightSelectedCharacter(characterType, playerName, false); // false表示不禁用其他输入
             
-            // 启用跳转按钮
-            enableNextPageButton();
+            // 检查是否所有角色都已选择
+            const allSelected = Object.keys(savedPlayers).length === 3 && 
+                               Object.values(savedPlayers).every(name => name);
             
-            alert(`角色选择成功！欢迎${playerName}扮演${getCharacterTitle(characterType)}`);
+            if (allSelected) {
+                enableNextPageButton();
+                alert(`所有角色选择完成！可以进入下一幕了。`);
+            } else {
+                alert(`角色选择成功！欢迎${playerName}扮演${getCharacterTitle(characterType)}`);
+            }
         }
         
-        // 高亮显示已选择的角色
-        function highlightSelectedCharacter(characterType, playerName) {
-            // 移除所有卡片的选择状态
-            document.querySelectorAll('.character-card').forEach(card => {
-                card.style.borderTop = '3px solid var(--primary)';
-                const indicator = card.querySelector('.selected-indicator');
-                if (indicator) {
-                    indicator.remove();
-                }
-            });
-            
-            // 为当前选择的卡片添加高亮
+        // 修改高亮函数，添加disableOthers参数控制是否禁用其他输入
+        function highlightSelectedCharacter(characterType, playerName, disableOthers = true) {
             const selectedCard = document.getElementById(`${characterType}-card`);
+            
+            // 添加或更新选择标记
+            let indicator = selectedCard.querySelector('.selected-indicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.className = 'selected-indicator';
+                selectedCard.appendChild(indicator);
+            }
+            indicator.textContent = `已选择: ${playerName}`;
             selectedCard.style.borderTop = '3px solid var(--accent)';
             
-            // 添加选择标记
-            const indicator = document.createElement('div');
-            indicator.className = 'selected-indicator';
-            indicator.textContent = `已选择: ${playerName}`;
-            selectedCard.appendChild(indicator);
-            
-            // 禁用其他角色的输入和按钮
-            document.querySelectorAll('.character-card').forEach(card => {
-                if (card.id !== `${characterType}-card`) {
-                    const inputs = card.querySelectorAll('input');
-                    const buttons = card.querySelectorAll('button');
-                    
-                    inputs.forEach(input => input.disabled = true);
-                    buttons.forEach(button => button.disabled = true);
-                }
-            });
+            // 根据参数决定是否禁用其他输入
+            if (disableOthers) {
+                document.querySelectorAll('.character-card').forEach(card => {
+                    if (card.id !== `${characterType}-card`) {
+                        const inputs = card.querySelectorAll('input');
+                        const buttons = card.querySelectorAll('button');
+                        
+                        inputs.forEach(input => input.disabled = true);
+                        buttons.forEach(button => button.disabled = true);
+                    }
+                });
+            }
         }
         
         // 获取角色标题
@@ -488,10 +500,11 @@
             
             // 添加点击事件
             nextPageBtn.addEventListener('click', function(e) {
-                const playerName = localStorage.getItem('playerName');
-                if (!confirm(`${playerName}，确定要进入下一幕吗？`)) {
-                    e.preventDefault();
-                }
+                const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+                const playerNames = Object.values(savedPlayers).join('、');
+                
+                if (!confirm(`${playerNames}，确定要进入下一幕吗？`)) {
+                    e.preventDefault}
             });
         }
         
@@ -500,7 +513,7 @@
             const nextPageBtn = document.getElementById('nextPageBtn');
             nextPageBtn.style.pointerEvents = 'none';
             nextPageBtn.style.opacity = '0.6';
-            nextPageBtn.title = '请先选择角色';
+            nextPageBtn.title = '请先选择所有角色';
         }
     </script>
 </body>
