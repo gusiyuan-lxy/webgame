@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱墙玉碎：X染深宫</title>
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #2c3e50;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #1a1a1a;
+        }
+        
+        body {
+            font-family: 'SimSun', '宋体', serif;
+            background: url('https://img.freepik.com/free-photo/chinese-palace_1417-1500.jpg') center/cover fixed;
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: var(--secondary);
+        }
+        
+        .mvp-section {
+            background: rgba(243, 156, 18, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .character-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .character-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+            border-top: 3px solid var(--primary);
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .character-name {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .character-title {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .character-stats {
+            margin-top: 1rem;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-name {
+            font-weight: bold;
+        }
+        
+        .stat-value {
+            color: var(--primary);
+        }
+        
+        .system-rules {
+            background: rgba(46, 134, 193, 0.1);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 2rem 0;
+            border-left: 4px solid #2e86c1;
+        }
+        
+        .rank-system {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .rank {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .rank-name {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .rank-value {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .rank-effect {
+            font-size: 0.8rem;
+            color: var(--dark);
+            margin-top: 0.3rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            color: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .character-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .rank-system {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>朱墙玉碎：X染深宫</h1>
+            <p class="subtitle">深宫秘闻 · 权谋斗争 · 爱恨情仇</p>
+            
+            <div class="mvp-section">
+                <p><strong>本期MVP：</strong> 天一</p>
+                <p><strong>赛季MVP次数：</strong> 天一：1 | 二木：包子</p>
+            </div>
+        </header>
+        
+        <section>
+            <h2>第一幕 · 引子</h2>
+            <p>三位冒险者醒来后，发现自己来到了一个全新的世界，并有了新的身份。请选择你的角色：</p>
+            
+            <div class="character-cards">
+                <!-- 秀女素素 -->
+                <div class="character-card">
+                    <div class="character-name">秀女素素</div>
+                    <div class="character-title">户部尚书之女</div>
+                    <p>大家闺秀，琴棋书画样样精通。但从小身体孱弱，今年大选时被皇帝选为X妃，成为了最得宠的妃子。</p>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value">3</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-value">70</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 民女海燕 -->
+                <div class="character-card">
+                    <div class="character-name">民女海燕</div>
+                    <div class="character-title">轻功高手</div>
+                    <p>皇帝在微服私访时遇险，幸得海燕出手相救，而后随皇帝入宫。由于轻功了得，身轻如燕，被皇帝封为嫔，时常教小皇子练功。</p>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value">5</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-value">40</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 高女大壮 -->
+                <div class="character-card">
+                    <div class="character-name">高女大壮</div>
+                    <div class="character-title">力大宫女</div>
+                    <p>一个力大无穷的宫女，一人需三人食，但可做五人工。厨艺精湛，是后宫、后厨的好帮手~</p>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value">9</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="system-rules">
+            <h2>好感度系统</h2>
+            
+            <div class="rank-system">
+                <div class="rank">
+                    <div class="rank-name">冷宫</div>
+                    <div class="rank-value">-20</div>
+                    <div class="rank-effect">本幕暂停所有行动，下一幕好感清零</div>
+                </div>
+                
+                <div class="rank">
+                    <div class="rank-name">贵人</div>
+                    <div class="rank-value">20</div>
+                </div>
+                
+                <div class="rank">
+                    <div class="rank-name">嫔</div>
+                    <div class="rank-value">40</div>
+                </div>
+                
+                <div class="rank">
+                    <div class="rank-name">妃</div>
+                    <div class="rank-value">60</div>
+                    <div class="rank-effect">可自行封号</div>
+                </div>
+                
+                <div class="rank">
+                    <div class="rank-name">贵妃</div>
+                    <div class="rank-value">80</div>
+                    <div class="rank-effect">万人之上，首次获得者生命值+1</div>
+                </div>
+                
+                <div class="rank">
+                    <div class="rank-name">皇贵妃</div>
+                    <div class="rank-value">100</div>
+                    <div class="rank-effect">母仪天下，首次获得者生命值+2</div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>复活机制：</strong> 玩家死亡后会扣除10好感度和1生命值复活（无好感度则为负数）</p>
+            <p><strong>当前进度：</strong> 1/16</p>
+        </section>
+        
+        <footer>
+            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
+        </footer>
+    </div>
+</body>
+</html>
