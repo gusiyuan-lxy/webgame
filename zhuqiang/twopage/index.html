@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>朱墙玉碎：X染深宫 - 第二幕</title>
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #2c3e50;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #1a1a1a;
+        }
+        
+        body {
+            font-family: 'SimSun', '宋体', serif;
+            background: url('https://img.freepik.com/free-photo/chinese-palace_1417-1500.jpg') center/cover fixed;
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+        
+        .scene-intro {
+            background: rgba(243, 156, 18, 0.1);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        .decision-section {
+            margin: 2rem 0;
+        }
+        
+        .decision-title {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .option-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s;
+            border-top: 3px solid var(--primary);
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .option-card.selected {
+            border-top: 3px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .option-letter {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .option-desc {
+            margin-bottom: 1rem;
+        }
+        
+        .outcomes {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .outcome-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .outcome-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent);
+        }
+        
+        .outcome-positive {
+            color: #27ae60;
+        }
+        
+        .outcome-negative {
+            color: #e74c3c;
+        }
+        
+        .outcome-neutral {
+            color: #7f8c8d;
+        }
+        
+        .progress-indicator {
+            text-align: center;
+            margin-top: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            color: var(--secondary);
+        }
+        
+        /* 角色选择区域 */
+        .character-selection {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(46, 134, 193, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #2e86c1;
+        }
+        
+        .character-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .character-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 1rem;
+            transition: transform 0.3s;
+            border-top: 3px solid var(--primary);
+            cursor: pointer;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .character-card.selected {
+            border-top: 3px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .character-name {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .character-title {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .character-stats {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-name {
+            font-weight: bold;
+        }
+        
+        .stat-value {
+            color: var(--primary);
+        }
+        
+        /* 结果展示区域 */
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+            display: none;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .result-details {
+            margin-top: 1rem;
+        }
+        
+        .result-change {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+        
+        .nav-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* 新增：Toast提示样式 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* 新增：重置按钮样式 */
+        .reset-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+        
+        .reset-btn:hover {
+            background-color: #1a252f;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .character-card {
+                width: 100%;
+            }
+            
+            /* 移动端调整重置按钮位置 */
+            .reset-btn {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 新增：Toast提示元素 -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- 新增：重置按钮 -->
+    <div class="reset-btn" onclick="resetGame()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>朱墙玉碎：X染深宫</h1>
+            <p>第二幕 · 宫内生活</p>
+        </header>
+        
+        <!-- 角色选择区域 -->
+        <section class="character-selection">
+            <h2>选择你的角色</h2>
+            <p>请从以下角色中选择一个来开始游戏：</p>
+            
+            <div class="character-cards">
+                <!-- 秀女素素 -->
+                <div class="character-card" id="susu" onclick="selectCharacter('susu')">
+                    <div class="character-name">秀女素素</div>
+                    <div class="character-title">户部尚书之女</div>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value" id="susu-hp">3</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">好感度：</span>
+                            <span class="stat-value" id="susu-favor">70</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 民女海燕 -->
+                <div class="character-card" id="haiyan" onclick="selectCharacter('haiyan')">
+                    <div class="character-name">民女海燕</div>
+                    <div class="character-title">轻功高手</div>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value" id="haiyan-hp">5</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">好感度：</span>
+                            <span class="stat-value" id="haiyan-favor">40</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 高女大壮 -->
+                <div class="character-card" id="dazhuang" onclick="selectCharacter('dazhuang')">
+                    <div class="character-name">高女大壮</div>
+                    <div class="character-title">力大宫女</div>
+                    <div class="character-stats">
+                        <div class="stat">
+                            <span class="stat-name">生命值：</span>
+                            <span class="stat-value" id="dazhuang-hp">9</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-name">好感度：</span>
+                            <span class="stat-value" id="dazhuang-favor">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="scene-intro">
+            <p>你开始了朱墙内的生活，请尽量对皇帝保持敬畏之心，保证皇帝的安危，这关乎到你的人生。</p>
+            <p>近年南疆战事连连，皇帝操劳过度日渐憔悴，你默默的看在眼里，你决定……</p>
+        </section>
+        
+        <section class="decision-section">
+            <div class="decision-title">你的选择：</div>
+            
+            <div class="options-grid">
+                <!-- 选项A -->
+                <div class="option-card" id="optionA" onclick="selectOption('A')">
+                    <div class="option-letter">A. 去莲花池采莲</div>
+                    <div class="option-desc">你去莲花池摘了一些莲子，做了一碗莲子羹给皇帝</div>
+                    
+                    <div class="outcomes">
+                        <div class="outcome-title">不同角色的结果：</div>
+                        
+                        <div class="outcome-item">
+                            <strong>秀女素素/民女海燕：</strong>
+                            <span class="outcome-positive">皇帝觉得你很贴心…好感度+5</span>
+                        </div>
+                        
+                        <div class="outcome-item">
+                            <strong>高女大壮：</strong>
+                            <span class="outcome-positive">由于你厨艺精湛，皇帝龙颜大悦，问了你的名字…好感度+10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 选项B -->
+                <div class="option-card" id="optionB" onclick="selectOption('B')">
+                    <div class="option-letter">B. 申请出战南疆</div>
+                    <div class="option-desc">你主动请缨要求前往南疆参战</div>
+                    
+                    <div class="outcomes">
+                        <div class="outcome-title">不同角色的结果：</div>
+                        
+                        <div class="outcome-item">
+                            <strong>秀女素素：</strong>
+                            <span class="outcome-negative">"胡闹！你这个病秧子，快点给朕滚开，烦死了。"皇帝觉得你心机颇深，有些虚伪，对你感到失望…好感度-10</span>
+                        </div>
+                        
+                        <div class="outcome-item">
+                            <strong>民女海燕：</strong>
+                            <span class="outcome-positive">"果然是侠女，忠肝义胆，但朕可不忍让你离开，朕自有安排。"皇帝欣赏的看着你，加深了对你的印象…好感度+10</span>
+                        </div>
+                        
+                        <div class="outcome-item">
+                            <strong>高女大壮：</strong>
+                            <span class="outcome-positive">"一个宫女竟有如此心胸和体魄，朕记得你了。但做好你的分内工作即可，朕自有安排。"皇帝意外的看着你，而后问了你的名字。好感度+5</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 选项C -->
+                <div class="option-card" id="optionC" onclick="selectOption('C')">
+                    <div class="option-letter">C. 给皇帝抚琴奏乐</div>
+                    <div class="option-desc">你为皇帝弹奏舒缓心情的曲子</div>
+                    
+                    <div class="outcomes">
+                        <div class="outcome-title">不同角色的结果：</div>
+                        
+                        <div class="outcome-item">
+                            <strong>秀女素素/民女海燕：</strong>
+                            <span class="outcome-neutral">皇帝面无表情，打发你下去了。无事发生</span>
+                        </div>
+                        
+                        <div class="outcome-item">
+                            <strong>高女大壮：</strong>
+                            <span class="outcome-negative">你不懂音律，不懂曲调，但这都不重要，因为你最不懂的是规矩，你只是一个宫女，你在干什么？皇帝看着眼前莫名奇妙的强壮女人，赐了二十大板。生命值-3 好感度-10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 选项D -->
+                <div class="option-card" id="optionD" onclick="selectOption('D')">
+                    <div class="option-letter">D. 帮皇帝出谋划策</div>
+                    <div class="option-desc">你向皇帝提出关于南疆战事的建议</div>
+                    
+                    <div class="outcomes">
+                        <div class="outcome-title">不同角色的结果：</div>
+                        
+                        <div class="outcome-item">
+                            <strong>秀女素素/民女海燕：</strong>
+                            <span class="outcome-negative">皇帝听着你的分析和建议，眯起了眼睛，他什么都没说，就让你回去了。直到晚间用餐时，你突然开始呕吐，晚膳里查出了毒药，你勉强才保住性命。生命值-3 好感度-20</span>
+                        </div>
+                        
+                        <div class="outcome-item">
+                            <strong>高女大壮：</strong>
+                            <span class="outcome-negative">作者有话说：你就是一个宫女，你咋这么敢想呢？你咋不上天呢？你读过书吗你还要谏言了？笑死我了，皇宫给你得了呗，你这就好比公司的保洁突然说要帮老板管理企业，咋想的呢？你这大脑瓜子里头装的都是午饭吗？生命值-5 好感度-40</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 结果展示区域 -->
+        <section class="result-section" id="resultSection">
+            <div class="result-title">选择结果</div>
+            <div id="resultText"></div>
+            <div class="result-details" id="resultDetails"></div>
+        </section>
+        
+        <div class="progress-indicator">
+            当前进度：2/16
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="first-scene.html" class="nav-btn">← 上一幕</a>
+            <a href="third-scene.html" class="nav-btn" id="nextBtn" disabled>下一幕 →</a>
+        </div>
+        
+        <footer>
+            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
+        </footer>
+    </div>
+
+    <script>
+        let selectedCharacter = null;
+        let selectedOption = null;
+        
+        // 角色数据
+        const characters = {
+            susu: { hp: 3, favor: 70 },
+            haiyan: { hp: 5, favor: 40 },
+            dazhuang: { hp: 9, favor: 0 }
+        };
+        
+        // 选项结果数据
+        const outcomes = {
+            A: {
+                susu: { hp: 0, favor: 5 },
+                haiyan: { hp: 0, favor: 5 },
+                dazhuang: { hp: 0, favor: 10 }
+            },
+            B: {
+                susu: { hp: 0, favor: -10 },
+                haiyan: { hp: 0, favor: 10 },
+                dazhuang: { hp: 0, favor: 5 }
+            },
+            C: {
+                susu: { hp: 0, favor: 0 },
+                haiyan: { hp: 0, favor: 0 },
+                dazhuang: { hp: -3, favor: -10 }
+            },
+            D: {
+                susu: { hp: -3, favor: -20 },
+                haiyan: { hp: -3, favor: -20 },
+                dazhuang: { hp: -5, favor: -40 }
+            }
+        };
+        
+        // 显示Toast提示
+        function showToast(message, duration = 2000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+        
+        // 重置游戏
+        function resetGame() {
+            location.reload();
+        }
+        
+        // 选择角色
+        function selectCharacter(character) {
+            selectedCharacter = character;
+            
+            // 更新UI
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(character).classList.add('selected');
+            
+            // 启用选项
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.style.pointerEvents = 'auto';
+                card.style.opacity = '1';
+            });
+            
+            showToast(`已选择角色: ${getCharacterName(character)}`);
+        }
+        
+        // 选择选项
+        function selectOption(option) {
+            if (!selectedCharacter) {
+                showToast('请先选择角色');
+                return;
+            }
+            
+            selectedOption = option;
+            
+            // 更新UI
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('option' + option).classList.add('selected');
+            
+            // 计算并显示结果
+            showResult();
+        }
+        
+        // 显示结果
+        function showResult() {
+            const result = outcomes[selectedOption][selectedCharacter];
+            const characterName = getCharacterName(selectedCharacter);
+            
+            // 更新角色数据
+            characters[selectedCharacter].hp += result.hp;
+            characters[selectedCharacter].favor += result.favor;
+            
+            // 更新UI显示
+            document.getElementById(`${selectedCharacter}-hp`).textContent = characters[selectedCharacter].hp;
+            document.getElementById(`${selectedCharacter}-favor`).textContent = characters[selectedCharacter].favor;
+            
+            // 显示结果
+            const resultSection = document.getElementById('resultSection');
+            const resultText = document.getElementById('resultText');
+            const resultDetails = document.getElementById('resultDetails');
+            
+            resultText.innerHTML = `<p>${characterName}选择了选项 ${selectedOption}</p>`;
+            
+            let details = '';
+            if (result.hp !== 0) {
+                details += `<div class="result-change">生命值: ${result.hp > 0 ? '+' : ''}${result.hp}</div>`;
+            }
+            if (result.favor !== 0) {
+                details += `<div class="result-change">好感度: ${result.favor > 0 ? '+' : ''}${result.favor}</div>`;
+            }
+            if (result.hp === 0 && result.favor === 0) {
+                details += `<div class="result-change">无事发生</div>`;
+            }
+            
+            resultDetails.innerHTML = details;
+            resultSection.style.display = 'block';
+            
+            // 启用下一幕按钮
+            document.getElementById('nextBtn').disabled = false;
+            
+            showToast('选择已确认，结果已更新');
+        }
+        
+        // 获取角色名称
+        function getCharacterName(character) {
+            const names = {
+                susu: '秀女素素',
+                haiyan: '民女海燕',
+                dazhuang: '高女大壮'
+            };
+            return names[character];
+        }
+    </script>
+</body>
+</html>
