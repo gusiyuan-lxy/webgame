@@ -859,7 +859,7 @@
                     
                     <div class="outcome-item">
                         <strong>高女大壮：</strong>
-                        <span class="outcome-negative">你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。好感度-15</span>
+                        <span class="outcome-negative">你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15</span>
                     </div>
                 </div>
             </div>
@@ -980,12 +980,41 @@ const scene4Outcomes = {
         dazhuang: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' }
     },
     D: {
-        susu: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
-        haiyan: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
-        dazhuang: { hp: 0, favor: -15, text: '你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。好感度-15' }
+    susu: { 
+        hp: 0, 
+        favor: 5, 
+        text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' 
+    },
+    haiyan: { 
+        hp: 0, 
+        favor: 5, 
+        text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' 
+    },
+    dazhuang: { 
+        hp: 0, 
+        favor: -15, 
+        text: '你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15',
+        affectAll: true, // 标记影响所有人
+        allFavor: -15    // 所有人的好感度变化
     }
+}
 };
-        
+        function handleChoice(choice, character) {
+    const effect = choice[character];
+    
+    // 应用当前角色的效果
+    applyEffect(character, effect);
+    
+    // 如果影响所有人
+    if (effect.affectAll) {
+        const allCharacters = ['susu', 'haiyan', 'dazhuang'];
+        allCharacters.forEach(char => {
+            if (char !== character) { // 排除当前角色（已经应用过了）
+                applyEffect(char, { favor: effect.allFavor, hp: 0 });
+            }
+        });
+    }
+}
         function showToast(message, duration = 2000) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
