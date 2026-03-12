@@ -768,6 +768,110 @@
         <div class="result-details" id="scene3-resultDetails"></div>
     </section>
 </div>
+        <!-- 场景四 -->
+<div class="scene-content" id="scene4">
+    <section class="scene-intro">
+        <p>太后寿辰将至，后宫上下皆在准备贺礼，你打算……</p>
+    </section>
+    
+    <section class="decision-section">
+        <div class="decision-title">你的选择：</div>
+        
+        <div class="options-grid">
+            <div class="option-card" id="scene4-optionA" onclick="selectOption(4, 'A')">
+                <div class="option-letter">A. 亲手制作一份贺礼</div>
+                <div class="option-desc">用心为太后准备一份手工贺礼</div>
+                
+                <div class="outcomes">
+                    <div class="outcome-title">不同角色的结果：</div>
+                    
+                    <div class="outcome-item">
+                        <strong>秀女素素：</strong>
+                        <span class="outcome-positive">你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>高女大壮：</strong>
+                        <span class="outcome-positive">你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>民女海燕：</strong>
+                        <span class="outcome-negative">你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="option-card" id="scene4-optionB" onclick="selectOption(4, 'B')">
+                <div class="option-letter">B. 为太后表演节目</div>
+                <div class="option-desc">在寿宴上献上一场精彩的表演</div>
+                
+                <div class="outcomes">
+                    <div class="outcome-title">不同角色的结果：</div>
+                    
+                    <div class="outcome-item">
+                        <strong>民女海燕：</strong>
+                        <span class="outcome-positive">你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>高女大壮：</strong>
+                        <span class="outcome-positive">你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>秀女素素：</strong>
+                        <span class="outcome-negative">你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="option-card" id="scene4-optionC" onclick="selectOption(4, 'C')">
+                <div class="option-letter">C. 花大价钱搜寻一份稀世珍宝</div>
+                <div class="option-desc">用重金购买珍贵的贺礼</div>
+                
+                <div class="outcomes">
+                    <div class="outcome-title">不同角色的结果：</div>
+                    
+                    <div class="outcome-item">
+                        <strong>民女海燕/高女大壮：</strong>
+                        <span class="outcome-neutral">国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>秀女素素：</strong>
+                        <span class="outcome-positive">你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="option-card" id="scene4-optionD" onclick="selectOption(4, 'D')">
+                <div class="option-letter">D. 点九十九盏鎏金寿字宫灯为太后祈福</div>
+                <div class="option-desc">在佛堂为太后诵经祈福</div>
+                
+                <div class="outcomes">
+                    <div class="outcome-title">不同角色的结果：</div>
+                    
+                    <div class="outcome-item">
+                        <strong>秀女素素/民女海燕：</strong>
+                        <span class="outcome-positive">你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5</span>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <strong>高女大壮：</strong>
+                        <span class="outcome-negative">你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。好感度-15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="result-section" id="scene4-result">
+        <div class="result-title">选择结果</div>
+        <div id="scene4-resultText"></div>
+        <div class="result-details" id="scene4-resultDetails"></div>
+    </section>
+</div>
         <div class="progress-indicator">
             当前进度：<span id="progress">1</span>/7
         </div>
@@ -858,6 +962,29 @@ const scene3Outcomes = {
         dazhuang: { hp: -1, favor: 0, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，好奇的问：你哭密码呢？拉下去打四十大板。生命值-1' }
     }
 };
+        // 场景四结果数据
+const scene4Outcomes = {
+    A: {
+        susu: { hp: 0, favor: 5, text: '你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5' },
+        haiyan: { hp: 0, favor: -10, text: '你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10' },
+        dazhuang: { hp: 0, favor: 10, text: '你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10' }
+    },
+    B: {
+        susu: { hp: 0, favor: -10, text: '你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10' },
+        haiyan: { hp: 0, favor: 5, text: '你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5' },
+        dazhuang: { hp: 0, favor: 20, text: '你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20' }
+    },
+    C: {
+        susu: { hp: 0, favor: 10, text: '你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10' },
+        haiyan: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' },
+        dazhuang: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' }
+    },
+    D: {
+        susu: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
+        haiyan: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
+        dazhuang: { hp: 0, favor: -15, text: '你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。好感度-15' }
+    }
+};
         
         function showToast(message, duration = 2000) {
             const toast = document.getElementById('toast');
@@ -920,7 +1047,10 @@ const scene3Outcomes = {
         outcomes = scene2Outcomes;
     } else if (sceneNum === 3) {
         outcomes = scene3Outcomes;
+    } else if (sceneNum === 4) {
+        outcomes = scene4Outcomes;
     }
+    
     
     const result = outcomes[option][selectedCharacter];
     
