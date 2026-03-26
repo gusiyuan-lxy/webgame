@@ -881,7 +881,78 @@
                 <div class="result-details" id="scene4-resultDetails"></div>
             </section>
         </div>
-        
+                <!-- 场景五 -->
+        <div class="scene-content" id="scene5">
+            <section class="scene-intro">
+                <p>皇帝微服私访，决定带两名女眷，另一人协理后宫。你们三人都想跟去，皇帝让你们自行安排：</p>
+            </section>
+            
+            <section class="decision-section">
+                <div class="decision-title">投票选择：</div>
+                
+                <div class="options-grid">
+                    <div class="option-card" id="scene5-optionA" onclick="selectOption(5, 'A')">
+                        <div class="option-letter">A. 大壮和素素随行，海燕留</div>
+                        <div class="option-desc">大壮和素素跟随皇帝微服私访</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">结果：</div>
+                            
+                            <div class="outcome-item">
+                                <span class="outcome-negative">大壮是个路痴，走了很多弯路，最后比预计行程晚了十多天。因此素素的身体吃不消了，上吐下泻。皇帝心烦意乱，回宫后还发现海燕逼着三皇子练轻功摔断了腿。</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>结果：</strong>
+                                <span class="outcome-negative">大壮好感度-5 素素好感度-0 生命值-1 海燕好感度-5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card" id="scene5-optionB" onclick="selectOption(5, 'B')">
+                        <div class="option-letter">B. 素素和海燕随行，大壮留</div>
+                        <div class="option-desc">素素和海燕跟随皇帝微服私访</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">结果：</div>
+                            
+                            <div class="outcome-item">
+                                <span class="outcome-positive">海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。但因素素身体孱弱，只得早些回去，回宫后发现大壮每天都给皇后亲自做膳，小皇子因此还胖了三斤。</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>结果：</strong>
+                                <span class="outcome-positive">海燕好感度+10 大壮好感度+10 素素好感度-5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card" id="scene5-optionC" onclick="selectOption(5, 'C')">
+                        <div class="option-letter">C. 海燕和大壮随行，素素留</div>
+                        <div class="option-desc">海燕和大壮跟随皇帝微服私访</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">结果：</div>
+                            
+                            <div class="outcome-item">
+                                <span class="outcome-positive">海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。大壮也变着花样给皇帝做美食，某天遇到了一伙刺客，但也被二人轻松解决，回宫后素素也将后宫打理的井井有条，皇帝曰：有妻们如此朕亦何求？</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>结果：</strong>
+                                <span class="outcome-positive">后宫好感度+15（所有玩家）</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="result-section" id="scene5-result">
+                <div class="result-title">选择结果</div>
+                <div id="scene5-resultText"></div>
+                <div class="result-details" id="scene5-resultDetails"></div>
+            </section>
+        </div>
         <div class="progress-indicator">
             当前进度：<span id="progress">1</span>/7
         </div>
@@ -1014,7 +1085,43 @@
                         affectAll: true,
                         allFavor: -15
                     }
-                }
+                },
+                // 在sceneOutcomes对象中添加场景五的结果数据（放在场景四之后）
+5: {
+    A: {
+        susu: { hp: -1, favor: 0, text: '大壮是个路痴，走了很多弯路，最后比预计行程晚了十多天。因此素素的身体吃不消了，上吐下泻。皇帝心烦意乱，回宫后还发现海燕逼着三皇子练轻功摔断了腿。' },
+        haiyan: { hp: 0, favor: -5, text: '大壮是个路痴，走了很多弯路，最后比预计行程晚了十多天。因此素素的身体吃不消了，上吐下泻。皇帝心烦意乱，回宫后还发现海燕逼着三皇子练轻功摔断了腿。' },
+        dazhuang: { hp: 0, favor: -5, text: '大壮是个路痴，走了很多弯路，最后比预计行程晚了十多天。因此素素的身体吃不消了，上吐下泻。皇帝心烦意乱，回宫后还发现海燕逼着三皇子练轻功摔断了腿。' }
+    },
+    B: {
+        susu: { hp: 0, favor: -5, text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。但因素素身体孱弱，只得早些回去，回宫后发现大壮每天都给皇后亲自做膳，小皇子因此还胖了三斤。' },
+        haiyan: { hp: 0, favor: 10, text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。但因素素身体孱弱，只得早些回去，回宫后发现大壮每天都给皇后亲自做膳，小皇子因此还胖了三斤。' },
+        dazhuang: { hp: 0, favor: 10, text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。但因素素身体孱弱，只得早些回去，回宫后发现大壮每天都给皇后亲自做膳，小皇子因此还胖了三斤。' }
+    },
+    C: {
+        susu: { 
+            hp: 0, 
+            favor: 15, 
+            text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。大壮也变着花样给皇帝做美食，某天遇到了一伙刺客，但也被二人轻松解决，回宫后素素也将后宫打理的井井有条，皇帝曰：有妻们如此朕亦何求？',
+            affectAll: true,
+            allFavor: 15
+        },
+        haiyan: { 
+            hp: 0, 
+            favor: 15, 
+            text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。大壮也变着花样给皇帝做美食，某天遇到了一伙刺客，但也被二人轻松解决，回宫后素素也将后宫打理的井井有条，皇帝曰：有妻们如此朕亦何求？',
+            affectAll: true,
+            allFavor: 15
+        },
+        dazhuang: { 
+            hp: 0, 
+            favor: 15, 
+            text: '海燕本就是江湖人士，不仅带着皇帝体察民情，还同时游山玩水。大壮也变着花样给皇帝做美食，某天遇到了一伙刺客，但也被二人轻松解决，回宫后素素也将后宫打理的井井有条，皇帝曰：有妻们如此朕亦何求？',
+            affectAll: true,
+            allFavor: 15
+        }
+    }
+}
             }
         };
 
