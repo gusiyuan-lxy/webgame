@@ -1231,29 +1231,29 @@
         C: {
             susu: { 
                 hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
-                favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+                favor: function(favor) { return favor >= 50 ? 0 : -5; }, 
                 text: function(favor) { 
                     return favor >= 50 ? 
                         '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
-                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度-5';
                 }
             },
             haiyan: { 
                 hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
-                favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+                favor: function(favor) { return favor >= 50 ? 0 : -5; }, 
                 text: function(favor) { 
                     return favor >= 50 ? 
                         '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
-                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度-5';
                 }
             },
             dazhuang: { 
                 hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
-                favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+                favor: function(favor) { return favor >= 50 ? 0 : -5; }, 
                 text: function(favor) { 
                     return favor >= 50 ? 
                         '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
-                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+                        '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度-5';
                 }
             }
         }
