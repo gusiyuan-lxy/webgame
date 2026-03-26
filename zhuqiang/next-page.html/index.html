@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>朱墙玉碎：X染深宫 - 第二幕</title>
     <style>
+        /* 样式保持不变，与原始代码相同 */
         :root {
             --primary: #e74c3c;
             --secondary: #2c3e50;
@@ -371,6 +372,12 @@
             border-color: var(--primary);
         }
         
+        .scene-btn.completed {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
         .scene-content {
             display: none;
         }
@@ -464,7 +471,7 @@
                         </div>
                         <div class="stat">
                             <span class="stat-name">好感度：</span>
-                            <span class="stat-value" id="haiyan-favor">40</span></span>
+                            <span class="stat-value" id="haiyan-favor">40</span>
                         </div>
                     </div>
                 </div>
@@ -687,191 +694,194 @@
                 <div class="result-details" id="scene2-resultDetails"></div>
             </section>
         </div>
+        
         <!-- 场景三 -->
-<div class="scene-content" id="scene3">
-    <section class="scene-intro">
-        <p>有宫女密报，在你住处搜出了写着皇帝生辰八字的巫蛊人偶。皇帝震怒，召你对峙。</p>
-        <p>你打算怎么说？</p>
-    </section>
-    
-    <section class="decision-section">
-        <div class="decision-title">你的选择：</div>
-        
-        <div class="options-grid">
-            <div class="option-card" id="scene3-optionA" onclick="selectOption(3, 'A')">
-                <div class="option-letter">A. 臣妾冤枉啊！！！</div>
-                <div class="option-desc">你情绪激动，坚称清白</div>
-                
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素/民女海燕：</strong>
-                        <span class="outcome-negative">你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-neutral">皇上明鉴啊！奴婢目不识丁，怎么可能写字如此好看？皇帝闻言，神色稍霁，下令严查诬陷之人。无事发生</span>
-                    </div>
-                </div>
-            </div>
+        <div class="scene-content" id="scene3">
+            <section class="scene-intro">
+                <p>有宫女密报，在你住处搜出了写着皇帝生辰八字的巫蛊人偶。皇帝震怒，召你对峙。</p>
+                <p>你打算怎么说？</p>
+            </section>
             
-            <div class="option-card" id="scene3-optionB" onclick="selectOption(3, 'B')">
-                <div class="option-letter">B. 臣妾罪该万死！！！</div>
-                <div class="option-desc">你主动认罪，但另有说辞</div>
+            <section class="decision-section">
+                <div class="decision-title">你的选择：</div>
                 
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素：</strong>
-                        <span class="outcome-positive">你细察入微，指出人偶所用布料是江南新贡的锦缎，并非宫内所有，且自证针线手法与你截然不同。但你还是认错："臣妾罪该万死，不知得罪了哪位娘娘，害的皇上竟因此等后宫丑事烦忧。"皇帝闻言心疼的拉起了你的手，并下令严查诬陷之人。好感度+10</span>
+                <div class="options-grid">
+                    <div class="option-card" id="scene3-optionA" onclick="selectOption(3, 'A')">
+                        <div class="option-letter">A. 臣妾冤枉啊！！！</div>
+                        <div class="option-desc">你情绪激动，坚称清白</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素/民女海燕：</strong>
+                                <span class="outcome-negative">你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-neutral">皇上明鉴啊！奴婢目不识丁，怎么可能写字如此好看？皇帝闻言，神色稍霁，下令严查诬陷之人。无事发生</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="outcome-item">
-                        <strong>民女海燕：</strong>
-                        <span class="outcome-positive">一口揽下罪行，并谎称："臣妾罪该万死，这物件是臣妾清晨在御花园后山练剑时发现的，怕打草惊蛇本想私下调查，未料被皇上知晓，臣妾疑惑，调查之事臣妾做的私密，不知是谁人告知皇上的？"皇上怒视告密宫女："把你知道的一五一十给我说出来！"宫女承认了罪行，你得以洗清冤屈。皇帝赞赏的看着你，赞叹了你的手段。好感度+10</span>
+                    <div class="option-card" id="scene3-optionB" onclick="selectOption(3, 'B')">
+                        <div class="option-letter">B. 臣妾罪该万死！！！</div>
+                        <div class="option-desc">你主动认罪，但另有说辞</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素：</strong>
+                                <span class="outcome-positive">你细察入微，指出人偶所用布料是江南新贡的锦缎，并非宫内所有，且自证针线手法与你截然不同。但你还是认错："臣妾罪该万死，不知得罪了哪位娘娘，害的皇上竟因此等后宫丑事烦忧。"皇帝闻言心疼的拉起了你的手，并下令严查诬陷之人。好感度+10</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>民女海燕：</strong>
+                                <span class="outcome-positive">一口揽下罪行，并谎称："臣妾罪该万死，这物件是臣妾清晨在御花园后山练剑时发现的，怕打草惊蛇本想私下调查，未料被皇上知晓，臣妾疑惑，调查之事臣妾做的私密，不知是谁人告知皇上的？"皇上怒视告密宫女："把你知道的一五一十给我说出来！"宫女承认了罪行，你得以洗清冤屈。皇帝赞赏的看着你，赞叹了你的手段。好感度+10</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-negative">你虽然不知道发生了什么，但你觉得认错就行。于是挨了四十大板。生命值-1</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-negative">你虽然不知道发生了什么，但你觉得认错就行。于是挨了四十大板。生命值-1</span>
+                    <div class="option-card" id="scene3-optionC" onclick="selectOption(3, 'C')">
+                        <div class="option-letter">C. 泪眼婆娑，一言不发</div>
+                        <div class="option-desc">只是深深叩拜，相信"清者自清"</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素/民女海燕：</strong>
+                                <span class="outcome-negative">你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-negative">你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，好奇的问：你哭密码呢？拉下去打四十大板。生命值-1</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             
-            <div class="option-card" id="scene3-optionC" onclick="selectOption(3, 'C')">
-                <div class="option-letter">C. 泪眼婆娑，一言不发</div>
-                <div class="option-desc">只是深深叩拜，相信"清者自清"</div>
-                
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素/民女海燕：</strong>
-                        <span class="outcome-negative">你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-negative">你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，好奇的问：你哭密码呢？拉下去打四十大板。生命值-1</span>
-                    </div>
-                </div>
-            </div>
+            <section class="result-section" id="scene3-result">
+                <div class="result-title">选择结果</div>
+                <div id="scene3-resultText"></div>
+                <div class="result-details" id="scene3-resultDetails"></div>
+            </section>
         </div>
-    </section>
-    
-    <section class="result-section" id="scene3-result">
-        <div class="result-title">选择结果</div>
-        <div id="scene3-resultText"></div>
-        <div class="result-details" id="scene3-resultDetails"></div>
-    </section>
-</div>
+        
         <!-- 场景四 -->
-<div class="scene-content" id="scene4">
-    <section class="scene-intro">
-        <p>太后寿辰将至，后宫上下皆在准备贺礼，你打算……</p>
-    </section>
-    
-    <section class="decision-section">
-        <div class="decision-title">你的选择：</div>
-        
-        <div class="options-grid">
-            <div class="option-card" id="scene4-optionA" onclick="selectOption(4, 'A')">
-                <div class="option-letter">A. 亲手制作一份贺礼</div>
-                <div class="option-desc">用心为太后准备一份手工贺礼</div>
-                
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素：</strong>
-                        <span class="outcome-positive">你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-positive">你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>民女海燕：</strong>
-                        <span class="outcome-negative">你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10</span>
-                    </div>
-                </div>
-            </div>
+        <div class="scene-content" id="scene4">
+            <section class="scene-intro">
+                <p>太后寿辰将至，后宫上下皆在准备贺礼，你打算……</p>
+            </section>
             
-            <div class="option-card" id="scene4-optionB" onclick="selectOption(4, 'B')">
-                <div class="option-letter">B. 为太后表演节目</div>
-                <div class="option-desc">在寿宴上献上一场精彩的表演</div>
+            <section class="decision-section">
+                <div class="decision-title">你的选择：</div>
                 
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>民女海燕：</strong>
-                        <span class="outcome-positive">你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5</span>
+                <div class="options-grid">
+                    <div class="option-card" id="scene4-optionA" onclick="selectOption(4, 'A')">
+                        <div class="option-letter">A. 亲手制作一份贺礼</div>
+                        <div class="option-desc">用心为太后准备一份手工贺礼</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素：</strong>
+                                <span class="outcome-positive">你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-positive">你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>民女海燕：</strong>
+                                <span class="outcome-negative">你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-positive">你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20</span>
+                    <div class="option-card" id="scene4-optionB" onclick="selectOption(4, 'B')">
+                        <div class="option-letter">B. 为太后表演节目</div>
+                        <div class="option-desc">在寿宴上献上一场精彩的表演</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>民女海燕：</strong>
+                                <span class="outcome-positive">你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-positive">你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素：</strong>
+                                <span class="outcome-negative">你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="outcome-item">
-                        <strong>秀女素素：</strong>
-                        <span class="outcome-negative">你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10</span>
+                    <div class="option-card" id="scene4-optionC" onclick="selectOption(4, 'C')">
+                        <div class="option-letter">C. 花大价钱搜寻一份稀世珍宝</div>
+                        <div class="option-desc">用重金购买珍贵的贺礼</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>民女海燕/高女大壮：</strong>
+                                <span class="outcome-neutral">国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素：</strong>
+                                <span class="outcome-positive">你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card" id="scene4-optionD" onclick="selectOption(4, 'D')">
+                        <div class="option-letter">D. 点九十九盏鎏金寿字宫灯为太后祈福</div>
+                        <div class="option-desc">在佛堂为太后诵经祈福</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同角色的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>秀女素素/民女海燕：</strong>
+                                <span class="outcome-positive">你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>高女大壮：</strong>
+                                <span class="outcome-negative">你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
             
-            <div class="option-card" id="scene4-optionC" onclick="selectOption(4, 'C')">
-                <div class="option-letter">C. 花大价钱搜寻一份稀世珍宝</div>
-                <div class="option-desc">用重金购买珍贵的贺礼</div>
-                
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>民女海燕/高女大壮：</strong>
-                        <span class="outcome-neutral">国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素：</strong>
-                        <span class="outcome-positive">你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="option-card" id="scene4-optionD" onclick="selectOption(4, 'D')">
-                <div class="option-letter">D. 点九十九盏鎏金寿字宫灯为太后祈福</div>
-                <div class="option-desc">在佛堂为太后诵经祈福</div>
-                
-                <div class="outcomes">
-                    <div class="outcome-title">不同角色的结果：</div>
-                    
-                    <div class="outcome-item">
-                        <strong>秀女素素/民女海燕：</strong>
-                        <span class="outcome-positive">你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5</span>
-                    </div>
-                    
-                    <div class="outcome-item">
-                        <strong>高女大壮：</strong>
-                        <span class="outcome-negative">你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15</span>
-                    </div>
-                </div>
-            </div>
+            <section class="result-section" id="scene4-result">
+                <div class="result-title">选择结果</div>
+                <div id="scene4-resultText"></div>
+                <div class="result-details" id="scene4-resultDetails"></div>
+            </section>
         </div>
-    </section>
-    
-    <section class="result-section" id="scene4-result">
-        <div class="result-title">选择结果</div>
-        <div id="scene4-resultText"></div>
-        <div class="result-details" id="scene4-resultDetails"></div>
-    </section>
-</div>
+        
         <div class="progress-indicator">
             当前进度：<span id="progress">1</span>/7
         </div>
@@ -888,133 +898,126 @@
     <script>
         let selectedCharacter = null;
         let currentScene = 1;
-        const sceneChoices = {};
         
-        // 角色数据
-        const characters = {
-            susu: { hp: 3, favor: 70, name: '秀女素素' },
-            haiyan: { hp: 5, favor: 40, name: '民女海燕' },
-            dazhuang: { hp: 9, favor: 0, name: '高女大壮' }
+        // 存储所有角色的选择状态和得分
+        const gameState = {
+            characters: {
+                susu: { 
+                    hp: 3, 
+                    favor: 70, 
+                    name: '秀女素素',
+                    choices: {} // 存储每个场景的选择
+                },
+                haiyan: { 
+                    hp: 5, 
+                    favor: 40, 
+                    name: '民女海燕',
+                    choices: {}
+                },
+                dazhuang: { 
+                    hp: 9, 
+                    favor: 0, 
+                    name: '高女大壮',
+                    choices: {}
+                }
+            },
+            currentCharacter: null,
+            completedScenes: new Set([1]) // 已完成的场景
         };
         
-        // 场景一结果数据
-        const scene1Outcomes = {
-            A: {
-                susu: { hp: 0, favor: 5, text: '皇帝觉得你很贴心…好感度+5' },
-                haiyan: { hp: 0, favor: 5, text: '皇帝觉得你很贴心…好感度+5' },
-                dazhuang: { hp: 0, favor: 10, text: '由于你厨艺精湛，皇帝龙颜大悦，问了你的名字…好感度+10' }
+        // 场景结果数据（保持不变）
+        const sceneOutcomes = {
+            1: {
+                A: {
+                    susu: { hp: 0, favor: 5, text: '皇帝觉得你很贴心…好感度+5' },
+                    haiyan: { hp: 0, favor: 5, text: '皇帝觉得你很贴心…好感度+5' },
+                    dazhuang: { hp: 0, favor: 10, text: '由于你厨艺精湛，皇帝龙颜大悦，问了你的名字…好感度+10' }
+                },
+                B: {
+                    susu: { hp: 0, favor: -10, text: '"胡闹！你这个病秧子，快点给朕滚开，烦死了。"皇帝觉得你心机颇深，有些虚伪，对你感到失望…好感度-10' },
+                    haiyan: { hp: 0, favor: 10, text: '"果然是侠女，忠肝义胆，但朕可不忍让你离开，朕自有安排。"皇帝欣赏的看着你，加深了对你的印象…好感度+10' },
+                    dazhuang: { hp: 0, favor: 5, text: '"一个宫女竟有如此心胸和体魄，朕记得你了。但做好你的分内工作即可，朕自有安排。"皇帝意外的看着你，而后问了你的名字。好感度+5' }
+                },
+                C: {
+                    susu: { hp: 0, favor: 0, text: '皇帝面无表情，打发你下去了。无事发生' },
+                    haiyan: { hp: 0, favor: 0, text: '皇帝面无表情，打发你下去了。无事发生' },
+                    dazhuang: { hp: -3, favor: -10, text: '你不懂音律，不懂曲调，但这都不重要，因为你最不懂的是规矩，你只是一个宫女，你在干什么？皇帝看着眼前莫名奇妙的强壮女人，赐了二十大板。生命值-3 好感度-10' }
+                },
+                D: {
+                    susu: { hp: -3, favor: -20, text: '皇帝听着你的分析和建议，眯起了眼睛，他什么都没说，就让你回去了。直到晚间用餐时，你突然开始呕吐，晚膳里查出了毒药，你勉强才保住性命。生命值-3 好感度-20' },
+                    haiyan: { hp: -3, favor: -20, text: '皇帝听着你的分析和建议，眯起了眼睛，他什么都没说，就让你回去了。直到晚间用餐时，你突然开始呕吐，晚膳里查出了毒药，你勉强才保住性命。生命值-3 好感度-20' },
+                    dazhuang: { hp: -5, favor: -40, text: '作者有话说：你就是一个宫女，你咋这么敢想呢？你咋不上天呢？你读过书吗你还要谏言了？笑死我了，皇宫给你得了呗，你这就好比公司的保洁突然说要帮老板管理企业，咋想的呢？你这大脑瓜子里头装的都是午饭吗？生命值-5 好感度-40' }
+                }
             },
-            B: {
-                susu: { hp: 0, favor: -10, text: '"胡闹！你这个病秧子，快点给朕滚开，烦死了。"皇帝觉得你心机颇深，有些虚伪，对你感到失望…好感度-10' },
-                haiyan: { hp: 0, favor: 10, text: '"果然是侠女，忠肝义胆，但朕可不忍让你离开，朕自有安排。"皇帝欣赏的看着你，加深了对你的印象…好感度+10' },
-                dazhuang: { hp: 0, favor: 5, text: '"一个宫女竟有如此心胸和体魄，朕记得你了。但做好你的分内工作即可，朕自有安排。"皇帝意外的看着你，而后问了你的名字。好感度+5' }
+            2: {
+                A: {
+                    susu: { hp: -1, favor: 10, text: '你心系皇后，急忙跳入水中，可完全没考虑自己那不太硬朗的身子骨，还好侍卫及时赶到，救下了你们三人。你虽然因此染上风寒，但皇帝知道你的行为后很赏识你，翻了你的牌子。生命值-1 好感度+10' },
+                    haiyan: { hp: 1, favor: -10, text: '你心系皇后，急忙跳入水中，完全没考虑小皇子的安危，好在侍卫及时赶到，救起了小皇子。皇帝知道后勃然大怒，怒斥了你，但夜晚，你收到了皇后赐给你的十全大补丹。生命值+1 好感度-10' },
+                    dazhuang: { hp: 1, favor: -10, text: '你心系皇后，急忙跳入水中，完全没考虑小皇子的安危，好在侍卫及时赶到，救起了小皇子。皇帝知道后勃然大怒，怒斥了你，但夜晚，你收到了皇后赐给你的十全大补丹。生命值+1 好感度-10' }
+                },
+                B: {
+                    susu: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' },
+                    haiyan: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' },
+                    dazhuang: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' }
+                },
+                C: {
+                    susu: { hp: 0, favor: -10, text: '你心系后宫，试图将二人一起拉上岸，但你高估了自己的实力，因此一个都没救上来，还好侍卫及时赶到，救下了皇后母子。皇后狠毒的看了你一眼，而后一段时间，皇帝都没来找过你。好感度-10' },
+                    haiyan: { hp: 0, favor: -10, text: '你心系后宫，试图将二人一起拉上岸，但你高估了自己的实力，因此一个都没救上来，还好侍卫及时赶到，救下了皇后母子。皇后狠毒的看了你一眼，而后一段时间，皇帝都没来找过你。好感度-10' },
+                    dazhuang: { hp: 1, favor: 0, text: '你心系后宫，试图将二人一起拉上岸，由于体魄强健，你很轻松的捞起皇后母子，皇后对你大为赞赏，不仅赐你十全大补丹，还在皇帝面前美言了你。生命值+1 好感度+0' }
+                },
+                D: {
+                    susu: { hp: 0, favor: 0, text: '你不敢贸然尝试，急忙去唤侍卫，及时的救下了皇后母子。侍卫因此得到了皇帝的嘉奖。无事发生' },
+                    haiyan: { hp: 0, favor: 0, text: '你不敢贸然尝试，急忙去唤侍卫，及时的救下了皇后母子。侍卫因此得到了皇帝的嘉奖。无事发生' },
+                    dazhuang: { hp: 0, favor: 0, text: '作者有话说：你作为一个宫女，保护主子的安危就是你最大的使命，你在想什么？你还不救上了，真把自己当妃子啦？皇帝虽不知情，但本作者看不下去了，没想到你体格健壮但内心恶毒，赐你成就！无事发生' }
+                }
             },
-            C: {
-                susu: { hp: 0, favor: 0, text: '皇帝面无表情，打发你下去了。无事发生' },
-                haiyan: { hp: 0, favor: 0, text: '皇帝面无表情，打发你下去了。无事发生' },
-                dazhuang: { hp: -3, favor: -10, text: '你不懂音律，不懂曲调，但这都不重要，因为你最不懂的是规矩，你只是一个宫女，你在干什么？皇帝看着眼前莫名奇妙的强壮女人，赐了二十大板。生命值-3 好感度-10' }
+            3: {
+                A: {
+                    susu: { hp: 0, favor: -10, text: '你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10' },
+                    haiyan: { hp: 0, favor: -10, text: '你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10' },
+                    dazhuang: { hp: 0, favor: 0, text: '皇上明鉴啊！奴婢目不识丁，怎么可能写字如此好看？皇帝闻言，神色稍霁，下令严查诬陷之人。无事发生' }
+                },
+                B: {
+                    susu: { hp: 0, favor: 10, text: '你细察入微，指出人偶所用布料是江南新贡的锦缎，并非宫内所有，且自证针线手法与你截然不同。但你还是认错："臣妾罪该万死，不知得罪了哪位娘娘，害的皇上竟因此等后宫丑事烦忧。"皇帝闻言心疼的拉起了你的手，并下令严查诬陷之人。好感度+10' },
+                    haiyan: { hp: 0, favor: 10, text: '一口揽下罪行，并谎称："臣妾罪该万死，这物件是臣妾清晨在御花园后山练剑时发现的，怕打草惊蛇本想私下调查，未料被皇上知晓，臣妾疑惑，调查之事臣妾做的私密，不知是谁人告知皇上的？"皇上怒视告密宫女："把你知道的一五一十给我说出来！"宫女承认了罪行，你得以洗清冤屈。皇帝赞赏的看着你，赞叹了你的手段。好感度+10' },
+                    dazhuang: { hp: -1, favor: 0, text: '你虽然不知道发生了什么，但你觉得认错就行。于是挨了四十大板。生命值-1' }
+                },
+                C: {
+                    susu: { hp: 0, favor: -5, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5' },
+                    haiyan: { hp: 0, favor: -5, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5' },
+                    dazhuang: { hp: -1, favor: 0, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，好奇的问：你哭密码呢？拉下去打四十大板。生命值-1' }
+                }
             },
-            D: {
-                susu: { hp: -3, favor: -20, text: '皇帝听着你的分析和建议，眯起了眼睛，他什么都没说，就让你回去了。直到晚间用餐时，你突然开始呕吐，晚膳里查出了毒药，你勉强才保住性命。生命值-3 好感度-20' },
-                haiyan: { hp: -3, favor: -20, text: '皇帝听着你的分析和建议，眯起了眼睛，他什么都没说，就让你回去了。直到晚间用餐时，你突然开始呕吐，晚膳里查出了毒药，你勉强才保住性命。生命值-3 好感度-20' },
-                dazhuang: { hp: -5, favor: -40, text: '作者有话说：你就是一个宫女，你咋这么敢想呢？你咋不上天呢？你读过书吗你还要谏言了？笑死我了，皇宫给你得了呗，你这就好比公司的保洁突然说要帮老板管理企业，咋想的呢？你这大脑瓜子里头装的都是午饭吗？生命值-5 好感度-40' }
+            4: {
+                A: {
+                    susu: { hp: 0, favor: 5, text: '你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5' },
+                    haiyan: { hp: 0, favor: -10, text: '你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10' },
+                    dazhuang: { hp: 0, favor: 10, text: '你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10' }
+                },
+                B: {
+                    susu: { hp: 0, favor: -10, text: '你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10' },
+                    haiyan: { hp: 0, favor: 5, text: '你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5' },
+                    dazhuang: { hp: 0, favor: 20, text: '你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20' }
+                },
+                C: {
+                    susu: { hp: 0, favor: 10, text: '你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10' },
+                    haiyan: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' },
+                    dazhuang: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' }
+                },
+                D: {
+                    susu: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
+                    haiyan: { hp: 0, favor: 5, text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' },
+                    dazhuang: { 
+                        hp: 0, 
+                        favor: -15, 
+                        text: '你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15',
+                        affectAll: true,
+                        allFavor: -15
+                    }
+                }
             }
         };
-        
-        // 场景二结果数据
-        const scene2Outcomes = {
-            A: {
-                susu: { hp: -1, favor: 10, text: '你心系皇后，急忙跳入水中，可完全没考虑自己那不太硬朗的身子骨，还好侍卫及时赶到，救下了你们三人。你虽然因此染上风寒，但皇帝知道你的行为后很赏识你，翻了你的牌子。生命值-1 好感度+10' },
-                haiyan: { hp: 1, favor: -10, text: '你心系皇后，急忙跳入水中，完全没考虑小皇子的安危，好在侍卫及时赶到，救起了小皇子。皇帝知道后勃然大怒，怒斥了你，但夜晚，你收到了皇后赐给你的十全大补丹。生命值+1 好感度-10' },
-                dazhuang: { hp: 1, favor: -10, text: '你心系皇后，急忙跳入水中，完全没考虑小皇子的安危，好在侍卫及时赶到，救起了小皇子。皇帝知道后勃然大怒，怒斥了你，但夜晚，你收到了皇后赐给你的十全大补丹。生命值+1 好感度-10' }
-            },
-            B: {
-                susu: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' },
-                haiyan: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' },
-                dazhuang: { hp: 0, favor: 10, text: '你心系龙嗣，急忙跳入水中，完全没考虑皇后的安危，好在侍卫及时赶到，救下了皇后。皇后爱子心切，因此没有因你先救小皇子而感到不满，还在皇帝面前美言了你。好感度+10' }
-            },
-            C: {
-                susu: { hp: 0, favor: -10, text: '你心系后宫，试图将二人一起拉上岸，但你高估了自己的实力，因此一个都没救上来，还好侍卫及时赶到，救下了皇后母子。皇后狠毒的看了你一眼，而后一段时间，皇帝都没来找过你。好感度-10' },
-                haiyan: { hp: 0, favor: -10, text: '你心系后宫，试图将二人一起拉上岸，但你高估了自己的实力，因此一个都没救上来，还好侍卫及时赶到，救下了皇后母子。皇后狠毒的看了你一眼，而后一段时间，皇帝都没来找过你。好感度-10' },
-                dazhuang: { hp: 1, favor: 0, text: '你心系后宫，试图将二人一起拉上岸，由于体魄强健，你很轻松的捞起皇后母子，皇后对你大为赞赏，不仅赐你十全大补丹，还在皇帝面前美言了你。生命值+1 好感度+0' }
-            },
-            D: {
-                susu: { hp: 0, favor: 0, text: '你不敢贸然尝试，急忙去唤侍卫，及时的救下了皇后母子。侍卫因此得到了皇帝的嘉奖。无事发生' },
-                haiyan: { hp: 0, favor: 0, text: '你不敢贸然尝试，急忙去唤侍卫，及时的救下了皇后母子。侍卫因此得到了皇帝的嘉奖。无事发生' },
-                dazhuang: { hp: 0, favor: 0, text: '作者有话说：你作为一个宫女，保护主子的安危就是你最大的使命，你在想什么？你还不救上了，真把自己当妃子啦？皇帝虽不知情，但本作者看不下去了，没想到你体格健壮但内心恶毒，赐你成就！无事发生' }
-            }
-        };
-        // 场景三结果数据
-const scene3Outcomes = {
-    A: {
-        susu: { hp: 0, favor: -10, text: '你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10' },
-        haiyan: { hp: 0, favor: -10, text: '你情绪激动，坚称清白。皇帝冷眼旁观，命人彻查。因为没有证据，此事暂时压下，但皇帝心中存疑。好感度-10' },
-        dazhuang: { hp: 0, favor: 0, text: '皇上明鉴啊！奴婢目不识丁，怎么可能写字如此好看？皇帝闻言，神色稍霁，下令严查诬陷之人。无事发生' }
-    },
-    B: {
-        susu: { hp: 0, favor: 10, text: '你细察入微，指出人偶所用布料是江南新贡的锦缎，并非宫内所有，且自证针线手法与你截然不同。但你还是认错："臣妾罪该万死，不知得罪了哪位娘娘，害的皇上竟因此等后宫丑事烦忧。"皇帝闻言心疼的拉起了你的手，并下令严查诬陷之人。好感度+10' },
-        haiyan: { hp: 0, favor: 10, text: '一口揽下罪行，并谎称："臣妾罪该万死，这物件是臣妾清晨在御花园后山练剑时发现的，怕打草惊蛇本想私下调查，未料被皇上知晓，臣妾疑惑，调查之事臣妾做的私密，不知是谁人告知皇上的？"皇上怒视告密宫女："把你知道的一五一十给我说出来！"宫女承认了罪行，你得以洗清冤屈。皇帝赞赏的看着你，赞叹了你的手段。好感度+10' },
-        dazhuang: { hp: -1, favor: 0, text: '你虽然不知道发生了什么，但你觉得认错就行。于是挨了四十大板。生命值-1' }
-    },
-    C: {
-        susu: { hp: 0, favor: -5, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5' },
-        haiyan: { hp: 0, favor: -5, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，心生怜惜，不再深究，但此事终究成了一根刺。好感度-5' },
-        dazhuang: { hp: -1, favor: 0, text: '你表现出极大的委屈与无助，相信"清者自清"。皇帝见你如此，好奇的问：你哭密码呢？拉下去打四十大板。生命值-1' }
-    }
-};
-        // 场景四结果数据
-const scene4Outcomes = {
-    A: {
-        susu: { hp: 0, favor: 5, text: '你为太后亲手刺了一份百寿图，太后欢喜的很，皇帝也觉得你很用心。好感度+5' },
-        haiyan: { hp: 0, favor: -10, text: '你为太后锻了一把宝剑，可镇压世间一切邪祟，太后不明所以，估计她想先镇压了你。好感度-10' },
-        dazhuang: { hp: 0, favor: 10, text: '你亲自为太后做了一份佛跳墙，太后特别喜欢，皇帝邀你改日再来慈宁宫一展厨艺。好感度+10' }
-    },
-    B: {
-        susu: { hp: 0, favor: -10, text: '你给太后舞了一曲，但收场时不慎摔倒，太后并未说什么，但皇帝有些不悦。好感度-10' },
-        haiyan: { hp: 0, favor: 5, text: '你为太后舞剑，太后本就随太上皇征战沙场，见你英气十足，欢喜得很，在皇帝面前美言了你几句。好感度+5' },
-        dazhuang: { hp: 0, favor: 20, text: '你为太后表演了胸口碎大石，太后和皇帝都看傻了，开国以来从未见过能胸口碎大石的妃子，于是太后封你为本朝第一巴图鲁。好感度+20' }
-    },
-    C: {
-        susu: { hp: 0, favor: 10, text: '你问户部尚书要了些钱财，花大价钱买来了一颗夜明珠，太后欢喜的很。好感度+10' },
-        haiyan: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' },
-        dazhuang: { hp: 0, favor: 0, text: '国库吃紧，你掏空年俸也只能为太后买来一盏琉璃盏，并没引起太大注意。无事发生' }
-    },
-    D: {
-    susu: { 
-        hp: 0, 
-        favor: 5, 
-        text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' 
-    },
-    haiyan: { 
-        hp: 0, 
-        favor: 5, 
-        text: '你为太后诵经祈福，路过的皇帝很是欣赏你的行为。好感度+5' 
-    },
-    dazhuang: { 
-        hp: 0, 
-        favor: -15, 
-        text: '你为太后诵经祈福，过程实在无趣，你睡着了，醒来时佛堂已燃起熊熊大火，你再傻也明白你闯祸了。于是你急忙逃跑，没有被抓到，皇帝得知后认为寓意不好，愤怒不已。后宫所有人好感度-15',
-        affectAll: true, // 标记影响所有人
-        allFavor: -15    // 所有人的好感度变化
-    }
-}
-};
-        function handleChoice(choice, character) {
-    const effect = choice[character];
-    
-    // 应用当前角色的效果
-    applyEffect(character, effect);
-    
-    // 如果影响所有人
-    if (effect.affectAll) {
-        const allCharacters = ['susu', 'haiyan', 'dazhuang'];
-        allCharacters.forEach(char => {
-            if (char !== character) { // 排除当前角色（已经应用过了）
-                applyEffect(char, { favor: effect.allFavor, hp: 0 });
-            }
-        });
-    }
-}
+
         function showToast(message, duration = 2000) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -1027,89 +1030,194 @@ const scene4Outcomes = {
         }
         
         function selectCharacter(character) {
+            gameState.currentCharacter = character;
             selectedCharacter = character;
+            
+            // 更新UI显示
             document.querySelectorAll('.character-card').forEach(card => {
                 card.classList.remove('selected');
             });
             document.getElementById(character).classList.add('selected');
-            showToast(`已选择角色: ${characters[character].name}`);
+            
+            // 恢复该角色的选择状态
+            restoreCharacterChoices(character);
+            
+            showToast(`已选择角色: ${gameState.characters[character].name}`);
+        }
+        
+        function restoreCharacterChoices(character) {
+            // 清除所有选项的选择状态
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 恢复该角色在所有场景中的选择
+            for (let sceneNum = 1; sceneNum <= 4; sceneNum++) {
+                const choice = gameState.characters[character].choices[sceneNum];
+                if (choice) {
+                    const optionCard = document.getElementById(`scene${sceneNum}-option${choice}`);
+                    if (optionCard) {
+                        optionCard.classList.add('selected');
+                    }
+                }
+            }
+            
+            // 更新场景导航状态
+            updateSceneNavigation();
         }
         
         function switchScene(sceneNum) {
-            if (!selectedCharacter) {
+            if (!gameState.currentCharacter) {
                 showToast('请先选择角色');
                 return;
             }
+            
+            // 检查是否可以切换到该场景
+            if (sceneNum > 1) {
+                let canSwitch = true;
+                for (let i = 1; i < sceneNum; i++) {
+                    if (!gameState.completedScenes.has(i)) {
+                        canSwitch = false;
+                        break;
+                    }
+                }
+                
+                if (!canSwitch) {
+                    showToast('请先完成前面的场景');
+                    return;
+                }
+            }
+            
             currentScene = sceneNum;
             document.querySelectorAll('.scene-content').forEach(content => {
                 content.classList.remove('active');
             });
             document.querySelectorAll('.scene-btn').forEach(btn => {
                 btn.classList.remove('active');
+                btn.classList.remove('completed');
             });
+            
             document.getElementById('scene' + sceneNum).classList.add('active');
             document.querySelectorAll('.scene-btn')[sceneNum - 1].classList.add('active');
             document.getElementById('progress').textContent = sceneNum;
+            
+            // 标记已完成的场景
+            for (let i = 1; i <= sceneNum; i++) {
+                if (gameState.completedScenes.has(i)) {
+                    document.querySelectorAll('.scene-btn')[i - 1].classList.add('completed');
+                }
+            }
         }
         
         function selectOption(sceneNum, option) {
-            if (!selectedCharacter) {
+            if (!gameState.currentCharacter) {
                 showToast('请先选择角色');
                 return;
             }
             
-            sceneChoices[sceneNum] = option;
+            const character = gameState.currentCharacter;
             
+            // 检查是否已经选择过该场景
+            if (gameState.characters[character].choices[sceneNum]) {
+                showToast('每个角色在每个场景只能选择一次');
+                return;
+            }
+            
+            // 记录选择
+            gameState.characters[character].choices[sceneNum] = option;
+            gameState.completedScenes.add(sceneNum);
+            
+            // 更新UI
             document.querySelectorAll(`#scene${sceneNum} .option-card`).forEach(card => {
                 card.classList.remove('selected');
             });
             document.getElementById(`scene${sceneNum}-option${option}`).classList.add('selected');
             
-            showResult(sceneNum, option);
+            // 应用选择结果
+            applyChoiceResult(sceneNum, option, character);
+            
+            // 更新场景导航
+            updateSceneNavigation();
         }
         
-       function showResult(sceneNum, option) {
-    let outcomes;
-    if (sceneNum === 1) {
-        outcomes = scene1Outcomes;
-    } else if (sceneNum === 2) {
-        outcomes = scene2Outcomes;
-    } else if (sceneNum === 3) {
-        outcomes = scene3Outcomes;
-    } else if (sceneNum === 4) {
-        outcomes = scene4Outcomes;
-    }
-    
-    
-    const result = outcomes[option][selectedCharacter];
-    
-    characters[selectedCharacter].hp += result.hp;
-    characters[selectedCharacter].favor += result.favor;
-    
-    document.getElementById(`${selectedCharacter}-hp`).textContent = characters[selectedCharacter].hp;
-    document.getElementById(`${selectedCharacter}-favor`).textContent = characters[selectedCharacter].favor;
-    
-    const resultSection = document.getElementById(`scene${sceneNum}-result`);
-    const resultText = document.getElementById(`scene${sceneNum}-resultText`);
-    const resultDetails = document.getElementById(`scene${sceneNum}-resultDetails`);
-    
-    resultText.innerHTML = `<p>${characters[selectedCharacter].name}选择了选项 ${option}</p><p>${result.text}</p>`;
-    
-    let details = '';
-    if (result.hp !== 0) {
-        details += `<div class="result-change"><span>生命值变化:</span><span>${result.hp > 0 ? '+' : ''}${result.hp}</span></div>`;
-    }
-    if (result.favor !== 0) {
-        details += `<div class="result-change"><span>好感度变化:</span><span>${result.favor > 0 ? '+' : ''}${result.favor}</span></div>`;
-    }
-    details += `<div class="result-change"><span>当前生命值:</span><span>${characters[selectedCharacter].hp}</span></div>`;
-    details += `<div class="result-change"><span>当前好感度:</span><span>${characters[selectedCharacter].favor}</span></div>`;
-    
-    resultDetails.innerHTML = details;
-    resultSection.style.display = 'block';
-    
-    showToast('选择已确认，结果已更新');
-}
+        function applyChoiceResult(sceneNum, option, character) {
+            const outcomes = sceneOutcomes[sceneNum];
+            const result = outcomes[option][character];
+            
+            // 应用效果
+            gameState.characters[character].hp += result.hp;
+            gameState.characters[character].favor += result.favor;
+            
+            // 如果影响所有人
+            if (result.affectAll) {
+                Object.keys(gameState.characters).forEach(char => {
+                    if (char !== character) {
+                        gameState.characters[char].favor += result.allFavor;
+                    }
+                });
+            }
+            
+            // 更新UI显示
+            updateCharacterStats();
+            showResult(sceneNum, option, character, result);
+        }
+        
+        function updateCharacterStats() {
+            Object.keys(gameState.characters).forEach(character => {
+                document.getElementById(`${character}-hp`).textContent = gameState.characters[character].hp;
+                document.getElementById(`${character}-favor`).textContent = gameState.characters[character].favor;
+            });
+        }
+        
+        function showResult(sceneNum, option, character, result) {
+            const resultSection = document.getElementById(`scene${sceneNum}-result`);
+            const resultText = document.getElementById(`scene${sceneNum}-resultText`);
+            const resultDetails = document.getElementById(`scene${sceneNum}-resultDetails`);
+            
+            resultText.innerHTML = `<p>${gameState.characters[character].name}选择了选项 ${option}</p><p>${result.text}</p>`;
+            
+            let details = '';
+            if (result.hp !== 0) {
+                details += `<div class="result-change"><span>生命值变化:</span><span>${result.hp > 0 ? '+' : ''}${result.hp}</span></div>`;
+            }
+            if (result.favor !== 0) {
+                details += `<div class="result-change"><span>好感度变化:</span><span>${result.favor > 0 ? '+' : ''}${result.favor}</span></div>`;
+            }
+            details += `<div class="result-change"><span>当前生命值:</span><span>${gameState.characters[character].hp}</span></div>`;
+            details += `<div class="result-change"><span>当前好感度:</span><span>${gameState.characters[character].favor}</span></div>`;
+            
+            // 如果影响所有人，显示其他角色的变化
+            if (result.affectAll) {
+                details += `<div class="result-change"><span style="color: red;">所有角色好感度变化:</span><span>${result.allFavor}</span></div>`;
+                Object.keys(gameState.characters).forEach(char => {
+                    if (char !== character) {
+                        details += `<div class="result-change"><span>${gameState.characters[char].name}好感度:</span><span>${gameState.characters[char].favor}</span></div>`;
+                    }
+                });
+            }
+            
+            resultDetails.innerHTML = details;
+            resultSection.style.display = 'block';
+            
+            showToast('选择已确认，结果已更新');
+        }
+        
+        function updateSceneNavigation() {
+            // 更新场景按钮状态
+            document.querySelectorAll('.scene-btn').forEach((btn, index) => {
+                const sceneNum = index + 1;
+                if (gameState.completedScenes.has(sceneNum)) {
+                    btn.classList.add('completed');
+                } else {
+                    btn.classList.remove('completed');
+                }
+            });
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSceneNavigation();
+        });
     </script>
 </body>
 </html>
