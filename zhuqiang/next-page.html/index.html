@@ -952,6 +952,75 @@
                 <div id="scene5-resultText"></div>
                 <div class="result-details" id="scene5-resultDetails"></div>
             </section>
+        </div
+                    <!-- 场景六 -->
+        <div class="scene-content" id="scene6">
+            <section class="scene-intro">
+                <p>某天夜里，你听见一个小太监在某处哭泣。你好奇询问，他告知你他不小心打碎了皇帝的御碗，你决定.......</p>
+            </section>
+            
+            <section class="decision-section">
+                <div class="decision-title">你的选择：</div>
+                
+                <div class="options-grid">
+                    <div class="option-card" id="scene6-optionA" onclick="selectOption(6, 'A')">
+                        <div class="option-letter">A. 替小太监抗下责任</div>
+                        <div class="option-desc">你决定为小太监承担责任</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同身份的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>嫔及以上触发：</strong>
+                                <span class="outcome-positive">皇帝早知实情，但没责你欺君，反而因你大度另眼相看。好感度+5太监因此忠心于你，用祖传配方给你炖了一锅参鸡汤 生命值+1</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>嫔以下触发：</strong>
+                                <span class="outcome-negative">皇帝觉得你笨手笨脚的，几天没理你。好感度-5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card" id="scene6-optionB" onclick="selectOption(6, 'B')">
+                        <div class="option-letter">B. 哭哭哭，还有脸哭？</div>
+                        <div class="option-desc">你严厉训斥小太监</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">结果：</div>
+                            
+                            <div class="outcome-item">
+                                <span class="outcome-positive">做错事就要有做错事的态度，下次才能长记性，知道了吗？自己掌嘴二十，你刻薄地说着。并在隔天把情况禀报给了皇帝。皇帝觉得你做事有原则，大为赞赏。好感度+10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card" id="scene6-optionC" onclick="selectOption(6, 'C')">
+                        <div class="option-letter">C. 替小太监美言几句</div>
+                        <div class="option-desc">你为小太监向皇帝求情</div>
+                        
+                        <div class="outcomes">
+                            <div class="outcome-title">不同身份的结果：</div>
+                            
+                            <div class="outcome-item">
+                                <strong>嫔及以上触发：</strong>
+                                <span class="outcome-positive">皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1</span>
+                            </div>
+                            
+                            <div class="outcome-item">
+                                <strong>嫔以下触发：</strong>
+                                <span class="outcome-negative">皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="result-section" id="scene6-result">
+                <div class="result-title">选择结果</div>
+                <div id="scene6-resultText"></div>
+                <div class="result-details" id="scene6-resultDetails"></div>
+            </section>
         </div>
         <div class="progress-indicator">
             当前进度：<span id="progress">1</span>/7
@@ -1121,6 +1190,72 @@
             allFavor: 15
         }
     }
+    
+}// 在sceneOutcomes对象中添加场景六的结果数据（放在场景五之后）
+6: {
+    A: {
+        susu: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 5 : -5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝早知实情，但没责你欺君，反而因你大度另眼相看。好感度+5太监因此忠心于你，用祖传配方给你炖了一锅参鸡汤 生命值+1' : 
+                    '皇帝觉得你笨手笨脚的，几天没理你。好感度-5';
+            }
+        },
+        haiyan: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 5 : -5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝早知实情，但没责你欺君，反而因你大度另眼相看。好感度+5太监因此忠心于你，用祖传配方给你炖了一锅参鸡汤 生命值+1' : 
+                    '皇帝觉得你笨手笨脚的，几天没理你。好感度-5';
+            }
+        },
+        dazhuang: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 5 : -5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝早知实情，但没责你欺君，反而因你大度另眼相看。好感度+5太监因此忠心于你，用祖传配方给你炖了一锅参鸡汤 生命值+1' : 
+                    '皇帝觉得你笨手笨脚的，几天没理你。好感度-5';
+            }
+        }
+    },
+    B: {
+        susu: { hp: 0, favor: 10, text: '做错事就要有做错事的态度，下次才能长记性，知道了吗？自己掌嘴二十，你刻薄地说着。并在隔天把情况禀报给了皇帝。皇帝觉得你做事有原则，大为赞赏。好感度+10' },
+        haiyan: { hp: 0, favor: 10, text: '做错事就要有做错事的态度，下次才能长记性，知道了吗？自己掌嘴二十，你刻薄地说着。并在隔天把情况禀报给了皇帝。皇帝觉得你做事有原则，大为赞赏。好感度+10' },
+        dazhuang: { hp: 0, favor: 10, text: '做错事就要有做错事的态度，下次才能长记性，知道了吗？自己掌嘴二十，你刻薄地说着。并在隔天把情况禀报给了皇帝。皇帝觉得你做事有原则，大为赞赏。好感度+10' }
+    },
+    C: {
+        susu: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
+                    '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+            }
+        },
+        haiyan: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
+                    '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+            }
+        },
+        dazhuang: { 
+            hp: function(favor) { return favor >= 50 ? 1 : 0; }, 
+            favor: function(favor) { return favor >= 50 ? 0 : 5; }, 
+            text: function(favor) { 
+                return favor >= 50 ? 
+                    '皇帝看出了你的善心，并没有责罚小太监，小太监因此忠心于你，用祖传配方给你炖了一锅鸡汤。生命值+1' : 
+                    '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度+5';
+            }
+        }
+    }
 }
             }
         };
@@ -1248,26 +1383,36 @@
         }
         
         function applyChoiceResult(sceneNum, option, character) {
-            const outcomes = sceneOutcomes[sceneNum];
-            const result = outcomes[option][character];
-            
-            // 应用效果
-            gameState.characters[character].hp += result.hp;
-            gameState.characters[character].favor += result.favor;
-            
-            // 如果影响所有人
-            if (result.affectAll) {
-                Object.keys(gameState.characters).forEach(char => {
-                    if (char !== character) {
-                        gameState.characters[char].favor += result.allFavor;
-                    }
-                });
+    const outcomes = sceneOutcomes[sceneNum];
+    let result = outcomes[option][character];
+    
+    // 处理动态结果（函数类型的结果）
+    if (typeof result.hp === 'function') {
+        const currentFavor = gameState.characters[character].favor;
+        result = {
+            hp: result.hp(currentFavor),
+            favor: result.favor(currentFavor),
+            text: result.text(currentFavor)
+        };
+    }
+    
+    // 应用效果
+    gameState.characters[character].hp += result.hp;
+    gameState.characters[character].favor += result.favor;
+    
+    // 如果影响所有人
+    if (result.affectAll) {
+        Object.keys(gameState.characters).forEach(char => {
+            if (char !== character) {
+                gameState.characters[char].favor += result.allFavor;
             }
-            
-            // 更新UI显示
-            updateCharacterStats();
-            showResult(sceneNum, option, character, result);
-        }
+        });
+    }
+    
+    // 更新UI显示
+    updateCharacterStats();
+    showResult(sceneNum, option, character, result);
+}
         
         function updateCharacterStats() {
             Object.keys(gameState.characters).forEach(character => {
@@ -1277,38 +1422,45 @@
         }
         
         function showResult(sceneNum, option, character, result) {
-            const resultSection = document.getElementById(`scene${sceneNum}-result`);
-            const resultText = document.getElementById(`scene${sceneNum}-resultText`);
-            const resultDetails = document.getElementById(`scene${sceneNum}-resultDetails`);
-            
-            resultText.innerHTML = `<p>${gameState.characters[character].name}选择了选项 ${option}</p><p>${result.text}</p>`;
-            
-            let details = '';
-            if (result.hp !== 0) {
-                details += `<div class="result-change"><span>生命值变化:</span><span>${result.hp > 0 ? '+' : ''}${result.hp}</span></div>`;
+    const resultSection = document.getElementById(`scene${sceneNum}-result`);
+    const resultText = document.getElementById(`scene${sceneNum}-resultText`);
+    const resultDetails = document.getElementById(`scene${sceneNum}-resultDetails`);
+    
+    // 添加身份信息
+    const currentFavor = gameState.characters[character].favor;
+    const rank = currentFavor >= 50 ? "嫔及以上" : "嫔以下";
+    
+    resultText.innerHTML = `
+        <p>${gameState.characters[character].name}选择了选项 ${option}</p>
+        <p>当前身份：${rank}（好感度${currentFavor}）</p>
+        <p>${result.text}</p>
+    `;
+    
+    let details = '';
+    if (result.hp !== 0) {
+        details += `<div class="result-change"><span>生命值变化:</span><span>${result.hp > 0 ? '+' : ''}${result.hp}</span></div>`;
+    }
+    if (result.favor !== 0) {
+        details += `<div class="result-change"><span>好感度变化:</span><span>${result.favor > 0 ? '+' : ''}${result.favor}</span></div>`;
+    }
+    details += `<div class="result-change"><span>当前生命值:</span><span>${gameState.characters[character].hp}</span></div>`;
+    details += `<div class="result-change"><span>当前好感度:</span><span>${gameState.characters[character].favor}</span></div>`;
+    
+    // 如果影响所有人，显示其他角色的变化
+    if (result.affectAll) {
+        details += `<div class="result-change"><span style="color: red;">所有角色好感度变化:</span><span>${result.allFavor}</span></div>`;
+        Object.keys(gameState.characters).forEach(char => {
+            if (char !== character) {
+                details += `<div class="result-change"><span>${gameState.characters[char].name}好感度:</span><span>${gameState.characters[char].favor}</span></div>`;
             }
-            if (result.favor !== 0) {
-                details += `<div class="result-change"><span>好感度变化:</span><span>${result.favor > 0 ? '+' : ''}${result.favor}</span></div>`;
-            }
-            details += `<div class="result-change"><span>当前生命值:</span><span>${gameState.characters[character].hp}</span></div>`;
-            details += `<div class="result-change"><span>当前好感度:</span><span>${gameState.characters[character].favor}</span></div>`;
-            
-            // 如果影响所有人，显示其他角色的变化
-            if (result.affectAll) {
-                details += `<div class="result-change"><span style="color: red;">所有角色好感度变化:</span><span>${result.allFavor}</span></div>`;
-                Object.keys(gameState.characters).forEach(char => {
-                    if (char !== character) {
-                        details += `<div class="result-change"><span>${gameState.characters[char].name}好感度:</span><span>${gameState.characters[char].favor}</span></div>`;
-                    }
-                });
-            }
-            
-            resultDetails.innerHTML = details;
-            resultSection.style.display = 'block';
-            
-            showToast('选择已确认，结果已更新');
-        }
-        
+        });
+    }
+    
+    resultDetails.innerHTML = details;
+    resultSection.style.display = 'block';
+    
+    showToast('选择已确认，结果已更新');
+}
         function updateSceneNavigation() {
             // 更新场景按钮状态
             document.querySelectorAll('.scene-btn').forEach((btn, index) => {
