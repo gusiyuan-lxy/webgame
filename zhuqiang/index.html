@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>朱墙玉碎：X染深宫</title>
+    <title>朱墙玉碎：X染深宫 - 角色选择</title>
+    <meta name="description" content="选择您要扮演的角色，开始深宫权谋之旅">
     <style>
         :root {
             --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --primary-light: #f5b7b1;
             --secondary: #2c3e50;
             --accent: #f39c12;
+            --accent-dark: #d68910;
             --light: #ecf0f1;
             --dark: #1a1a1a;
+            --success: #27ae60;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
         }
         
         body {
-            font-family: 'SimSun', '宋体', serif;
-            background: url('https://img.freepik.com/free-photo/chinese-palace_1417-1500.jpg') center/cover fixed;
+            font-family: 'Microsoft YaHei', 'SimSun', '宋体', serif;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(44, 62, 80, 0.1) 100%),
+                        url('https://img.freepik.com/free-photo/chinese-palace_1417-1500.jpg') center/cover fixed;
             color: var(--dark);
             line-height: 1.6;
             margin: 0;
@@ -31,118 +45,348 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
             z-index: -1;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             margin-top: 2rem;
             margin-bottom: 2rem;
+            border-top: 4px solid var(--primary);
         }
         
         header {
             text-align: center;
             margin-bottom: 2rem;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 1rem;
+            padding: 2rem 0 1rem;
+            position: relative;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
         }
         
         h1 {
             color: var(--primary);
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             margin-bottom: 0.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
-        h2 {
-            color: var(--secondary);
-            font-size: 1.8rem;
-            margin-top: 2rem;
-            border-left: 4px solid var(--accent);
-            padding-left: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
         }
         
         .subtitle {
             font-style: italic;
             color: var(--secondary);
+            font-size: 1.1rem;
+            margin: 0;
         }
         
-        .mvp-section {
-            background: rgba(243, 156, 18, 0.1);
-            padding: 1rem;
-            border-radius: 5px;
-            margin: 1rem 0;
+        .progress-bar {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 2rem 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            height: 8px;
+            border-radius: 8px;
+            width: 0%;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: attr(data-progress);
+            position: absolute;
+            right: -30px;
+            top: -25px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .intro-section {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(241, 196, 15, 0.05));
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
             border-left: 4px solid var(--accent);
         }
         
+        .character-selection {
+            margin: 2rem 0;
+        }
+        
         .character-cards {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            justify-content: center;
             margin: 2rem 0;
         }
         
         .character-card {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 250px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             padding: 1.5rem;
-            transition: transform 0.3s;
-            border-top: 3px solid var(--primary);
+            transition: var(--transition);
+            border: 2px solid transparent;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .character-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
         
         .character-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-light);
+        }
+        
+        .character-card.selected {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(255, 255, 255, 1));
+        }
+        
+        .character-card.selected::before {
+            background: var(--success);
+        }
+        
+        .character-header {
+            text-align: center;
+            margin-bottom: 1rem;
         }
         
         .character-name {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--primary);
-            margin-bottom: 0.5rem;
-            text-align: center;
+            margin-bottom: 0.3rem;
             font-weight: bold;
         }
         
         .character-title {
             font-style: italic;
-            text-align: center;
-            margin-bottom: 1rem;
             color: var(--secondary);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .character-description {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            color: var(--dark);
         }
         
         .character-stats {
-            margin-top: 1rem;
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
         }
         
         .stat {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 0.5rem;
+            padding: 0.3rem 0;
+        }
+        
+        .stat:last-child {
+            margin-bottom: 0;
         }
         
         .stat-name {
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--secondary);
         }
         
         .stat-value {
+            font-weight: bold;
             color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .player-input-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .name-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+        
+        .name-input:valid {
+            border-color: var(--success);
+        }
+        
+        .name-input.error {
+            border-color: var(--danger);
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .input-label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1rem;
+            pointer-events: none;
+            transition: var(--transition);
+            background: white;
+            padding: 0 0.3rem;
+        }
+        
+        .name-input:focus + .input-label,
+        .name-input:valid + .input-label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .confirm-btn {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
+        
+        .confirm-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .clear-btn {
+            background: transparent;
+            color: var(--gray);
+            border: 2px solid var(--gray);
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .clear-btn:hover {
+            background: var(--gray);
+            color: white;
+        }
+        
+        .selected-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .selected-indicator::before {
+            content: "✓";
+            font-weight: bold;
         }
         
         .system-rules {
-            background: rgba(46, 134, 193, 0.1);
+            background: linear-gradient(135deg, rgba(46, 134, 193, 0.1), rgba(52, 152, 219, 0.05));
             padding: 1.5rem;
-            border-radius: 5px;
+            border-radius: 8px;
             margin: 2rem 0;
-            border-left: 4px solid #2e86c1;
+            border-left: 4px solid #3498db;
         }
         
         .rank-system {
@@ -154,111 +398,126 @@
         
         .rank {
             background: white;
-            padding: 0.8rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             text-align: center;
+            transition: var(--transition);
+        }
+        
+        .rank:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
         .rank-name {
             font-weight: bold;
             color: var(--secondary);
+            margin-bottom: 0.3rem;
         }
         
         .rank-value {
             color: var(--primary);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
         }
         
         .rank-effect {
             font-size: 0.8rem;
             color: var(--dark);
-            margin-top: 0.3rem;
+            line-height: 1.3;
         }
         
-        footer {
+        .next-section {
             text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
-            color: var(--secondary);
+            margin-top: 3rem;
         }
         
-        /* 新增样式 */
-        .name-input {
-            margin-top: 1rem;
-            padding: 0.5rem;
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .confirm-btn {
-            background-color: var(--primary);
+        .next-page-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            margin-top: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .confirm-btn:hover {
-            background-color: #c0392b;
-        }
-        
-        .selected-indicator {
+        .next-page-btn::before {
+            content: "";
             position: absolute;
             top: 0;
-            right: 0;
-            background-color: var(--accent);
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 0 8px 0 8px;
-            font-size: 0.8rem;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
         
-        /* 跳转按钮样式 */
-        .next-page-btn {
-            display: block;
-            width: 200px;
-            margin: 2rem auto;
-            padding: 0.8rem 1.5rem;
-            background-color: var(--primary);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        .next-page-btn:hover::before {
+            left: 100%;
         }
-
+        
         .next-page-btn:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
-
+        
         .next-page-btn:disabled {
-            background-color: #95a5a6;
+            background: var(--gray);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-
-        .next-page-btn i {
-            margin-left: 0.5rem;
+        
+        .next-page-btn:disabled::before {
+            display: none;
         }
-
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: none;
+            border-left: 4px solid var(--success);
+        }
+        
         @media (max-width: 768px) {
-            .character-cards {
-                flex-direction: column;
-                align-items: center;
+            .container {
+                margin: 1rem;
+                padding: 1rem;
             }
             
+            .character-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .rank-system {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
             .rank-system {
                 grid-template-columns: 1fr;
             }
@@ -272,244 +531,424 @@
             <p class="subtitle">深宫秘闻 · 权谋斗争 · 爱恨情仇</p>
         </header>
         
-        <section>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" data-progress="0/3"></div>
+        </div>
+        
+        <section class="intro-section">
             <h2>第一幕 · 引子</h2>
             <p>三位冒险者醒来后，发现自己来到了一个全新的世界，并有了新的身份。请为每个角色分配玩家：</p>
-            
+        </section>
+        
+        <div class="success-message" id="successMessage">
+            <strong>✅ 所有角色选择完成！</strong> 现在可以开始您的深宫之旅了。
+        </div>
+        
+        <section class="character-selection">
             <div class="character-cards">
                 <!-- 秀女素素 -->
-                <div class="character-card" id="susu-card">
-                    <div class="character-name">秀女素素</div>
-                    <div class="character-title">户部尚书之女</div>
-                    <p>大家闺秀，琴棋书画样样精通。但从小身体孱弱，今年大选时被皇帝选为X妃，成为了最得宠的妃子。</p>
+                <article class="character-card" id="susu-card" data-character="susu">
+                    <div class="character-header">
+                        <div class="character-name">秀女素素</div>
+                        <div class="character-title">户部尚书之女</div>
+                    </div>
+                    <p class="character-description">大家闺秀，琴棋书画样样精通。但从小身体孱弱，今年大选时被皇帝选为X妃，成为了最得宠的妃子。</p>
                     <div class="character-stats">
                         <div class="stat">
-                            <span class="stat-name">生命值：</span>
+                            <span class="stat-name">生命值</span>
                             <span class="stat-value">3</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-name">皇帝好感度</span>
                             <span class="stat-value">70</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="susu-name" placeholder="输入玩家姓名">
-                    <button class="confirm-btn" onclick="selectCharacter('susu')">确认选择</button>
-                </div>
+                    <div class="player-input-section">
+                        <div class="input-group">
+                            <input type="text" class="name-input" id="susu-name" required minlength="1" maxlength="20">
+                            <label class="input-label">请输入玩家姓名</label>
+                            <div class="error-message" id="susu-error"></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="confirm-btn" onclick="selectCharacter('susu')">确认选择</button>
+                            <button class="clear-btn" onclick="clearCharacter('susu')" title="清除选择">🗑</button>
+                        </div>
+                    </div>
+                </article>
                 
                 <!-- 民女海燕 -->
-                <div class="character-card" id="haiyan-card">
-                    <div class="character-name">民女海燕</div>
-                    <div class="character-title">轻功高手</div>
-                    <p>皇帝在微服私访时遇险，幸得海燕出手相救，而后随皇帝入宫。由于轻功了得，身轻如燕，被皇帝封为嫔，时常教小皇子练功。</p>
+                <article class="character-card" id="haiyan-card" data-character="haiyan">
+                    <div class="character-header">
+                        <div class="character-name">民女海燕</div>
+                        <div class="character-title">轻功高手</div>
+                    </div>
+                    <p class="character-description">皇帝在微服私访时遇险，幸得海燕出手相救，而后随皇帝入宫。由于轻功了得，身轻如燕，被皇帝封为嫔，时常教小皇子练功。</p>
                     <div class="character-stats">
                         <div class="stat">
-                            <span class="stat-name">生命值：</span>
+                            <span class="stat-name">生命值</span>
                             <span class="stat-value">5</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-name">皇帝好感度</span>
                             <span class="stat-value">40</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="haiyan-name" placeholder="输入玩家姓名">
-                    <button class="confirm-btn" onclick="selectCharacter('haiyan')">确认选择</button>
-                </div>
+                    <div class="player-input-section">
+                        <div class="input-group">
+                            <input type="text" class="name-input" id="haiyan-name" required minlength="1" maxlength="20">
+                            <label class="input-label">请输入玩家姓名</label>
+                            <div class="error-message" id="haiyan-error"></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="confirm-btn" onclick="selectCharacter('haiyan')">确认选择</button>
+                            <button class="clear-btn" onclick="clearCharacter('haiyan')" title="清除选择">🗑</button>
+                        </div>
+                    </div>
+                </article>
                 
                 <!-- 高女大壮 -->
-                <div class="character-card" id="dazhuang-card">
-                    <div class="character-name">高女大壮</div>
-                    <div class="character-title">力大宫女</div>
-                    <p>一个力大无穷的宫女，一人需三人食，但可做五人工。厨艺精湛，是后宫、后厨的好帮手~</p>
+                <article class="character-card" id="dazhuang-card" data-character="dazhuang">
+                    <div class="character-header">
+                        <div class="character-name">高女大壮</div>
+                        <div class="character-title">力大宫女</div>
+                    </div>
+                    <p class="character-description">一个力大无穷的宫女，一人需三人食，但可做五人工。厨艺精湛，是后宫、后厨的好帮手~</p>
                     <div class="character-stats">
                         <div class="stat">
-                            <span class="stat-name">生命值：</span>
+                            <span class="stat-name">生命值</span>
                             <span class="stat-value">9</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-name">皇帝好感度：</span>
+                            <span class="stat-name">皇帝好感度</span>
                             <span class="stat-value">0</span>
                         </div>
                     </div>
-                    <input type="text" class="name-input" id="dazhuang-name" placeholder="输入玩家姓名">
-                    <button class="confirm-btn" onclick="selectCharacter('dazhuang')">确认选择</button>
-                </div>
+                    <div class="player-input-section">
+                        <div class="input-group">
+                            <input type="text" class="name-input" id="dazhuang-name" required minlength="1" maxlength="20">
+                            <label class="input-label">请输入玩家姓名</label>
+                            <div class="error-message" id="dazhuang-error"></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="confirm-btn" onclick="selectCharacter('dazhuang')">确认选择</button>
+                            <button class="clear-btn" onclick="clearCharacter('dazhuang')" title="清除选择">🗑</button>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
         
         <section class="system-rules">
             <h2>好感度系统</h2>
-            
             <div class="rank-system">
                 <div class="rank">
                     <div class="rank-name">冷宫</div>
                     <div class="rank-value">-20</div>
                     <div class="rank-effect">本幕暂停所有行动，下一幕好感清零</div>
                 </div>
-                
                 <div class="rank">
                     <div class="rank-name">贵人</div>
                     <div class="rank-value">20</div>
                 </div>
-                
                 <div class="rank">
                     <div class="rank-name">嫔</div>
                     <div class="rank-value">40</div>
                 </div>
-                
                 <div class="rank">
                     <div class="rank-name">妃</div>
                     <div class="rank-value">60</div>
                     <div class="rank-effect">可自行封号</div>
                 </div>
-                
                 <div class="rank">
                     <div class="rank-name">贵妃</div>
                     <div class="rank-value">80</div>
                     <div class="rank-effect">万人之上，首次获得者生命值+1</div>
                 </div>
-                
                 <div class="rank">
                     <div class="rank-name">皇贵妃</div>
                     <div class="rank-value">100</div>
                     <div class="rank-effect">母仪天下，首次获得者生命值+2</div>
                 </div>
             </div>
-            
             <p style="margin-top: 1.5rem;"><strong>复活机制：</strong> 玩家死亡后会扣除10好感度和1生命值复活（无好感度则为负数）</p>
             <p><strong>当前进度：</strong> 1/16</p>
         </section>
         
-        <!-- 跳转按钮 -->
-        <a href="next-page.html" class="next-page-btn" id="nextPageBtn">
-            进入下一幕 →
-        </a>
+        <div class="next-section">
+            <a href="next-page.html" class="next-page-btn" id="nextPageBtn" disabled>
+                🎭 进入下一幕
+            </a>
+        </div>
         
-        <footer>
-            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
+        <footer style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; color: var(--secondary);">
+            <p>© 2024 宫斗游戏 · 朱墙玉碎系列</p>
         </footer>
     </div>
 
     <script>
-        // 检查是否有已选择的角色
-        document.addEventListener('DOMContentLoaded', function() {
-            // 新的存储结构：保存所有玩家的选择
-            const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
-            const nextPageBtn = document.getElementById('nextPageBtn');
-            
-            // 恢复所有已选择的角色
-            let hasSelection = false;
-            for (const [characterType, playerName] of Object.entries(savedPlayers)) {
-                if (playerName) {
-                    document.getElementById(`${characterType}-name`).value = playerName;
-                    highlightSelectedCharacter(characterType, playerName, false); // false表示不禁用其他输入
-                    hasSelection = true;
+        class CharacterManager {
+            constructor() {
+                this.players = this.loadPlayers();
+                this.characterTitles = {
+                    'susu': '秀女素素',
+                    'haiyan': '民女海燕', 
+                    'dazhuang': '高女大壮'
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.restoreSelections();
+                this.updateProgress();
+                this.updateNextButton();
+            }
+
+            loadPlayers() {
+                try {
+                    return JSON.parse(localStorage.getItem('palace_players') || '{}');
+                } catch (error) {
+                    console.error('加载玩家数据失败:', error);
+                    return {};
                 }
             }
-            
-            // 检查是否所有角色都已选择
-            const allSelected = Object.keys(savedPlayers).length === 3 && 
-                               Object.values(savedPlayers).every(name => name);
-            
-            if (allSelected) {
-                enableNextPageButton();
-            } else {
-                disableNextPageButton();
-            }
-        });
 
-        // 选择角色函数 - 修改为支持多角色选择
-        function selectCharacter(characterType) {
-            const nameInput = document.getElementById(`${characterType}-name`);
-            const playerName = nameInput.value.trim();
-            
-            if (!playerName) {
-                alert('请输入您的姓名');
-                return;
+            savePlayers() {
+                try {
+                    localStorage.setItem('palace_players', JSON.stringify(this.players));
+                } catch (error) {
+                    console.error('保存玩家数据失败:', error);
+                    this.showError('数据保存失败，请检查浏览器设置');
+                }
             }
-            
-            // 保存到本地存储 - 使用新的存储结构
-            const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
-            savedPlayers[characterType] = playerName;
-            localStorage.setItem('players', JSON.stringify(savedPlayers));
-            
-            // 高亮显示已选择的角色
-            highlightSelectedCharacter(characterType, playerName, false); // false表示不禁用其他输入
-            
-            // 检查是否所有角色都已选择
-            const allSelected = Object.keys(savedPlayers).length === 3 && 
-                               Object.values(savedPlayers).every(name => name);
-            
-            if (allSelected) {
-                enableNextPageButton();
-                alert(`所有角色选择完成！可以进入下一幕了。`);
-            } else {
-                alert(`角色选择成功！欢迎${playerName}扮演${getCharacterTitle(characterType)}`);
+
+            setupEventListeners() {
+                // 实时输入验证
+                Object.keys(this.characterTitles).forEach(character => {
+                    const input = document.getElementById(`${character}-name`);
+                    input.addEventListener('input', () => this.validateInput(character));
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.selectCharacter(character);
+                        }
+                    });
+                });
             }
-        }
-        
-        // 修改高亮函数，添加disableOthers参数控制是否禁用其他输入
-        function highlightSelectedCharacter(characterType, playerName, disableOthers = true) {
-            const selectedCard = document.getElementById(`${characterType}-card`);
-            
-            // 添加或更新选择标记
-            let indicator = selectedCard.querySelector('.selected-indicator');
-            if (!indicator) {
-                indicator = document.createElement('div');
-                indicator.className = 'selected-indicator';
-                selectedCard.appendChild(indicator);
+
+            validateInput(character) {
+                const input = document.getElementById(`${character}-name`);
+                const errorDiv = document.getElementById(`${character}-error`);
+                const value = input.value.trim();
+
+                // 清除之前的错误状态
+                input.classList.remove('error');
+                errorDiv.style.display = 'none';
+
+                if (value.length === 0) {
+                    return false;
+                }
+
+                if (value.length > 20) {
+                    this.showInputError(character, '姓名长度不能超过20个字符');
+                    return false;
+                }
+
+                // 检查是否包含特殊字符
+                if (!/^[\u4e00-\u9fa5a-zA-Z0-9_\-\s]+$/.test(value)) {
+                    this.showInputError(character, '姓名只能包含中文、英文、数字、下划线和连字符');
+                    return false;
+                }
+
+                // 检查是否与其他角色重名
+                const existingNames = Object.entries(this.players)
+                    .filter(([key]) => key !== character)
+                    .map(([_, name]) => name.toLowerCase());
+                
+                if (existingNames.includes(value.toLowerCase())) {
+                    this.showInputError(character, '该姓名已被其他角色使用');
+                    return false;
+                }
+
+                return true;
             }
-            indicator.textContent = `已选择: ${playerName}`;
-            selectedCard.style.borderTop = '3px solid var(--accent)';
-            
-            // 根据参数决定是否禁用其他输入
-            if (disableOthers) {
-                document.querySelectorAll('.character-card').forEach(card => {
-                    if (card.id !== `${characterType}-card`) {
-                        const inputs = card.querySelectorAll('input');
-                        const buttons = card.querySelectorAll('button');
-                        
-                        inputs.forEach(input => input.disabled = true);
-                        buttons.forEach(button => button.disabled = true);
+
+            showInputError(character, message) {
+                const input = document.getElementById(`${character}-name`);
+                const errorDiv = document.getElementById(`${character}-error`);
+                
+                input.classList.add('error');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+
+            selectCharacter(character) {
+                if (!this.validateInput(character)) {
+                    return;
+                }
+
+                const input = document.getElementById(`${character}-name`);
+                const playerName = input.value.trim();
+
+                this.players[character] = playerName;
+                this.savePlayers();
+                this.updateCharacterCard(character, playerName);
+                this.updateProgress();
+                this.updateNextButton();
+
+                // 显示成功提示
+                this.showSuccess(`${playerName} 成功选择了 ${this.characterTitles[character]}！`);
+
+                // 如果所有角色都已选择，显示完成提示
+                if (this.isAllSelected()) {
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'block';
+                    }, 500);
+                }
+            }
+
+            clearCharacter(character) {
+                if (confirm('确定要清除此角色的选择吗？')) {
+                    delete this.players[character];
+                    this.savePlayers();
+                    this.resetCharacterCard(character);
+                    this.updateProgress();
+                    this.updateNextButton();
+                    document.getElementById('successMessage').style.display = 'none';
+                }
+            }
+
+            updateCharacterCard(character, playerName) {
+                const card = document.getElementById(`${character}-card`);
+                
+                // 添加选中状态
+                card.classList.add('selected');
+                
+                // 添加选择指示器
+                let indicator = card.querySelector('.selected-indicator');
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.className = 'selected-indicator';
+                    card.appendChild(indicator);
+                }
+                indicator.textContent = playerName;
+                
+                // 禁用输入框和按钮
+                const input = document.getElementById(`${character}-name`);
+                const confirmBtn = card.querySelector('.confirm-btn');
+                
+                input.disabled = true;
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = '已选择';
+            }
+
+            resetCharacterCard(character) {
+                const card = document.getElementById(`${character}-card`);
+                const input = document.getElementById(`${character}-name`);
+                const confirmBtn = card.querySelector('.confirm-btn');
+                const indicator = card.querySelector('.selected-indicator');
+                
+                card.classList.remove('selected');
+                if (indicator) indicator.remove();
+                
+                input.value = '';
+                input.disabled = false;
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = '确认选择';
+                
+                // 清除错误状态
+                input.classList.remove('error');
+                document.getElementById(`${character}-error`).style.display = 'none';
+            }
+
+            restoreSelections() {
+                Object.entries(this.players).forEach(([character, playerName]) => {
+                    if (playerName) {
+                        const input = document.getElementById(`${character}-name`);
+                        input.value = playerName;
+                        this.updateCharacterCard(character, playerName);
                     }
                 });
             }
-        }
-        
-        // 获取角色标题
-        function getCharacterTitle(characterType) {
-            const titles = {
-                'susu': '秀女素素',
-                'haiyan': '民女海燕',
-                'dazhuang': '高女大壮'
-            };
-            return titles[characterType] || '';
-        }
-        
-        // 启用跳转按钮
-        function enableNextPageButton() {
-            const nextPageBtn = document.getElementById('nextPageBtn');
-            nextPageBtn.style.pointerEvents = 'auto';
-            nextPageBtn.style.opacity = '1';
-            nextPageBtn.style.cursor = 'pointer';
-            nextPageBtn.title = '';
-            
-            // 添加点击事件
-            nextPageBtn.addEventListener('click', function(e) {
-                const savedPlayers = JSON.parse(localStorage.getItem('players') || '{}');
-                const playerNames = Object.values(savedPlayers).join('、');
+
+            updateProgress() {
+                const selectedCount = Object.keys(this.players).length;
+                const percentage = (selectedCount / 3) * 100;
+                const progressFill = document.getElementById('progressFill');
                 
-                if (!confirm(`${playerNames}，确定要进入下一幕吗？`)) {
-                    e.preventDefault}
-            });
+                progressFill.style.width = percentage + '%';
+                progressFill.setAttribute('data-progress', `${selectedCount}/3`);
+            }
+
+            updateNextButton() {
+                const nextBtn = document.getElementById('nextPageBtn');
+                const isAllSelected = this.isAllSelected();
+                
+                if (isAllSelected) {
+                    nextBtn.removeAttribute('disabled');
+                    nextBtn.style.pointerEvents = 'auto';
+                    nextBtn.style.opacity = '1';
+                    
+                    nextBtn.onclick = (e) => {
+                        const playerNames = Object.values(this.players).join('、');
+                        if (!confirm(`${playerNames}，确定要开始深宫之旅吗？`)) {
+                            e.preventDefault();
+                        }
+                    };
+                } else {
+                    nextBtn.setAttribute('disabled', 'true');
+                    nextBtn.style.pointerEvents = 'none';
+                    nextBtn.style.opacity = '0.6';
+                    nextBtn.onclick = null;
+                }
+            }
+
+            isAllSelected() {
+                return Object.keys(this.players).length === 3 && 
+                       Object.values(this.players).every(name => name && name.trim());
+            }
+
+            showSuccess(message) {
+                // 简单的成功提示，可以根据需要增强
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--success);
+                    color: white;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    z-index: 1000;
+                    animation: slideInRight 0.3s ease-out;
+                `;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            showError(message) {
+                alert(message); // 简单实现，可以优化为更好的UI
+            }
         }
-        
-        // 禁用跳转按钮
-        function disableNextPageButton() {
-            const nextPageBtn = document.getElementById('nextPageBtn');
-            nextPageBtn.style.pointerEvents = 'none';
-            nextPageBtn.style.opacity = '0.6';
-            nextPageBtn.title = '请先选择所有角色';
+
+        // 全局函数，供HTML调用
+        let characterManager;
+
+        function selectCharacter(character) {
+            characterManager.selectCharacter(character);
         }
+
+        function clearCharacter(character) {
+            characterManager.clearCharacter(character);
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            characterManager = new CharacterManager();
+        });
     </script>
 </body>
 </html>
