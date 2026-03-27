@@ -1022,6 +1022,8 @@
                 <div class="result-details" id="scene6-resultDetails"></div>
             </section>
         </div>
+
+        
         <div class="progress-indicator">
             当前进度：<span id="progress">1</span>/7
         </div>
@@ -1256,6 +1258,84 @@
                         '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度-5';
                 }
             }
+        },const sceneOutcomes = {
+    // ... 之前的场景1-6保持不变 ...
+    
+    // 场景七
+    7: {
+        A: {
+            susu: { 
+                hp: 0, 
+                favor: 10, 
+                text: '皇上现在与谁在御花园散心呢？你调皮的回答惹得皇帝哈哈大笑，牵住了你的手。好感度+10' 
+            },
+            haiyan: { 
+                hp: 0, 
+                favor: 10, 
+                text: '皇上，当然是素素了。素素温婉得体，懂得关心皇上。臣妾还需要多加学习呢~皇帝见你如此回答哈哈大笑："朕的海燕能如此想的话，未必不如素素温婉。"好感度+10',
+                affectOthers: { susu: 5 }
+            },
+            dazhuang: { 
+                hp: 0, 
+                favor: -10, 
+                text: '皇上，当然是素素了，谁不知道你一个月翻了素素九次牌子~皇帝明显没想到老实的你能这么回答，一时语塞，闹了八个大红脸。心中觉得你毕竟宫女出身，有些小家子气。好感度-10',
+                affectOthers: { susu: 5 }
+            }
+        },
+        B: {
+            susu: { 
+                hp: 0, 
+                favor: 0, 
+                text: '当然是海燕了，自从这个海燕来了，皇上好久没来看臣妾了，看来臣妾也要去舞刀弄枪来吸引皇上注意了~皇帝见你充满酸气的话语，连忙哄你，但心中思考，如果这个问题是海燕，她会怎么回答。无事发生',
+                affectOthers: { haiyan: 5 }
+            },
+            haiyan: { 
+                hp: 0, 
+                favor: 10, 
+                text: '你没有直接回答，而是一改常态的娇羞道："如果可以的话，我希望皇上最宠的是我~"皇帝从未见过你如此娇羞，顿时喜上眉梢，暗暗觉得自己把妹功力实在高超。好感度+10' 
+            },
+            dazhuang: { 
+                hp: 0, 
+                favor: 0, 
+                text: '当然是海燕！反正我很崇拜她！侠肝义胆英气十足，真有女侠风范！皇帝见你这么崇拜海燕，也不由的想起了海燕飒爽的英姿，晚上翻了海燕的牌子。',
+                affectOthers: { haiyan: 5 }
+            }
+        },
+        C: {
+            susu: { 
+                hp: 0, 
+                favor: 0, 
+                text: '最近皇上倒是很爱去大壮那里用膳呢，想必近来大壮妹妹很是得宠咯。素素酸溜溜的与皇帝撒娇，皇帝没接话，心中暗想：大壮那家伙名字要是能改一改就好了，就像海燕也是平民出身，但名字却充满灵气，不过大壮她做饭的确有一手。说完还咽了咽口水。无事发生',
+                affectOthers: { dazhuang: 10, haiyan: 5 }
+            },
+            haiyan: { 
+                hp: 0, 
+                favor: 10, 
+                text: '臣妾以为是大壮妹妹，一是近来皇上经常前往大壮妹妹那儿，二是大壮妹妹憨态可掬，我也十分喜爱呢。皇帝仿佛找到了共同话题："你说，她怎么取了这么一个名字。"这皇上就不知道了，在我们百姓的观念中，贱名好养活"那海燕有贱名吗？我猜叫小燕子！"不告诉你~"皇帝与你嬉闹在一起。好感度+10',
+                affectOthers: { dazhuang: 5 }
+            },
+            dazhuang: { 
+                hp: 0, 
+                favor: 15, 
+                text: '回禀皇上，臣妾认为是自己，臣妾一介宫女，竟能获得皇上如此厚爱，想必臣妾一定是最幸运的了！大壮真诚的表达了感激，皇帝保护欲爆棚："你能如此想，朕没白疼你。朕想用膳了，给朕做那个什么菠萝古老肉去。"皇帝本想搂着你，但发现没你高，于是挽着你的胳膊向你的小厨房走去。好感度+15' 
+            }
+        },
+        D: {
+            susu: { 
+                hp: 0, 
+                favor: -5, 
+                text: '臣妾觉得自然是皇后娘娘，贵为一国之母，又执掌后宫，是我等学习的典范。皇帝有些走神："皇后嘛，的确贤良激德，可宰相仗着国丈的身份权力愈发大了，就怕某天引起祸端啊。希望到时候皇后别为宰相求情。"皇上自己嘀咕着，你没听清又问了一次。皇帝摆了摆手："没什么，朕有些乏了。先回去了。"走了几步又回头看着你说道："以后你我二人在一起时，没必要那么虚伪。"好感度-5' 
+            },
+            haiyan: { 
+                hp: 0, 
+                favor: -5, 
+                text: '臣妾觉得自然是皇后娘娘，贵为一国之母，又执掌后宫，是我等学习的典范。皇帝有些走神："皇后嘛，的确贤良激德，可宰相仗着国丈的身份权力愈发大了，就怕某天引起祸端啊。希望到时候皇后别为宰相求情。"皇上自己嘀咕着，你没听清又问了一次。皇帝摆了摆手："没什么，朕有些乏了。先回去了。"走了几步又回头看着你说道："以后你我二人在一起时，没必要那么虚伪。"好感度-5' 
+            },
+            dazhuang: { 
+                hp: 0, 
+                favor: -5, 
+                text: '臣妾觉得自然是皇后娘娘，贵为一国之母，又执掌后宫，是我等学习的典范。皇帝有些走神："皇后嘛，的确贤良激德，可宰相仗着国丈的身份权力愈发大了，就怕某天引起祸端啊。希望到时候皇后别为宰相求情。"皇上自己嘀咕着，你没听清又问了一次。皇帝摆了摆手："没什么，朕有些乏了。先回去了。"走了几步又回头看着你说道："以后你我二人在一起时，没必要那么虚伪。"好感度-5' 
+            }
         }
     }
 };
@@ -1479,6 +1559,62 @@
     resultSection.style.display = 'block';
     
     showToast('选择已确认，结果已更新');
+}
+                function updateSceneNavigation()(character, sceneNum, choice) {
+    const outcome = sceneOutcomes[sceneNum][choice][character];
+    let hpChange = 0;
+    let favorChange = 0;
+    let resultText = '';
+    
+    // 处理动态函数类型的outcome
+    if (typeof outcome.hp === 'function') {
+        hpChange = outcome.hp(gameState.characters[character].favor);
+    } else {
+        hpChange = outcome.hp || 0;
+    }
+    
+    if (typeof outcome.favor === 'function') {
+        favorChange = outcome.favor(gameState.characters[character].favor);
+    } else {
+        favorChange = outcome.favor || 0;
+    }
+    
+    if (typeof outcome.text === 'function') {
+        resultText = outcome.text(gameState.characters[character].favor);
+    } else {
+        resultText = outcome.text;
+    }
+    
+    // 更新当前角色的状态
+    gameState.characters[character].hp += hpChange;
+    gameState.characters[character].favor += favorChange;
+    
+    // 处理对其他角色的影响
+    if (outcome.affectAll) {
+        Object.keys(gameState.characters).forEach(char => {
+            if (char !== character) {
+                gameState.characters[char].favor += outcome.allFavor;
+            }
+        });
+    }
+    
+    // 处理对其他特定角色的影响
+    if (outcome.affectOthers) {
+        Object.keys(outcome.affectOthers).forEach(otherChar => {
+            if (gameState.characters[otherChar]) {
+                gameState.characters[otherChar].favor += outcome.affectOthers[otherChar];
+            }
+        });
+    }
+    
+    // 显示结果
+    showResult(resultText, hpChange, favorChange);
+    
+    // 保存游戏状态
+    saveGameState();
+    
+    // 更新统计信息
+    updateStats();
 }
         function updateSceneNavigation() {
             // 更新场景按钮状态
