@@ -1580,7 +1580,7 @@
             updateSceneNavigation();
         }
         
-        function applyChoiceResult(sceneNum, option, character) {
+       function applyChoiceResult(sceneNum, option, character) {
     const outcomes = sceneOutcomes[sceneNum];
     let result = outcomes[option][character];
     
@@ -1590,7 +1590,8 @@
         result = {
             hp: result.hp(currentFavor),
             favor: result.favor(currentFavor),
-            text: result.text(currentFavor)
+            text: result.text(currentFavor),
+            affectOthers: result.affectOthers
         };
     }
     
@@ -1604,6 +1605,13 @@
             if (char !== character) {
                 gameState.characters[char].favor += result.allFavor;
             }
+        });
+    }
+    
+    // 如果影响其他特定角色
+    if (result.affectOthers) {
+        Object.keys(result.affectOthers).forEach(char => {
+            gameState.characters[char].favor += result.affectOthers[char];
         });
     }
     
