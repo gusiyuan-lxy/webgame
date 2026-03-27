@@ -952,7 +952,7 @@
                 <div id="scene5-resultText"></div>
                 <div class="result-details" id="scene5-resultDetails"></div>
             </section>
-        </div
+         </div>
                     <!-- 场景六 -->
         <div class="scene-content" id="scene6">
             <section class="scene-intro">
@@ -1023,7 +1023,7 @@
             </section>
         </div>
 <!-- 场景七 -->
-<div id="scene7" class="scene" style="display: none;">
+<div class="scene-content" id="scene7">
     <h2>场景七：御花园问答</h2>
     <p>你陪皇帝散心，皇帝心情不错，笑着逗你："只许说一个，你觉得后宫中朕最宠谁？"</p>
     
@@ -1286,8 +1286,9 @@
                         '皇帝觉得你话里有话，便问了你实情，你如实交代，皇帝冷哼道："你真是愈发没规矩了。"好感度-5';
                 }
             }
-        },const sceneOutcomes = {
-    // ... 之前的场景1-6保持不变 ...
+        }
+       },
+
     
     // 场景七
     7: {
@@ -1508,8 +1509,8 @@
             // 更新场景导航
             updateSceneNavigation();
         }
-        
-        function applyChoiceResult(sceneNum, option, character) {
+        // 修复 applyChoiceResult 函数，添加对其他角色的影响处理
+function applyChoiceResult(sceneNum, option, character) {
     const outcomes = sceneOutcomes[sceneNum];
     let result = outcomes[option][character];
     
@@ -1519,7 +1520,10 @@
         result = {
             hp: result.hp(currentFavor),
             favor: result.favor(currentFavor),
-            text: result.text(currentFavor)
+            text: result.text(currentFavor),
+            affectAll: result.affectAll,
+            allFavor: result.allFavor,
+            affectOthers: result.affectOthers
         };
     }
     
@@ -1536,19 +1540,22 @@
         });
     }
     
+    // 处理对其他特定角色的影响
+    if (result.affectOthers) {
+        Object.keys(result.affectOthers).forEach(otherChar => {
+            if (gameState.characters[otherChar]) {
+                gameState.characters[otherChar].favor += result.affectOthers[otherChar];
+            }
+        });
+    }
+    
     // 更新UI显示
     updateCharacterStats();
     showResult(sceneNum, option, character, result);
 }
-        
-        function updateCharacterStats() {
-            Object.keys(gameState.characters).forEach(character => {
-                document.getElementById(`${character}-hp`).textContent = gameState.characters[character].hp;
-                document.getElementById(`${character}-favor`).textContent = gameState.characters[character].favor;
-            });
-        }
-        
-        function showResult(sceneNum, option, character, result) {
+
+// 修复 showResult 函数，显示对其他角色的影响
+function showResult(sceneNum, option, character, result) {
     const resultSection = document.getElementById(`scene${sceneNum}-result`);
     const resultText = document.getElementById(`scene${sceneNum}-resultText`);
     const resultDetails = document.getElementById(`scene${sceneNum}-resultDetails`);
@@ -1583,12 +1590,22 @@
         });
     }
     
+    // 如果影响特定角色，显示变化
+    if (result.affectOthers) {
+        Object.keys(result.affectOthers).forEach(otherChar => {
+            details += `<div class="result-change"><span style="color: blue;">${gameState.characters[otherChar].name}好感度变化:</span><span>${result.affectOthers[otherChar]}</span></div>`;
+            details += `<div class="result-change"><span>${gameState.characters[otherChar].name}当前好感度:</span><span>${gameState.characters[otherChar].favor}</span></div>`;
+        });
+    }
+    
     resultDetails.innerHTML = details;
     resultSection.style.display = 'block';
     
     showToast('选择已确认，结果已更新');
 }
-                function updateSceneNavigation()(character, sceneNum, choice) {
+        
+
+                function updateSceneNavigation() {
     const outcome = sceneOutcomes[sceneNum][choice][character];
     let hpChange = 0;
     let favorChange = 0;
