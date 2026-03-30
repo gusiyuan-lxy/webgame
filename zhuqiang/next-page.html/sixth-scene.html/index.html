@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱墙玉碎：朱墙玉碎 - 第六幕</title>
+    <style>
+        :root {
+            --primary: #8b0000;
+            --secondary: #2c3e50;
+            --accent: #d4af37;
+            --danger: #c0392b;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --dark: #1a1a1a;
+            --mystery: #483d8b;
+            --silver: #c0c0c0;
+        }
+        
+        body {
+            font-family: 'SimSun', '宋体', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 50%, #8b0000 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .winner-display {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(139, 0, 0, 0.1));
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 3px solid var(--accent);
+            text-align: center;
+        }
+        
+        .winner-name {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .winner-stats {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .ending-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--primary);
+        }
+        
+        .ending-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .ending-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark);
+            text-align: justify;
+        }
+        
+        .all-endings-section {
+            background: rgba(52, 73, 94, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--secondary);
+            display: none;
+        }
+        
+        .character-endings {
+            margin-bottom: 2rem;
+        }
+        
+        .character-name {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .ending-item {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ending-item h4 {
+            color: var(--danger);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .favor-range {
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .control-buttons {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #a93226;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #1a252f;
+        }
+        
+        .note-section {
+            background: rgba(243, 156, 18, 0.1);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--warning);
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .winner-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>朱墙玉碎：朱墙玉碎</h1>
+            <p style="color: var(--danger); font-size: 1.5rem; font-weight: bold;">第六幕 朱墙玉碎</p>
+        </header>
+
+        <!-- 获胜者显示 -->
+        <div class="winner-display" id="winnerDisplay">
+            <div class="winner-name" id="winnerName">加载中...</div>
+            <div class="winner-stats" id="winnerStats">正在计算最终结局...</div>
+        </div>
+
+        <!-- 结局显示 -->
+        <div class="ending-section" id="endingSection">
+            <div class="ending-title" id="endingTitle">结局加载中...</div>
+            <div class="ending-content" id="endingContent">
+                这几年，你解决了所有碍眼的家伙，得到了皇上的专宠，你知道，是时候完成你的计划了...
+            </div>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="control-buttons">
+            <button class="btn btn-secondary" onclick="toggleAllEndings()">📖 查看所有结局</button>
+            <button class="btn" onclick="restartGame()">🔄 重新开始游戏</button>
+        </div>
+
+        <!-- 所有结局展示 -->
+        <div class="all-endings-section" id="allEndingsSection">
+            <h3 style="color: var(--secondary); text-align: center; margin-bottom: 2rem;">📚 所有可能的结局</h3>
+            
+            <!-- 素素的结局 -->
+            <div class="character-endings">
+                <div class="character-name">秀女素素</div>
+                
+                <div class="ending-item">
+                    <h4>1. 国破家亡</h4>
+                    <div class="favor-range">好感度：1-30</div>
+                    <p>你是户部尚书之女，自幼虽体弱多病，但你聪明伶俐，琴棋书画，诗词歌赋，女红刺绣无不精通...</p>
+                </div>
+                
+                <div class="ending-item">
+                    <h4>2. 高墙永驻</h4>
+                    <div class="favor-range">好感度：30-60</div>
+                    <p>终于在入宫的几年后，你废掉了那两个眼中钉。但皇帝待你虽礼数周全，却再无半分从前的亲昵与热烈...</p>
+                </div>
+                
+                <div class="ending-item">
+                    <h4>3. 皇后娘娘千岁！</h4>
+                    <div class="favor-range">好感度：60-99</div>
+                    <p>封后大典那日，百官朝拜，万国来贺。你与皇帝并肩接受天下人的敬意...</p>
+                </div>
+                
+                <div class="ending-item">
+                    <h4>4. 吾皇万岁！</h4>
+                    <div class="favor-range">好感度：100</div>
+                    <p>于是在那个雨夜，你亲手将无色无味的毒药,混入他的安神药中...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏说明 -->
+        <div class="note-section">
+            <strong>📝 说明：</strong>
+            <p>因视频观赏性，玩法与主持人手册有所出入，建议大家按主持人手册玩法进行游戏，以达到更好的体验。</p>
+            <p>线上游戏时，建议主持人准备另一部手机/笔记本记入数值。</p>
+        </div>
+    </div>
+
+    <script>
+        // 结局数据
+        const endings = {
+            susu: [
+                {
+                    title: "国破家亡",
+                    favorRange: "1-30",
+                    content: "你是户部尚书之女，自幼虽体弱多病，但你聪明伶俐，琴棋书画，诗词歌赋，女红刺绣无不精通。六岁那年你随父亲入宫，眼前的琉璃金瓦使你无比向往，权力的中心令你产生了渴望。你知道只有在这里才能有机会展你的才华。\n\n\"只有最优秀的女子才能被选入宫。\"父亲这句话成了你的人生信条。从此，你所有的学习都有了明确的目的，那就是成为君王最宠爱的妃子，用自己的才华更好的辅助君王。\n\n进宫之后的数年时间，你终于做掉了你的两个眼中钉。但皇帝此刻却有了新欢，你也难见天颜。你满腹的经纶韬略，对南疆局势的精准判断，再也无法说与他听。你看着皇帝逐渐被谗臣蒙蔽，看着边境军报从告急变为绝望。直到敌军的铁蹄踏破宫门，听着远处传来的厮杀与哭嚎。你也永远留在了这朱墙之下。国破了，家亡了。你毕生追求的帝王恩宠与施展才华的舞台，都成了陪葬。"
+                },
+                {
+                    title: "高墙永驻",
+                    favorRange: "30-60",
+                    content: "你是户部尚书之女，自幼虽体弱多病，但你聪明伶俐，琴棋书画，诗词歌赋，女红刺绣无不精通。六岁那年你随父亲入宫，眼前的琉璃金瓦使你无比向往，权力的中心令你产生了渴望。\"只有成为王的女人才能母仪天下。\"这句话深深印在了你的脑海中。从此，你所有的学习都有了明确的目的，那就是成为君王最宠爱的妃子。\n\n终于在入宫的几年后，你废掉了那两个眼中钉。但皇帝待你虽礼数周全，却再无半分从前的亲昵与热烈。他依然会来，但却像是在完成什么任务一样。他会问你后宫之事，会问你皇子的功课，却不会再与你赏月饮酒，听你畅谈古今。最后你沦为了他众多妃嫔中的一员，永远地困在了这四方的高墙之内，直到你的年华逐渐衰老。"
+                },
+                {
+                    title: "皇后娘娘千岁！",
+                    favorRange: "60-99",
+                    content: "你是户部尚书之女，自幼虽体弱多病，但你聪明伶俐，琴棋书画，诗词歌赋，女红刺绣无不精通。六岁那年你随父亲入宫，眼前的琉璃金瓦使你无比向往，权力的中心令你产生了渴望。\"只有成为王的女人才能母仪天下\"这句话深深印在了你的脑海中。\n\n这注定是一条染血的晋后之路，你利用父亲的朝堂势力，步步为营，铲除了所有的潜在威胁。封后大典那日，百官朝拜，万国来贺。你与皇帝并肩接受天下人的敬意。而你也并没有沉溺于荣耀之中，而是执皇帝之手，为皇帝献计献策。从此，你不仅是他的皇后，更是他唯一的知己。边境在你的谏言献策下日渐稳固，南疆再不敢犯。从此国泰民安，百姓安居乐业，史书也将会留下你辅佐明君、开创盛世的贤名。你也实现了儿时的梦想，不仅得到了帝王全部的爱，更一展才华守护了这万里江山。"
+                },
+                {
+                    title: "吾皇万岁！",
+                    favorRange: "100",
+                    content: "你是户部尚书之女，自幼虽体弱多病，但你聪明伶俐，琴棋书画，诗词歌赋，女红刺绣无不精通。六岁那年你随父亲入宫，眼前的琉璃金瓦使你无比向往，权力的中心令你产生了渴望。\n\n只有在这里才能施展自己的才华和抱负，你不甘心和其他女子一样，相夫教子，你渴望权力，甚至是成为权力的中心。入宫以来，你利用父亲的朝堂势力，步步为营，铲除了所有的潜在威胁。封后大典那日，百官朝拜，万国来贺。你与皇帝并肩接受天下人的敬意。但你不甘心于此。\n\n如今，南疆来犯，民不聊生，国库吃紧，动荡不安，整个国家已经摇摇欲坠了。你不忍心看着百姓流离失所，于是在那个雨夜，你亲手将无色无味的毒药，混入他的安神药中。看着他痛苦地在龙榻上挣扎，你俯身在他耳边，冷冷的说道：\"陛下，您既无能守这江山，便让臣妾替你来吧。\"\n\n朝堂震动，天下哗然。但你以雷霆手段镇压了所有反对的声音。登基大典上，万臣跪拜。从此你是这天下唯一的主人，是开天辟地的女帝。你开始重整朝纲，肃清吏治，用你钻研多年的兵法与谋略，将困扰王朝百年的南疆彻底荡平，并将其疆域纳入版图。随后你开始拓宽海路贸易，减轻赋税，使得国泰民安，风调雨顺。曾经的病弱千金，如今掌握着前所未有的庞大帝国，你的名字，已然成为了一个新时代的象征。"
+                }
+            ],
+            dazhuang: [
+                {
+                    title: "游历四海",
+                    favorRange: "1-30",
+                    content: "大壮你出生于一个农户家庭，从小就能吃能干，一顿三大碗，单手扛麻袋。因厨艺实在是惊人，你从农家灶台走进了皇宫御膳房。也因此被皇帝看中，成为了后宫中的一员。\n\n可你实在搞不懂后宫那些弯弯绕绕。皇帝对你的几天新鲜感也很快就没了。别的娘娘争风吃醋，你在研究新菜式；别的娘娘勾心斗角，你在给御花园翻土种菜。大家都觉得你傻乎乎，都欺负你。只有民女海燕经常帮助你，结下了深厚的\"友情\"。\n\n直到某天，海燕\"南疆公主\"身份暴露，皇帝大怒要抓人。你二话不说抡起炒锅砸开宫门，背上海燕就跑。\"傻大壮，你这是要掉脑袋的！\"\"俺的姐妹由俺来护！我愿陪你浪迹天涯。\"\n\n随后奉国再也没有你们二人的消息了。不过听人们讲，在江湖上多了对传奇姐妹——一个力大无穷的厨娘，一个轻功了得的侠女，他们开的酒楼火爆全国，听说还要马上开连锁店了。"
+                },
+                {
+                    title: "高墙永驻",
+                    favorRange: "30-60",
+                    content: "大壮你出生于一个农户家庭，从小就能吃能干，一顿三大碗，单手扛麻袋。因厨艺实在是惊人，她从农家灶台走进了皇宫御膳房。也因此被皇帝看中，征服了他的胃，你也很快成为了宫中的一员。\n\n长这么大，还是第一次有人对你这么好。你也慢慢爱上了皇帝。可皇帝不只你一个女人，后宫佳丽，每一个都想独占皇帝的宠爱。因此你也被卷入了后宫的战争。可你并没有想和任何人争个高低，你只想伺候好皇帝。可这后宫的明争暗斗还是把你卷了进去。\n\n不过最后素素和海燕还是双双进了冷宫。你虽然取得了最后的胜利，可皇帝对你很快就腻了，再也没有宠幸过你。你只能在后宫痴痴等待那个人的到来。从此御膳房多了个默默掌勺的身影，新来的小宫女好奇：\"那位娘娘怎么总来帮厨？\"老太监叹气：\"她啊，就是个永远忘不了自己是宫女的主子。\""
+                },
+                {
+                    title: "母仪天下",
+                    favorRange: "60-99",
+                    content: "大壮你出生于一个农户家庭，从小就能吃能干，一顿三大碗，单手扛麻袋。因厨艺实在是惊人，你从农家灶台走进了皇宫御膳房。也因此被皇帝看中，征服了他的胃，你也因此成为了后宫中的一员。\n\n可谁都没想到，最后当上皇后的会是你这个憨厚的厨娘。在后宫争夺战中，你不但没害素素和海燕，反而和她们成为了最好的姐妹。三个姐妹把后宫治理得像大家庭，从此后宫和睦融融。皇帝看得后宫如此融洽也是十分欢喜。\n\n在与南疆使者的谈判中，你让他尝了自家腌的酸菜，对方感动得当场签了和平协议。你也乐善好施，在宫门外支起粥棚，穷苦百姓都说：\"皇后娘娘熬的粥，比御厨做的还香！\"皇帝看着国库日渐充盈，边境和平安定，忍不住感叹：\"爱卿们总说朕立后不够慎重，现在看来，这是朕这辈子最明智的决定。\"\n\n有史书记载：奉国有一奇后，力大无穷，乐善好施，被后世称为\"地表最强皇后\"。"
+                },
+                {
+                    title: "别闹，别闹",
+                    favorRange: "100",
+                    content: "大壮你出生于一个农户家庭，从小就能吃能干，一顿三大碗，单手扛麻袋。因厨艺实在是惊人，你从农家灶台走进了皇宫御膳房。也因此被皇帝看中，征服了他的胃，你也因此成为了后宫中的一员。\n\n可谁都没想到，最后当上皇后的会是你这个憨厚的厨娘。在后宫争夺战中，你不但没害素素和海燕，反而和她们成为了最好的姐妹。可某天皇帝突然驾崩，朝堂乱成一锅粥。大臣们你看看我，我看看你，此时一位老臣突然开口：\"老臣认为，只有皇后娘娘的为人才能治理好我们的国家，不如拥戴皇后娘娘做我国的第一名女皇帝，大家意下如何？\"\n\n于是众臣齐刷刷跪在你面前：\"请娘娘登基！\"大壮吓懵了：\"别闹别闹！俺就是个做饭的！\"可大家还是非要拥戴你为皇帝。于是史上最离谱的登基大典出现了，大字不识的厨娘成为了奉国开国以来第一位女皇帝。\n\n可你还是担心治理不好国家，于是找来你的好姐妹素素和海燕，一个作为宰相，一个作为将军。在你们三人的治理下，不仅很快和南疆签订了和平协议，而且国家也治理的井井有条。你也乐于开发新菜，老百姓的衣食住行都因此有所提高。\n\n有史书记载：大壮王朝，是历史上最香的太平盛世。"
+                }
+            ],
+            haiyan: [
+                {
+                    title: "狗皇帝，可惜",
+                    favorRange: "1-30",
+                    content: "你原是南疆最受宠的小公主，可在你8岁那年，奉国发起战争，你的母亲在乱斗之中为了保护你而牺牲。这一幕成为了你的心魇，你发誓一定要为母亲报仇。你孤身前往奉国，与南疆大臣精心谋划，于是在皇帝微服私访\"意外\"遇刺那天，你挺身而出，为皇帝挡下了伤害，皇帝看着你灵动的身姿蓦然心动，于是他将你带回宫中。\n\n宫内的日子并不安稳，每个上位者都有自己的手段。时光匆匆，你这一路杀伐不断，终于，你除掉了后宫里的所有障碍。就这么相伴了10年，你看着越来越宠爱你的皇帝，心想着时机到了，杀母之仇不共戴天，于是在你生辰的这天夜里，你灌醉了皇帝，并拿出腰间的倚天剑刺穿了皇帝的心脏。\n\n却不料，拿出剑的瞬间，屋里的暗处突然多出了几人制服了你。你大惊，此时皇帝起身，也没有了喝醉的样子。皇帝走到你的面前，不解的看向你，你笑了，原来他自始至终对每个人都有防备，皇帝的心是冷的，只是他不知道你动手的原因，你对他提起了那场战争，那场困到现在的梦魇，你的母亲，可他却无动于衷。你自知无法替母报仇，于是在皇帝冷漠的目光中自刎，了却了自己的一生。"
+                },
+                {
+                    title: "游历四海",
+                    favorRange: "30-60",
+                    content: "你原是南疆最受宠的小公主，可在你8岁那年奉国发起战争，你的母亲在乱斗之中为了保护你而牺牲，这一幕成为了你的心魇，你发誓一定要为母亲报仇。你孤身前往奉国，与南疆大臣精心谋划，于是在皇帝微服私访\"意外\"遇刺那天，你挺身而出，为皇帝挡下了伤害，皇帝看着你灵动的身姿蓦然心动，于是他将你带回宫中。\n\n宫内的日子并不安稳，后宫无后，后位会在大壮和素素还有你身上产生，你与大壮并无瓜葛，早期刚入宫看到大壮受欺也不少帮衬过，而素素是你的死敌，她不仅利用母家的权势打压你，还曾无数次的暗杀你，不过被南疆的暗卫所化解。\n\n就这么相伴了10年，你看着越来越宠爱你的皇帝，心想着时机到了，杀母之仇不共戴天，于是在你生辰的这天夜里，你灌醉了皇上，并拿出腰间的倚天剑刺穿了皇帝的心脏...皇帝离开了你的寝宫，一刻后，你的房间被奉上了一杯毒酒，你惨然一笑，准备了却此生。\n\n再次醒来时，你发现自己在一间茅草屋中，大壮正在为你熬药。你很疑惑，自己不是已经死了吗，大壮笑着为你解答，算计她不懂，但是她知道做人要知恩图报，于是她找到之前曾一同当差的宫女朋友私自换下了毒药，以假死来逃出皇宫。你很感慨，当年留下的善因竟结下了如今的善果。你向大壮坦白了自己的身世，并邀请大壮同你一起游历四方，大壮欣然同意，她也不喜欢那个满是算计的四方围墙。于是后宫再无海燕大壮，江湖上则是多了一对女侠和厨娘的传说..."
+                },
+                {
+                    title: "叛国之女",
+                    favorRange: "60-99",
+                    content: "你原是南疆最受宠的小公主，可在你8岁那年奉国发起战争，你的母亲在乱斗之中为了保护你而牺牲，这一幕成为了你的心魇，你发誓一定要为母亲报仇。你孤身前往奉国，与南疆大臣精心谋划，于是在皇帝微服私访\"意外\"遇刺那天，你挺身而出，为皇帝挡下了伤害，皇帝看着你灵动的身姿蓦然心动，于是他将你带回宫中。\n\n宫内的日子并不安稳，每个上位者都有自己的手段。时光匆匆，你这一路杀伐不断，终于，你除掉了后宫里的所有障碍。皇帝多年的专宠使你逐渐迷失，你知道自己深爱这个男人，你在想当年开战时，皇帝也不过是个幼儿罢了。上一代的仇恨应该止于过去，不应牵扯未来。\n\n南疆战乱频发，你向皇帝坦白了自己的身份，并凭借着你对南疆的了解帮助皇帝平定了南疆。而南疆那边对你的行为虽然不满，却也无力反抗，只能就此作罢。从此你获得了皇帝的独宠，成为了冠绝六宫的宠妃，与皇帝相伴一生。也被后世谱成一段佳话..."
+                },
+                {
+                    title: "万寿南疆！",
+                    favorRange: "100",
+                    content: "你原是南疆最受宠的小公主,可在你8岁那年奉国发起战争，你的母亲在乱斗之中为了保护你而牺牲，这一幕成为了你的心魇，你发誓一定要为母亲报仇。你孤身前往奉国，与南疆大臣精心谋划，于是在皇帝微服私访\"意外\"遇刺那天，你挺身而出，为皇帝挡下了伤害，皇帝看着你灵动的身姿蓦然心动，于是他将你带回宫中。\n\n宫内的日子并不安稳，每个上位者都有自己的手段。时光匆匆,你这一路杀伐不断，终于，你除掉了后宫里的所有障碍。就这么相伴了10年，你看着越来越宠爱你的皇帝，心想着时机到了，杀母之仇不共戴天，于是在你生辰的这天夜里，你灌醉了皇帝，并拿出腰间的倚天剑刺穿了皇帝的心脏。\n\n看着皇帝冰冷的身体，你内心复杂，皇帝对你的宠爱是真的，杀母之仇也是真的,你知道接下来马上要发生什么,你立即部署从南疆调来10万兵马到来之后将皇宫包围，并采取雷霆手段消除朝中抗议的声音。于是，海朝建立。\n\n海朝2年，南疆吞并奉国，改国号为\"燕\"。\n海朝5年，百姓安居乐业，兴建女子学堂，女子可入朝为官。\n海朝11年，燕帝薨于寝宫，其面容安详，身着白衣，有人认出这是燕帝与奉帝初见时所穿。\n\n燕帝怀中藏有一封满是褶皱的信：唯盼燕安，愿全其愿。"
+                }
+            ]
+        };
+
+        let gameState = {
+            winner: null,
+            winnerFavor: 0,
+            winnerName: ''
+        };
+
+        // 页面加载时初始化
+        window.onload = function() {
+            loadWinnerData();
+            displayWinnerEnding();
+            generateAllEndingsDisplay();
+        };
+
+        // 加载获胜者数据
+        function loadWinnerData() {
+            try {
+                // 从localStorage加载角色数据
+                const savedData = localStorage.getItem('palaceGameCharacters');
+                const savedWinner = localStorage.getItem('gameWinner');
+                
+                if (savedData && savedWinner) {
+                    const charactersData = JSON.parse(savedData);
+                    gameState.winner = savedWinner;
+                    gameState.winnerFavor = charactersData[savedWinner]?.favor || 50;
+                    
+                    const nameMap = {
+                        'susu': '秀女素素',
+                        'haiyan': '民女海燕',
+                        'dazhuang': '高女大壮'
+                    };
+                    
+                    gameState.winnerName = nameMap[savedWinner] || savedWinner;
+                } else {
+                    // 如果没有数据，使用默认值
+                    gameState.winner = 'susu';
+                    gameState.winnerFavor = 75;
+                    gameState.winnerName = '秀女素素';
+                }
+            } catch (error) {
+                console.error('加载获胜者数据失败:', error);
+                // 使用默认值
+                gameState.winner = 'susu';
+                gameState.winnerFavor = 75;
+                gameState.winnerName = '秀女素素';
+            }
+        }
+
+        // 显示获胜者结局
+        function displayWinnerEnding() {
+            const winnerDisplay = document.getElementById('winnerName');
+            const winnerStats = document.getElementById('winnerStats');
+            const endingTitle = document.getElementById('endingTitle');
+            const endingContent = document.getElementById('endingContent');
+
+            winnerDisplay.textContent = `👑 新皇后：${gameState.winnerName}`;
+            winnerStats.innerHTML = `最终好感度：<strong>${gameState.winnerFavor}</strong> | 结局类型：<strong>${getEndingCategory(gameState.winnerFavor)}</strong>`;
+
+            const ending = getEndingForCharacter(gameState.winner, gameState.winnerFavor);
+            if (ending) {
+                endingTitle.textContent = ending.title;
+                endingContent.textContent = ending.content;
+            }
+        }
+
+        // 根据好感度获取结局类型
+        function getEndingCategory(favor) {
+            if (favor >= 100) return "完美结局";
+            if (favor >= 60) return "良好结局";
+            if (favor >= 30) return "普通结局";
+            return "悲惨结局";
+        }
+
+        // 根据角色和好感度获取对应结局
+        function getEndingForCharacter(character, favor) {
+            const characterEndings = endings[character];
+            if (!characterEndings) return null;
+
+            if (favor >= 100) return characterEndings[3];
+            if (favor >= 60) return characterEndings[2];
+            if (favor >= 30) return characterEndings[1];
+            return characterEndings[0];
+        }
+
+        // 生成所有结局显示
+        function generateAllEndingsDisplay() {
+            const allEndingsSection = document.getElementById('allEndingsSection');
+            const susuSection = allEndingsSection.querySelector('.character-endings');
+            
+            // 清空现有内容
+            susuSection.innerHTML = '<div class="character-name">秀女素素</div>';
+            
+            // 添加所有角色的所有结局
+            Object.keys(endings).forEach(charKey => {
+                const characterEndings = endings[charKey];
+                const charNameMap = {
+                    'susu': '秀女素素',
+                    'haiyan': '民女海燕',
+                    'dazhuang': '高女大壮'
+                };
+                
+                const characterDiv = document.createElement('div');
+                characterDiv.className = 'character-endings';
+                characterDiv.innerHTML = `<div class="character-name">${charNameMap[charKey]}</div>`;
+                
+                characterEndings.forEach((ending, index) => {
+                    const endingDiv = document.createElement('div');
+                    endingDiv.className = 'ending-item';
+                    endingDiv.innerHTML = `
+                        <h4>${index + 1}. ${ending.title}</h4>
+                        <div class="favor-range">好感度：${ending.favorRange}</div>
+                        <p>${ending.content.substring(0, 200)}${ending.content.length > 200 ? '...' : ''}</p>
+                        <button class="btn" style="font-size: 0.9rem; padding: 0.5rem 1rem; margin-top: 0.5rem;" onclick="showFullEnding('${charKey}', ${index})">
+                            查看完整结局
+                        </button>
+                    `;
+                    characterDiv.appendChild(endingDiv);
+                });
+                
+                if (charKey === 'susu') {
+                    // 替换素素部分
+                    susuSection.parentNode.replaceChild(characterDiv, susuSection);
+                } else {
+                    // 添加其他角色
+                    allEndingsSection.insertBefore(characterDiv, allEndingsSection.lastElementChild);
+                }
+            });
+        }
+
+        // 显示完整结局内容
+        function showFullEnding(character, endingIndex) {
+            const ending = endings[character][endingIndex];
+            alert(`${ending.title}\n\n${ending.content}`);
+        }
+
+        // 切换显示所有结局
+        function toggleAllEndings() {
+            const allEndingsSection = document.getElementById('allEndingsSection');
+            const button = event.target;
+            
+            if (allEndingsSection.style.display === 'none' || !allEndingsSection.style.display) {
+                allEndingsSection.style.display = 'block';
+                button.textContent = '📖 隐藏所有结局';
+                allEndingsSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                allEndingsSection.style.display = 'none';
+                button.textContent = '📖 查看所有结局';
+            }
+        }
+
+        // 重新开始游戏
+        function restartGame() {
+            if (confirm('确定要重新开始游戏吗？这将清除所有游戏数据。')) {
+                // 清除localStorage数据
+                localStorage.removeItem('palaceGameCharacters');
+                localStorage.removeItem('gameWinner');
+                localStorage.removeItem('palaceGameAuction');
+                
+                // 跳转到第一幕
+                window.location.href = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/';
+            }
+        }
+
+        // 导航到上一幕
+        function goToPreviousScene() {
+            window.location.href = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fifth-scene.html/';
+        }
+    </script>
+</body>
+</html>
