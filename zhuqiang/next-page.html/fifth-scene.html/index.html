@@ -228,6 +228,67 @@
             text-align: left !important;
         }
         
+        .item-effects-reference {
+            background: rgba(243, 156, 18, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--warning);
+        }
+        
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .effect-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .effect-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: var(--warning);
+        }
+        
+        .effect-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .effect-name {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .effect-owner {
+            font-size: 0.9rem;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .effect-details {
+            font-size: 0.9rem;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+        
+        .effect-usage {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #eee;
+        }
+        
         .battle-section {
             background: rgba(192, 57, 43, 0.1);
             padding: 2rem;
@@ -416,6 +477,15 @@
                 <div class="inventory-item">
                     <p>暂无道具</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- 道具效果参考（拍卖结束后显示） -->
+        <section class="item-effects-reference" id="itemEffectsReference" style="display: none;">
+            <h3 style="color: var(--warning); margin-bottom: 1rem;">📖 道具效果参考手册</h3>
+            <p style="color: var(--secondary); margin-bottom: 1rem;"><strong>说明：</strong>以下是所有已获得道具的详细效果，供裁判和玩家参考使用。</p>
+            <div class="effects-grid" id="effectsGrid">
+                <!-- 道具效果将动态生成 -->
             </div>
         </section>
 
@@ -902,6 +972,7 @@
             // 更新显示
             updateCharacterDisplay();
             updateInventoryDisplay();
+            generateItemEffectsReference();
 
             // 隐藏拍卖区域
             document.querySelector('.auction-section').style.display = 'none';
@@ -980,6 +1051,83 @@
                 'dazhuang': '高女大壮'
             };
             return names[charName] || charName;
+        }
+
+        // 生成道具效果参考手册
+        function generateItemEffectsReference() {
+            const container = document.getElementById('effectsGrid');
+            const referenceSection = document.getElementById('itemEffectsReference');
+            container.innerHTML = '';
+
+            let hasAnyItems = false;
+
+            // 收集所有已获得的道具
+            const ownedItems = new Map();
+            
+            for (const [charName, charData] of Object.entries(gameState.characters)) {
+                charData.items.forEach(itemName => {
+                    if (!ownedItems.has(itemName)) {
+                        ownedItems.set(itemName, []);
+                    }
+                    ownedItems.get(itemName).push(charName);
+                });
+            }
+
+            if (ownedItems.size > 0) {
+                hasAnyItems = true;
+
+                // 为每个已获得的道具生成效果卡片
+                ownedItems.forEach((owners, itemName) => {
+                    const itemData = auctionItems.find(item => item.name === itemName);
+                    if (itemData) {
+                        const effectCard = document.createElement('div');
+                        effectCard.className = 'effect-card';
+                        
+                        const ownersList = owners.map(owner => getCharacterDisplayName(owner)).join(', ');
+                        
+                        effectCard.innerHTML = `
+                            <div class="effect-header">
+                                <div class="effect-name">${itemData.name}</div>
+                                <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                    <span class="item-grade grade-${itemData.grade}" style="margin-bottom: 0.25rem;">${itemData.grade}级</span>
+                                    <div class="effect-owner">持有者: ${ownersList}</div>
+                                </div>
+                            </div>
+                            <div class="effect-details">
+                                <strong>描述：</strong>${itemData.description}
+                            </div>
+                            <div class="effect-usage">
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong style="color: var(--success);">🔹 对自己使用：</strong><br>
+                                    <span style="margin-left: 1rem;">${itemData.effects.self}</span>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--danger);">🔸 对他人使用：</strong><br>
+                                    <span style="margin-left: 1rem;">${itemData.effects.others}</span>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(effectCard);
+                    }
+                });
+
+                // 显示参考手册区域
+                referenceSection.style.display = 'block';
+                
+                // 滚动到参考手册区域
+                setTimeout(() => {
+                    referenceSection.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+
+            } else {
+                // 如果没有道具，隐藏参考手册
+                referenceSection.style.display = 'none';
+            }
+        }
+
+        // 获取道具详细信息（供其他功能使用）
+        function getItemDetails(itemName) {
+            return auctionItems.find(item => item.name === itemName);
         }
 
         // 使用巴掌
