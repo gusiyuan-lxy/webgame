@@ -1083,18 +1083,10 @@
             // 移除当前的查询参数，然后替换文件名
             let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
             
-            let targetUrl;
-            if (baseUrl.endsWith('third_scene.py')) {
-                targetUrl = baseUrl.replace('third_scene.py', 'test.py');
-            } else {
-                // 如果URL结构不标准，尝试构建标准路径
-                const pathParts = baseUrl.split('/');
-                pathParts[pathParts.length - 1] = 'test.py';
-                targetUrl = pathParts.join('/');
-            }
+            // 使用第二幕的固定链接（需要根据实际情况调整）
+            let targetUrl = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/test.html/';
             
             console.log('跳转回第二幕');
-            console.log('当前URL:', currentUrl);
             console.log('目标URL:', targetUrl);
             
             // 跳转回第二幕
@@ -1126,7 +1118,7 @@
             // 跳转到第四幕（如果存在）或提示用户
             if (confirm('确定要前往第四幕吗？当前积分数据将被保存。')) {
                 // 这里可以跳转到第四幕页面
-                // window.location.href = `${baseUrl}fourth_scene.py?${urlParams.toString()}`;
+                // window.location.href = `https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fourth-scene.html/?${urlParams.toString()}`;
                 showToast('第四幕开发中，数据已保存！', 3000);
             }
         }
