@@ -1075,8 +1075,30 @@
         function goToPreviousScene() {
             // 保存当前数据
             saveCharacterDataForNextPage();
+            
+            // 更简单的URL替换方法
+            const currentUrl = window.location.href;
+            const currentSearch = window.location.search; // 获取当前的查询参数
+            
+            // 移除当前的查询参数，然后替换文件名
+            let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
+            
+            let targetUrl;
+            if (baseUrl.endsWith('third_scene.py')) {
+                targetUrl = baseUrl.replace('third_scene.py', 'test.py');
+            } else {
+                // 如果URL结构不标准，尝试构建标准路径
+                const pathParts = baseUrl.split('/');
+                pathParts[pathParts.length - 1] = 'test.py';
+                targetUrl = pathParts.join('/');
+            }
+            
+            console.log('跳转回第二幕');
+            console.log('当前URL:', currentUrl);
+            console.log('目标URL:', targetUrl);
+            
             // 跳转回第二幕
-            window.location.href = 'test.py';
+            window.location.href = targetUrl;
         }
         
         function goToNextScene() {
@@ -1097,10 +1119,14 @@
                 from: 'act3'
             });
             
+            // 获取当前URL的基础路径
+            const currentUrl = window.location.href;
+            const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+            
             // 跳转到第四幕（如果存在）或提示用户
             if (confirm('确定要前往第四幕吗？当前积分数据将被保存。')) {
                 // 这里可以跳转到第四幕页面
-                // window.location.href = `fourth_scene.py?${urlParams.toString()}`;
+                // window.location.href = `${baseUrl}fourth_scene.py?${urlParams.toString()}`;
                 showToast('第四幕开发中，数据已保存！', 3000);
             }
         }
