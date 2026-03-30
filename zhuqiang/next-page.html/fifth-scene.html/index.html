@@ -353,7 +353,642 @@
             <div id="inheritanceDetails" style="margin-top: 0.5rem; font-size: 0.9rem;">
                 <p>⏳ 正在加载角色数据...</p>
             </div>
-        </div>
+------- SEARCH
+    <!-- Toast 消息 -->
+    <div class="toast" id="toast"></div>
+</body>
+</html>
+=======
+    <!-- Toast 消息 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // 游戏状态
+        let gameState = {
+            characters: {
+                susu: { hp: 3, favor: 75, silver: 75000, items: [] },
+                haiyan: { hp: 5, favor: 50, silver: 50000, items: [] },
+                dazhuang: { hp: 9, favor: 5, silver: 5000, items: [] }
+            },
+            auction: {
+                currentItem: null,
+                bidder: '',
+                currentBid: 0
+            }
+        };
+
+        // 拍卖道具数据
+        const auctionItems = [
+            {
+                id: 1,
+                name: '屠龙宝刀',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '兵部尚书的宝物',
+                effects: {
+                    self: '可与拥有回魂丹的角色交换道具',
+                    others: '威慑效果'
+                }
+            },
+            {
+                id: 2,
+                name: '毒丹',
+                grade: 'S',
+                startPrice: 5000,
+                currentBid: 5000,
+                bidder: '',
+                description: '剧毒药丸，使用需谨慎',
+                effects: {
+                    self: '解毒：清除所有负面状态',
+                    others: '接触类攻击：每回合-1生命值（递增）'
+                }
+            },
+            {
+                id: 3,
+                name: '圣火令',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '武林至宝',
+                effects: {
+                    self: '护体：免疫一次攻击',
+                    others: '翔龙十八掌：伤害翻倍'
+                }
+            },
+            {
+                id: 4,
+                name: '火铳',
+                grade: 'SS',
+                startPrice: 10000,
+                currentBid: 10000,
+                bidder: '',
+                description: '时代变了，大人！',
+                effects: {
+                    self: '威慑：其他人下回合无法行动',
+                    others: '射击：瞬间-3生命值'
+                }
+            },
+            {
+                id: 5,
+                name: '回魂丹',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '起死回生的神丹',
+                effects: {
+                    self: '复活：生命值恢复到满值',
+                    others: '强制喂药：对方生命值-2'
+                }
+            },
+            {
+                id: 6,
+                name: '送子观音',
+                grade: 'SSS',
+                startPrice: 30000,
+                currentBid: 30000,
+                bidder: '',
+                description: '神秘雕像，蕴含神力',
+                effects: {
+                    self: '喜脉：获得皇帝特殊宠爱',
+                    others: '私通告发：对方直接出局'
+                }
+            },
+            {
+                id: 7,
+                name: '倚天剑',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '海燕的专属武器',
+                effects: {
+                    self: '海燕专用：剑来！威力无穷',
+                    others: '其他人使用无效果'
+                }
+            },
+            {
+                id: 8,
+                name: '账本',
+                grade: 'S',
+                startPrice: 5000,
+                currentBid: 5000,
+                bidder: '',
+                description: '素素的专属道具',
+                effects: {
+                    self: '素素专用：查账获得额外银两',
+                    others: '其他人使用：暴露贪污被罚银两'
+                }
+            },
+            {
+                id: 9,
+                name: '生锈菜刀',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '大壮的专属武器',
+                effects: {
+                    self: '大壮专用：破伤风砍刀，伤害加倍',
+                    others: '其他人使用：可能割伤自己'
+                }
+            },
+            {
+                id: 10,
+                name: '美人计',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '魅惑之术',
+                effects: {
+                    self: '魅惑：下回合免受伤害',
+                    others: '诱惑：对方跳过下回合'
+                }
+            },
+            {
+                id: 11,
+                name: '毒针',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '暗器',
+                effects: {
+                    self: '防身：反击伤害',
+                    others: '暗杀：-1.5生命值'
+                }
+            },
+            {
+                id: 12,
+                name: '金创药',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '治疗圣药',
+                effects: {
+                    self: '治疗：+2生命值',
+                    others: '强制治疗：清除对方毒素状态'
+                }
+            },
+            {
+                id: 13,
+                name: '烟花',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '节庆用品',
+                effects: {
+                    self: '庆祝：增加皇帝好感',
+                    others: '爆炸：范围伤害-1生命值'
+                }
+            },
+            {
+                id: 14,
+                name: '铁链',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '束缚道具',
+                effects: {
+                    self: '防御：降低受到的伤害',
+                    others: '束缚：对方无法行动一回合'
+                }
+            },
+            {
+                id: 15,
+                name: '夜行衣',
+                grade: 'S',
+                startPrice: 5000,
+                currentBid: 5000,
+                bidder: '',
+                description: '潜行装备',
+                effects: {
+                    self: '隐身：免疫下次攻击',
+                    others: '偷袭：无视防御造成伤害'
+                }
+            },
+            {
+                id: 16,
+                name: '千里马',
+                grade: 'SS',
+                startPrice: 10000,
+                currentBid: 10000,
+                bidder: '',
+                description: '神驹宝马',
+                effects: {
+                    self: '逃跑：可选择退出战斗',
+                    others: '冲撞：-2.5生命值'
+                }
+            },
+            {
+                id: 17,
+                name: '龙袍',
+                grade: 'SSS',
+                startPrice: 30000,
+                currentBid: 30000,
+                bidder: '',
+                description: '皇帝的衣物',
+                effects: {
+                    self: '威严：获得皇权威慑',
+                    others: '僭越：对方被处极刑'
+                }
+            },
+            {
+                id: 18,
+                name: '玉玺',
+                grade: 'SSS',
+                startPrice: 30000,
+                currentBid: 30000,
+                bidder: '',
+                description: '传国玉玺',
+                effects: {
+                    self: '正统：直接获胜',
+                    others: '抢夺：强制交出所有道具'
+                }
+            }
+        ];
+
+        // 页面加载时初始化
+        window.onload = function() {
+            loadCharacterDataFromPreviousPage();
+            generateAuctionItems();
+            updateCharacterDisplay();
+            updateInventoryDisplay();
+        };
+
+        // 从上一幕加载角色数据
+        function loadCharacterDataFromPreviousPage() {
+            try {
+                // 尝试从localStorage读取
+                const savedData = localStorage.getItem('palaceGameCharacters');
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    for (const [charName, charData] of Object.entries(parsedData)) {
+                        if (gameState.characters[charName]) {
+                            gameState.characters[charName].hp = charData.hp || gameState.characters[charName].hp;
+                            gameState.characters[charName].favor = charData.favor || gameState.characters[charName].favor;
+                        }
+                    }
+                }
+
+                // 尝试从URL参数读取（备用方案）
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('susu_hp')) {
+                    gameState.characters.susu.hp = parseFloat(urlParams.get('susu_hp')) || gameState.characters.susu.hp;
+                    gameState.characters.haiyan.hp = parseFloat(urlParams.get('haiyan_hp')) || gameState.characters.haiyan.hp;
+                    gameState.characters.dazhuang.hp = parseFloat(urlParams.get('dazhuang_hp')) || gameState.characters.dazhuang.hp;
+                }
+
+                if (urlParams.has('susu_favor')) {
+                    gameState.characters.susu.favor = parseInt(urlParams.get('susu_favor')) || gameState.characters.susu.favor;
+                    gameState.characters.haiyan.favor = parseInt(urlParams.get('haiyan_favor')) || gameState.characters.haiyan.favor;
+                    gameState.characters.dazhuang.favor = parseInt(urlParams.get('dazhuang_favor')) || gameState.characters.dazhuang.favor;
+                }
+
+                // 应用第五幕开始的奖励：好感度+10，转换为银两
+                for (const charName of ['susu', 'haiyan', 'dazhuang']) {
+                    gameState.characters[charName].favor += 10;
+                    gameState.characters[charName].silver = gameState.characters[charName].favor * 1000;
+                }
+
+                // 更新继承状态显示
+                const inheritanceDetails = document.getElementById('inheritanceDetails');
+                inheritanceDetails.innerHTML = `
+                    <p>✅ 数据加载成功！</p>
+                    <p>📈 第五幕奖励：所有角色好感度+10</p>
+                    <p>💰 好感度已转换为银两 (1好感 = 1000两)</p>
+                `;
+
+            } catch (error) {
+                console.error('加载角色数据失败:', error);
+                showToast('加载角色数据失败，使用默认值');
+                
+                const inheritanceDetails = document.getElementById('inheritanceDetails');
+                inheritanceDetails.innerHTML = `
+                    <p>⚠️ 数据加载失败，使用默认值</p>
+                    <p>📈 第五幕奖励：所有角色好感度+10</p>
+                `;
+            }
+        }
+
+        // 生成拍卖物品
+        function generateAuctionItems() {
+            const container = document.getElementById('auctionItems');
+            container.innerHTML = '';
+
+            auctionItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'auction-item';
+                itemElement.innerHTML = `
+                    <div class="item-header">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-grade grade-${item.grade}">${item.grade}级</span>
+                    </div>
+                    <div class="item-price">起拍价: ${item.startPrice.toLocaleString()} 两</div>
+                    <div class="item-effects">
+                        <strong>对自己:</strong> ${item.effects.self}<br>
+                        <strong>对他人:</strong> ${item.effects.others}
+                    </div>
+                    <div class="current-bid" id="bid-${item.id}">
+                        当前出价: ${item.currentBid.toLocaleString()} 两 
+                        ${item.bidder ? `(出价人: ${getCharacterDisplayName(item.bidder)})` : '(无人出价)'}
+                    </div>
+                    <div class="bid-controls">
+                        <select id="bidder-${item.id}">
+                            <option value="susu">秀女素素</option>
+                            <option value="haiyan">民女海燕</option>
+                            <option value="dazhuang">高女大壮</option>
+                        </select>
+                        <input type="number" id="bid-amount-${item.id}" class="bid-input" 
+                               placeholder="出价" min="${item.currentBid + 500}">
+                        <button class="bid-btn" onclick="placeBid(${item.id})">出价</button>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+
+            // 添加拍卖结束按钮
+            const endAuctionBtn = document.createElement('div');
+            endAuctionBtn.innerHTML = `
+                <button class="action-btn" onclick="endAuction()" style="width: 100%; margin-top: 1rem; background: var(--warning);">
+                    🔨 结束拍卖会
+                </button>
+            `;
+            container.appendChild(endAuctionBtn);
+        }
+
+        // 出价功能
+        function placeBid(itemId) {
+            const item = auctionItems.find(i => i.id === itemId);
+            const bidder = document.getElementById(`bidder-${itemId}`).value;
+            const bidAmount = parseInt(document.getElementById(`bid-amount-${itemId}`).value);
+
+            if (!bidAmount || bidAmount <= item.currentBid) {
+                showToast(`出价必须高于当前价格 ${item.currentBid.toLocaleString()} 两！`);
+                return;
+            }
+
+            if (gameState.characters[bidder].silver < bidAmount) {
+                showToast(`${getCharacterDisplayName(bidder)} 银两不足！`);
+                return;
+            }
+
+            // 更新出价
+            item.currentBid = bidAmount;
+            item.bidder = bidder;
+
+            // 更新显示
+            document.getElementById(`bid-${itemId}`).innerHTML = `
+                当前出价: ${item.currentBid.toLocaleString()} 两 
+                (出价人: ${getCharacterDisplayName(item.bidder)})
+            `;
+
+            // 更新最低出价
+            document.getElementById(`bid-amount-${itemId}`).min = item.currentBid + 500;
+            document.getElementById(`bid-amount-${itemId}`).placeholder = `最少 ${(item.currentBid + 500).toLocaleString()} 两`;
+
+            showToast(`${getCharacterDisplayName(bidder)} 出价 ${bidAmount.toLocaleString()} 两获得 ${item.name}！`);
+        }
+
+        // 结束拍卖
+        function endAuction() {
+            let totalCost = 0;
+            let auctionResults = [];
+
+            auctionItems.forEach(item => {
+                if (item.bidder) {
+                    // 扣除银两
+                    gameState.characters[item.bidder].silver -= item.currentBid;
+                    // 添加道具
+                    gameState.characters[item.bidder].items.push(item.name);
+                    auctionResults.push(`${getCharacterDisplayName(item.bidder)} 获得 ${item.name} (${item.currentBid.toLocaleString()} 两)`);
+                    totalCost += item.currentBid;
+                }
+            });
+
+            // 更新显示
+            updateCharacterDisplay();
+            updateInventoryDisplay();
+
+            // 隐藏拍卖区域
+            document.querySelector('.auction-section').style.display = 'none';
+
+            showToast(`拍卖会结束！总成交额: ${totalCost.toLocaleString()} 两`);
+
+            // 显示拍卖结果
+            if (auctionResults.length > 0) {
+                alert('拍卖结果:\n' + auctionResults.join('\n'));
+            }
+        }
+
+        // 更新角色显示
+        function updateCharacterDisplay() {
+            for (const [charName, charData] of Object.entries(gameState.characters)) {
+                document.getElementById(`${charName}-hp`).textContent = charData.hp;
+                document.getElementById(`${charName}-favor`).textContent = charData.favor;
+                document.getElementById(`${charName}-silver`).textContent = charData.silver.toLocaleString();
+                
+                const itemsText = charData.items.length > 0 ? charData.items.join(', ') : '无';
+                document.getElementById(`${charName}-items`).textContent = itemsText;
+            }
+        }
+
+        // 更新道具库存显示
+        function updateInventoryDisplay() {
+            const container = document.getElementById('inventoryGrid');
+            container.innerHTML = '';
+
+            let hasItems = false;
+
+            for (const [charName, charData] of Object.entries(gameState.characters)) {
+                if (charData.items.length > 0) {
+                    hasItems = true;
+                    charData.items.forEach(itemName => {
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'inventory-item';
+                        itemElement.innerHTML = `
+                            <strong>${getCharacterDisplayName(charName)}</strong>
+                            <div>${itemName}</div>
+                        `;
+                        container.appendChild(itemElement);
+                    });
+                }
+            }
+
+            if (!hasItems) {
+                container.innerHTML = '<div class="inventory-item"><p>暂无道具</p></div>';
+            }
+        }
+
+        // 获取角色显示名称
+        function getCharacterDisplayName(charName) {
+            const names = {
+                'susu': '秀女素素',
+                'haiyan': '民女海燕',
+                'dazhuang': '高女大壮'
+            };
+            return names[charName] || charName;
+        }
+
+        // 使用巴掌
+        function useSlap() {
+            const attacker = prompt('谁使用巴掌？(susu/haiyan/dazhuang)');
+            const target = prompt('攻击谁？(susu/haiyan/dazhuang/self)');
+            
+            if (attacker && (target === 'self' || gameState.characters[target])) {
+                const targetChar = target === 'self' ? attacker : target;
+                gameState.characters[targetChar].hp -= 0.5;
+                updateCharacterDisplay();
+                showToast(`${getCharacterDisplayName(attacker)} 对 ${target === 'self' ? '自己' : getCharacterDisplayName(target)} 使用巴掌，造成0.5伤害！`);
+            }
+        }
+
+        // 使用道具
+        function useItem() {
+            const user = prompt('谁使用道具？(susu/haiyan/dazhuang)');
+            if (!user || !gameState.characters[user]) return;
+
+            const userItems = gameState.characters[user].items;
+            if (userItems.length === 0) {
+                showToast(`${getCharacterDisplayName(user)} 没有道具！`);
+                return;
+            }
+
+            const itemName = prompt(`选择道具：\n${userItems.map((item, index) => `${index + 1}. ${item}`).join('\n')}`);
+            if (userItems.includes(itemName)) {
+                const target = prompt('对谁使用？(susu/haiyan/dazhuang/self)');
+                showToast(`${getCharacterDisplayName(user)} 对 ${target === 'self' ? '自己' : getCharacterDisplayName(target)} 使用了 ${itemName}！请手动调整效果。`);
+            }
+        }
+
+        // 检查获胜者
+        function checkWinner() {
+            const alive = Object.entries(gameState.characters).filter(([name, data]) => data.hp > 0);
+            
+            if (alive.length === 1) {
+                const winner = alive[0];
+                showToast(`🎉 游戏结束！${getCharacterDisplayName(winner[0])} 获胜，成为新皇后！`);
+                document.getElementById('nextBtn').style.display = 'inline-block';
+                
+                // 保存获胜者信息
+                localStorage.setItem('gameWinner', winner[0]);
+            } else if (alive.length === 0) {
+                showToast('😱 所有人都死了！游戏平局！');
+            } else {
+                showToast(`目前存活: ${alive.map(([name, data]) => `${getCharacterDisplayName(name)}(${data.hp}HP)`).join(', ')}`);
+            }
+        }
+
+        // 手动调整功能
+        function adjustSilver() {
+            const character = document.getElementById('silverCharacter').value;
+            const amount = parseInt(document.getElementById('silverAmount').value);
+            
+            if (amount && gameState.characters[character]) {
+                gameState.characters[character].silver += amount;
+                updateCharacterDisplay();
+                showToast(`${getCharacterDisplayName(character)} 银两 ${amount > 0 ? '+' : ''}${amount.toLocaleString()} 两`);
+                document.getElementById('silverAmount').value = '';
+            }
+        }
+
+        function adjustHP() {
+            const character = document.getElementById('hpCharacter').value;
+            const amount = parseFloat(document.getElementById('hpAmount').value);
+            
+            if (amount && gameState.characters[character]) {
+                gameState.characters[character].hp += amount;
+                updateCharacterDisplay();
+                showToast(`${getCharacterDisplayName(character)} 生命值 ${amount > 0 ? '+' : ''}${amount}`);
+                document.getElementById('hpAmount').value = '';
+                
+                // 检查是否有人死亡
+                if (gameState.characters[character].hp <= 0) {
+                    showToast(`💀 ${getCharacterDisplayName(character)} 死亡！`);
+                }
+            }
+        }
+
+        function addItem() {
+            const character = document.getElementById('itemCharacter').value;
+            const itemName = document.getElementById('itemName').value.trim();
+            
+            if (itemName && gameState.characters[character]) {
+                gameState.characters[character].items.push(itemName);
+                updateCharacterDisplay();
+                updateInventoryDisplay();
+                showToast(`为 ${getCharacterDisplayName(character)} 添加道具: ${itemName}`);
+                document.getElementById('itemName').value = '';
+            }
+        }
+
+        function removeItem() {
+            const character = document.getElementById('itemCharacter').value;
+            const itemName = document.getElementById('itemName').value.trim();
+            
+            if (itemName && gameState.characters[character]) {
+                const items = gameState.characters[character].items;
+                const index = items.indexOf(itemName);
+                if (index > -1) {
+                    items.splice(index, 1);
+                    updateCharacterDisplay();
+                    updateInventoryDisplay();
+                    showToast(`从 ${getCharacterDisplayName(character)} 移除道具: ${itemName}`);
+                } else {
+                    showToast(`${getCharacterDisplayName(character)} 没有道具: ${itemName}`);
+                }
+                document.getElementById('itemName').value = '';
+            }
+        }
+
+        // 导航功能
+        function goToPreviousScene() {
+            saveGameState();
+            window.location.href = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fourth-scene.html/';
+        }
+
+        function goToNextScene() {
+            saveGameState();
+            // 这里应该跳转到第六幕
+            alert('准备跳转到第六幕：新后登基');
+            // window.location.href = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/sixth-scene.html/';
+        }
+
+        // 保存游戏状态
+        function saveGameState() {
+            try {
+                localStorage.setItem('palaceGameCharacters', JSON.stringify(gameState.characters));
+                localStorage.setItem('palaceGameAuction', JSON.stringify(gameState.auction));
+            } catch (error) {
+                console.error('保存游戏状态失败:', error);
+            }
+        }
+
+        // 显示提示消息
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 页面卸载时保存状态
+        window.onbeforeunload = function() {
+            saveGameState();
+        };
+    </script>
+</body>
+</html>
++++++++ REPLACE
 
         <!-- 剧情介绍 -->
         <section class="scene-intro">
