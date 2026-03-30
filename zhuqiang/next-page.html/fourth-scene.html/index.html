@@ -268,6 +268,92 @@
             text-align: center;
         }
         
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--accent), #b8860b);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+        
+        .modal-footer {
+            padding: 1rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .close {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .close:hover {
+            background: #1a252f;
+        }
+        
+        .emperor-quote {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--primary);
+        }
+        
+        .explanation-text {
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+            color: var(--success);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 margin: 1rem;
@@ -372,36 +458,25 @@
             </div>
         </section>
 
-        <!-- 提问系统 -->
+        <!-- 角色提示系统 -->
         <section class="question-section">
-            <h3 style="color: var(--accent); margin-bottom: 1rem;">🤔 向主持人提问</h3>
-            <p><strong>规则：</strong>每人有三次向主持人提问的机会，主持人只能回答"是"或"不是"。注意：只能提问自己相关的问题，来证明清白。</p>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">💡 给每个角色的提示</h3>
+            <p><strong>说明：</strong>皇帝对每人都说"你是凶手"，选择角色查看他们的解释提示，帮助理解线索背后的真相。</p>
             
             <div class="question-form">
-                <select id="questionCharacter" class="question-input">
-                    <option value="">选择提问角色</option>
+                <select id="characterHint" class="question-input" onchange="showCharacterHint()">
+                    <option value="">选择角色查看提示</option>
                     <option value="susu">秀女素素</option>
                     <option value="haiyan">民女海燕</option>
                     <option value="dazhuang">高女大壮</option>
                 </select>
-                <input type="text" id="questionText" class="question-input" placeholder="输入你的问题（只能问自己相关的问题）" maxlength="100">
-                <button class="question-btn" onclick="askQuestion()">提交问题</button>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
-                <div>剩余提问次数：</div>
-                <div>
-                    <span>素素: <span id="susu-questions">3</span></span> | 
-                    <span>海燕: <span id="haiyan-questions">3</span></span> | 
-                    <span>大壮: <span id="dazhuang-questions">3</span></span>
-                </div>
             </div>
         </section>
 
-        <!-- 提问记录 -->
-        <section class="questions-log" id="questionsLog" style="display: none;">
-            <h4 style="color: var(--secondary);">📝 提问记录</h4>
-            <div id="questionsHistory"></div>
+        <!-- 角色提示记录 -->
+        <section class="questions-log" id="hintsLog" style="display: none;">
+            <h4 style="color: var(--secondary);">📝 已查看的角色提示</h4>
+            <div id="hintsHistory"></div>
         </section>
 
         <!-- 投票系统 -->
@@ -437,7 +512,7 @@
 
             <div style="background: rgba(39, 174, 96, 0.1); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
                 <h4 style="color: var(--success);">📈 好感度奖励</h4>
-                <p>经过此事，你们对皇宫的黑暗又多了几分了解。<strong style="color: var(--success);">所有角色好感度+40</strong></p>
+                <p>经过此事，你们对皇宫的黑暗又多了几分了解。<strong style="color: var(--success);">被投票者获得好感度+40</strong></p>
                 <div id="finalStats"></div>
             </div>
         </section>
@@ -453,6 +528,21 @@
         </footer>
     </div>
 
+    <!-- 角色提示弹窗 -->
+    <div id="characterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">角色提示</h3>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- 动态内容 -->
+            </div>
+            <div class="modal-footer">
+                <button class="close" onclick="closeModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast 消息 -->
     <div class="toast" id="toast"></div>
 
@@ -464,73 +554,42 @@
                     hp: 3, 
                     favor: 75,
                     contestScore: 0,
-                    name: '秀女素素',
-                    questionsLeft: 3
+                    name: '秀女素素'
                 },
                 haiyan: { 
                     hp: 5, 
                     favor: 50,
                     contestScore: 0,
-                    name: '民女海燕',
-                    questionsLeft: 3
+                    name: '民女海燕'
                 },
                 dazhuang: { 
                     hp: 9, 
                     favor: 5,
                     contestScore: 0,
-                    name: '高女大壮',
-                    questionsLeft: 3
+                    name: '高女大壮'
                 }
             },
-            questions: [],
+            viewedHints: [],
             votes: [],
             gameFinished: false
         };
 
-        // 智能问答系统 - 基于关键词的自动回答
-        const questionDatabase = {
+        // 角色提示数据库
+        const characterHints = {
             susu: {
-                keywords: ['药', '夜行衣', '账本', '户部', '父亲', '体弱', '病'],
-                answers: {
-                    '药': '是，素素确实经常喝药',
-                    '夜行衣': '是，素素穿着夜行衣',
-                    '账本': '是，素素怀里有账本', 
-                    '户部': '是，素素父亲是户部尚书',
-                    '父亲': '是，与父亲有关',
-                    '体弱': '是，素素体弱多病',
-                    '病': '是，素素确实有病',
-                    '杀': '不是，素素没有杀人',
-                    '凶手': '不是，素素不是凶手',
-                    '毒': '不是，素素没有下毒'
-                }
+                title: '秀女素素的提示',
+                emperorQuote: '皇帝悄悄的和你说了一句话："你是凶手！"',
+                explanation: '素素体弱多病，所以经常喝药，因此身上有药味儿，皇后想偷偷与素素打探国库情况，因此，身为户部尚书之女的素素偷偷拿来父亲的账本，穿着夜行衣面见皇后。'
             },
             haiyan: {
-                keywords: ['拨浪鼓', '长剑', '脚印', '小皇子', '练功', '武功'],
-                answers: {
-                    '拨浪鼓': '是，海燕身上有拨浪鼓',
-                    '长剑': '是，海燕有一柄长剑',
-                    '脚印': '是，墙上有海燕的脚印',
-                    '小皇子': '是，海燕教小皇子练功',
-                    '练功': '是，海燕会练功',
-                    '武功': '是，海燕有武功',
-                    '杀': '不是，海燕没有杀人',
-                    '凶手': '不是，海燕不是凶手',
-                    '毒': '不是，海燕没有下毒'
-                }
+                title: '民女海燕的提示',
+                emperorQuote: '皇帝悄悄的和你说了一句话："你是凶手！"',
+                explanation: '海燕经常教小皇子练功，但皇后不希望小皇子和其他妃子走太近，因此她只得偷偷与小皇子见面，时常会带些宫外的小物件。'
             },
             dazhuang: {
-                keywords: ['瓷碗', '刀', '腥味', '厨艺', '鸡汤', '菜刀'],
-                answers: {
-                    '瓷碗': '是，大壮身上有瓷碗',
-                    '刀': '是，大壮有刀',
-                    '腥味': '是，大壮身上有腥味',
-                    '厨艺': '是，大壮厨艺精湛',
-                    '鸡汤': '是，大壮给皇后炖鸡汤',
-                    '菜刀': '是，大壮用菜刀杀鸡',
-                    '杀': '不是，大壮没有杀人（只是杀鸡）',
-                    '凶手': '不是，大壮不是凶手',
-                    '毒': '不是，大壮没有下毒'
-                }
+                title: '高女大壮的提示',
+                emperorQuote: '皇帝悄悄的和你说了一句话："你是凶手！"',
+                explanation: '大壮厨艺精湛，今天给皇后炖鸡汤，不放心别人弄，自己非要亲自拿一把菜刀杀鸡，瓷碗经常用来熬药，把鸡汤盛入其中会使其有安神之功效。'
             }
         };
 
@@ -632,103 +691,70 @@
                 document.getElementById(`${character}-hp`).textContent = gameState.characters[character].hp;
                 document.getElementById(`${character}-favor`).textContent = gameState.characters[character].favor;
                 document.getElementById(`${character}-score`).textContent = gameState.characters[character].contestScore;
-                document.getElementById(`${character}-questions`).textContent = gameState.characters[character].questionsLeft;
             });
         }
 
-        // 智能问答函数
-        function getAnswer(character, question) {
-            const db = questionDatabase[character];
-            if (!db) return '不是';
-            
-            question = question.toLowerCase();
-            
-            // 检查具体关键词匹配
-            for (const [keyword, answer] of Object.entries(db.answers)) {
-                if (question.includes(keyword)) {
-                    return answer;
-                }
-            }
-            
-            // 默认回答
-            return '不是';
-        }
-
-        // 提问功能
-        function askQuestion() {
-            const character = document.getElementById('questionCharacter').value;
-            const questionText = document.getElementById('questionText').value.trim();
+        // 显示角色提示功能
+        function showCharacterHint() {
+            const character = document.getElementById('characterHint').value;
             
             if (!character) {
-                showToast('请选择提问角色', 2000);
-                return;
-            }
-            
-            if (!questionText) {
-                showToast('请输入问题内容', 2000);
-                return;
-            }
-            
-            if (gameState.characters[character].questionsLeft <= 0) {
-                showToast('该角色提问次数已用完', 2000);
                 return;
             }
             
             if (gameState.gameFinished) {
-                showToast('游戏已结束，无法继续提问', 2000);
+                showToast('游戏已结束', 2000);
                 return;
             }
             
-            // 检查是否问的是自己相关的问题（简单关键词检查）
-            const characterKeywords = questionDatabase[character].keywords;
-            const isRelevant = characterKeywords.some(keyword => questionText.includes(keyword)) || 
-                               questionText.includes('我') || questionText.includes('自己');
-            
-            if (!isRelevant) {
-                showToast('只能提问自己相关的问题来证明清白', 3000);
+            const hint = characterHints[character];
+            if (!hint) {
+                showToast('角色数据错误', 2000);
                 return;
             }
             
-            // 获取智能回答
-            const answer = getAnswer(character, questionText);
+            // 显示弹窗
+            document.getElementById('modalTitle').textContent = hint.title;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="emperor-quote">
+                    <strong>👑 ${hint.emperorQuote}</strong>
+                </div>
+                <div class="explanation-text">
+                    <strong>💡 你的解释提示如下：</strong><br>
+                    ${hint.explanation}
+                </div>
+            `;
             
-            // 减少提问次数
-            gameState.characters[character].questionsLeft--;
+            document.getElementById('characterModal').style.display = 'block';
             
-            // 记录问题
-            const questionEntry = {
-                character: character,
-                question: questionText,
-                answer: answer,
-                timestamp: new Date().toLocaleTimeString()
-            };
-            gameState.questions.push(questionEntry);
+            // 记录已查看的提示
+            if (!gameState.viewedHints.includes(character)) {
+                gameState.viewedHints.push(character);
+                displayHintHistory();
+            }
             
-            // 显示问题记录
-            displayQuestionHistory();
-            
-            // 更新界面
-            updateCharacterStats();
-            
-            // 清空输入
-            document.getElementById('questionText').value = '';
-            
-            showToast(`${gameState.characters[character].name}提问完成`, 2000);
+            // 重置选择框
+            document.getElementById('characterHint').value = '';
         }
 
-        // 显示提问历史
-        function displayQuestionHistory() {
-            const logSection = document.getElementById('questionsLog');
-            const historyDiv = document.getElementById('questionsHistory');
+        // 关闭弹窗
+        function closeModal() {
+            document.getElementById('characterModal').style.display = 'none';
+        }
+
+        // 显示提示查看历史
+        function displayHintHistory() {
+            const logSection = document.getElementById('hintsLog');
+            const historyDiv = document.getElementById('hintsHistory');
             
-            if (gameState.questions.length > 0) {
+            if (gameState.viewedHints.length > 0) {
                 logSection.style.display = 'block';
                 
-                historyDiv.innerHTML = gameState.questions.map(q => `
+                historyDiv.innerHTML = gameState.viewedHints.map(character => `
                     <div class="question-entry">
-                        <strong>${gameState.characters[q.character].name}</strong> (${q.timestamp})：${q.question}
-                        <div style="color: var(--primary); font-weight: bold; margin-top: 0.3rem;">
-                            主持人回答：${q.answer}
+                        <strong>已查看：${gameState.characters[character].name}的提示</strong>
+                        <div style="color: var(--success); margin-top: 0.3rem;">
+                            ${characterHints[character].explanation}
                         </div>
                     </div>
                 `).join('');
@@ -797,30 +823,32 @@
             
             const victim = gameState.characters[mostVoted];
             
+            // 只有被投票的角色获得好感度+40
+            gameState.characters[mostVoted].favor += 40;
+            
             // 显示惩罚结果
             const punishmentDiv = document.getElementById('punishmentResult');
             punishmentDiv.innerHTML = `
                 <h4 style="color: var(--danger);">⚖️ 审判结果</h4>
                 <p><strong style="color: var(--danger);">${victim.name}</strong>被投票选为凶手，被皇帝赐死，以平息宰相之怒。</p>
-                <p style="color: var(--success);">好感度+40</p>
-                <p>第二年，一个长相神似${victim.name}的女子入宫，直接被封为${getFinalTitle(victim.favor + 40)}。</p>
+                <p style="color: var(--success);">${victim.name} 作为被投票者获得好感度+40</p>
+                <p>第二年，一个长相神似${victim.name}的女子入宫，直接被封为<strong style="color: var(--accent);">${getFinalTitle(victim.favor)}</strong>。</p>
             `;
-            
-            // 应用好感度奖励
-            Object.keys(gameState.characters).forEach(char => {
-                gameState.characters[char].favor += 40;
-            });
             
             // 显示最终统计
             const finalStatsDiv = document.getElementById('finalStats');
             finalStatsDiv.innerHTML = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                    ${Object.entries(gameState.characters).map(([key, char]) => `
-                        <div style="background: white; padding: 1rem; border-radius: 5px; text-align: center;">
-                            <strong>${char.name}</strong><br>
-                            HP: ${char.hp} | 好感: ${char.favor} | 积分: ${char.contestScore}
-                        </div>
-                    `).join('')}
+                    ${Object.entries(gameState.characters).map(([key, char]) => {
+                        const isVictim = key === mostVoted;
+                        return `
+                            <div style="background: white; padding: 1rem; border-radius: 5px; text-align: center; ${isVictim ? 'border: 2px solid var(--success); background: rgba(39, 174, 96, 0.1);' : 'border: 2px solid #ddd;'}">
+                                <strong>${char.name}${isVictim ? ' (被投票者)' : ''}</strong><br>
+                                HP: ${char.hp} | 好感: ${char.favor} | 积分: ${char.contestScore}<br>
+                                <small style="color: ${isVictim ? 'var(--success)' : 'var(--secondary)'};">${isVictim ? '获得好感度+40' : '本轮无奖励'}</small>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             `;
             
@@ -900,6 +928,14 @@
             loadCharacterDataFromPreviousPage();
             updateCharacterStats();
             showToast('第四幕：暗流涌动 已加载完成');
+            
+            // 点击弹窗外部关闭弹窗
+            const modal = document.getElementById('characterModal');
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
         });
     </script>
 </body>
