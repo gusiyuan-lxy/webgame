@@ -208,9 +208,9 @@
         }
         
         .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
             margin: 1rem 0;
         }
         
@@ -220,6 +220,12 @@
             border-radius: 5px;
             border: 1px solid #ddd;
             text-align: center;
+        }
+        
+        .character-inventory {
+            background: rgba(255, 255, 255, 0.95);
+            border-left: 4px solid var(--primary);
+            text-align: left !important;
         }
         
         .battle-section {
@@ -928,22 +934,41 @@
             let hasItems = false;
 
             for (const [charName, charData] of Object.entries(gameState.characters)) {
+                const characterInventory = document.createElement('div');
+                characterInventory.className = 'inventory-item character-inventory';
+                characterInventory.style.textAlign = 'left';
+                characterInventory.style.minWidth = '100%';
+                characterInventory.style.marginBottom = '1rem';
+
                 if (charData.items.length > 0) {
                     hasItems = true;
-                    charData.items.forEach(itemName => {
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'inventory-item';
-                        itemElement.innerHTML = `
-                            <strong>${getCharacterDisplayName(charName)}</strong>
-                            <div>${itemName}</div>
-                        `;
-                        container.appendChild(itemElement);
-                    });
+                    const itemsList = charData.items.join(' ');
+                    characterInventory.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <strong style="color: var(--primary); min-width: 80px;">${getCharacterDisplayName(charName)}：</strong>
+                            <span style="color: var(--secondary);">${itemsList}</span>
+                        </div>
+                    `;
+                } else {
+                    characterInventory.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <strong style="color: var(--primary); min-width: 80px;">${getCharacterDisplayName(charName)}：</strong>
+                            <span style="color: #999; font-style: italic;">暂无道具</span>
+                        </div>
+                    `;
                 }
+                
+                container.appendChild(characterInventory);
             }
 
             if (!hasItems) {
-                container.innerHTML = '<div class="inventory-item"><p>暂无道具</p></div>';
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'inventory-item';
+                emptyMessage.style.textAlign = 'center';
+                emptyMessage.style.color = '#999';
+                emptyMessage.style.fontStyle = 'italic';
+                emptyMessage.innerHTML = '<p>所有角色都暂无道具</p>';
+                container.appendChild(emptyMessage);
             }
         }
 
