@@ -1715,13 +1715,6 @@ function updateCharacterStats() {
                 from: 'act2'
             });
             
-            // 更简单的URL替换方法
-            const currentUrl = window.location.href;
-            const currentSearch = window.location.search; // 获取当前的查询参数
-            
-            // 移除当前的查询参数，然后替换文件名
-            let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
-            
             // 使用固定的第三幕链接
             const targetUrl = `https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/third-scene.html/?${urlParams.toString()}`;
             
