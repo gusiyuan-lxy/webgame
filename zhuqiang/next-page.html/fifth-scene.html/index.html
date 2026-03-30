@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱墙玉碎：X染深宫 - 第五幕</title>
+    <style>
+        :root {
+            --primary: #8b0000;
+            --secondary: #2c3e50;
+            --accent: #d4af37;
+            --danger: #c0392b;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --dark: #1a1a1a;
+            --mystery: #483d8b;
+            --silver: #c0c0c0;
+        }
+        
+        body {
+            font-family: 'SimSun', '宋体', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 50%, #8b0000 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scene-intro {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(26, 26, 26, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .character-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .character-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .silver-amount {
+            background: linear-gradient(135deg, var(--accent), #b8860b);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+        
+        .auction-section {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--accent);
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .auction-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .auction-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .item-grade {
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .grade-B { background: #95a5a6; color: white; }
+        .grade-A { background: #3498db; color: white; }
+        .grade-S { background: #e74c3c; color: white; }
+        .grade-SS { background: #9b59b6; color: white; }
+        .grade-SSS { background: #f39c12; color: white; }
+        .grade-unknown { background: #34495e; color: white; }
+        
+        .item-price {
+            color: var(--accent);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .item-effects {
+            font-size: 0.9rem;
+            color: var(--dark);
+            margin: 0.5rem 0;
+        }
+        
+        .bid-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .bid-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .bid-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bid-btn:hover {
+            background: #b8860b;
+        }
+        
+        .bid-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .current-bid {
+            background: rgba(39, 174, 96, 0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            border-left: 3px solid var(--success);
+        }
+        
+        .inventory-section {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid #3498db;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .inventory-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        .battle-section {
+            background: rgba(192, 57, 43, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid var(--danger);
+        }
+        
+        .action-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .action-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #a93226;
+        }
+        
+        .manual-controls {
+            background: rgba(52, 73, 94, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid var(--secondary);
+        }
+        
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .control-group {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .nav-buttons {
+            text-align: center;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .nav-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #1a252f;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s;
+            max-width: 400px;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .character-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .item-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>朱墙玉碎：X染深宫</h1>
+            <p style="color: var(--danger); font-size: 1.5rem; font-weight: bold;">第五幕 X染深宫</p>
+        </header>
+
+        <!-- 数据继承状态显示 -->
+        <div id="dataInheritanceStatus" style="background: rgba(52, 152, 219, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 3px solid #3498db;">
+            <strong>📊 数据继承状态：</strong>
+            <div id="inheritanceDetails" style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <p>⏳ 正在加载角色数据...</p>
+            </div>
+        </div>
+
+        <!-- 剧情介绍 -->
+        <section class="scene-intro">
+            <h2 style="color: var(--primary); margin-bottom: 1rem;">👑 权力的游戏</h2>
+            <p><strong style="color: var(--danger);">皇后驾崩的一年后</strong>，因宰相投靠南疆，战事不断，百姓流离失所，朝臣人心惶惶。</p>
+            <p>皇帝却安享于没有宰相牵制的一言堂，你们三人也成了最受宠的妃子，<strong style="color: var(--success);">好感度+10</strong>。</p>
+            <p>但你们不满足于此，想获得更大的权力。随着开始追名逐利，<strong style="color: var(--warning);">三姐妹的感情也荡然无存</strong>。</p>
+            <p><strong style="color: var(--primary);">你们都有一个共同的目的，那就是成为新后！</strong></p>
+            <p>接下来请开始招兵买马然后解决掉那两个碍眼的家伙。</p>
+            
+            <div style="background: rgba(212, 175, 55, 0.2); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid var(--accent);">
+                <strong>💰 重要：</strong>本幕开始，锁定好感度，好感度兑换成皇帝给你们的银两，<strong>1好感等于1千两</strong>。
+            </div>
+        </section>
+
+        <!-- 角色状态显示 -->
+        <div class="character-stats">
+            <div class="character-card" id="susu">
+                <div class="character-name">秀女素素</div>
+                <div>生命值: <span id="susu-hp">3</span></div>
+                <div>好感度: <span id="susu-favor">75</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="susu-silver">75000</span> 两</div>
+                <div>道具: <span id="susu-items">无</span></div>
+            </div>
+            <div class="character-card" id="haiyan">
+                <div class="character-name">民女海燕</div>
+                <div>生命值: <span id="haiyan-hp">5</span></div>
+                <div>好感度: <span id="haiyan-favor">50</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="haiyan-silver">50000</span> 两</div>
+                <div>道具: <span id="haiyan-items">无</span></div>
+            </div>
+            <div class="character-card" id="dazhuang">
+                <div class="character-name">高女大壮</div>
+                <div>生命值: <span id="dazhuang-hp">9</span></div>
+                <div>好感度: <span id="dazhuang-favor">5</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="dazhuang-silver">5000</span> 两</div>
+                <div>道具: <span id="dazhuang-items">无</span></div>
+            </div>
+        </div>
+
+        <!-- 拍卖会系统 -->
+        <section class="auction-section">
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">🏺 拍卖会</h3>
+            <p><strong>说明：</strong>接下来开始拍卖，这个拍卖会尤其重要，拍品可在下一环节对敌方或自己使用，效果未知。</p>
+            
+            <div class="item-grid" id="auctionItems">
+                <!-- 拍卖物品将动态生成 -->
+            </div>
+        </section>
+
+        <!-- 道具库存 -->
+        <section class="inventory-section">
+            <h3 style="color: #3498db; margin-bottom: 1rem;">🎒 道具库存</h3>
+            <div class="inventory-grid" id="inventoryGrid">
+                <div class="inventory-item">
+                    <p>暂无道具</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 决斗系统 -->
+        <section class="battle-section">
+            <h3 style="color: var(--danger); margin-bottom: 1rem;">⚔️ 杀出重围</h3>
+            <p><strong>目标：</strong>杀死其他人，成为皇后！</p>
+            <p><strong>注意：</strong>若无道具，可使用巴掌对自己或他人造成0.5伤害。好感度最高者请安排接下来的行动顺序。</p>
+            
+            <div class="action-controls">
+                <button class="action-btn" onclick="useSlap()">👋 使用巴掌 (0.5伤害)</button>
+                <button class="action-btn" onclick="useItem()">🎁 使用道具</button>
+                <button class="action-btn" onclick="checkWinner()">👑 检查获胜者</button>
+            </div>
+        </section>
+
+        <!-- 手动控制面板 -->
+        <section class="manual-controls">
+            <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎮 手动控制面板</h3>
+            <p><strong>说明：</strong>通过手动输入来调整角色的银两和生命值变化。</p>
+            
+            <div class="control-grid">
+                <div class="control-group">
+                    <h4>银两调整</h4>
+                    <select id="silverCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="number" id="silverAmount" placeholder="金额 (正数增加，负数减少)">
+                    <button onclick="adjustSilver()" class="bid-btn">调整银两</button>
+                </div>
+                
+                <div class="control-group">
+                    <h4>生命值调整</h4>
+                    <select id="hpCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="number" id="hpAmount" placeholder="数值 (正数增加，负数减少)" step="0.5">
+                    <button onclick="adjustHP()" class="bid-btn">调整生命值</button>
+                </div>
+                
+                <div class="control-group">
+                    <h4>道具管理</h4>
+                    <select id="itemCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="text" id="itemName" placeholder="道具名称">
+                    <button onclick="addItem()" class="bid-btn">添加道具</button>
+                    <button onclick="removeItem()" class="action-btn" style="margin-top: 0.5rem;">移除道具</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 导航按钮 -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="goToPreviousScene()">← 上一幕</button>
+            <button class="nav-btn" onclick="goToNextScene()" id="nextBtn" style="display: none;">下一幕 →</button>
+        </div>
+
+        <footer style="text-align: center; margin-top: 2rem; color: var(--secondary);">
+            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
+        </footer>
+    </div>
+
+    <!-- Toast 消息 -->
+    <div class="toast" id="toast"></div>
+</body>
+</html>
