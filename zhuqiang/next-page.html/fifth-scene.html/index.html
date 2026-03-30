@@ -51,7 +51,7 @@
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .scene-intro {
             background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(26, 26, 26, 0.1) 100%);
             padding: 2rem;
@@ -346,19 +346,139 @@
             <h1>朱墙玉碎：X染深宫</h1>
             <p style="color: var(--danger); font-size: 1.5rem; font-weight: bold;">第五幕 X染深宫</p>
         </header>
-
         <!-- 数据继承状态显示 -->
         <div id="dataInheritanceStatus" style="background: rgba(52, 152, 219, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 3px solid #3498db;">
             <strong>📊 数据继承状态：</strong>
             <div id="inheritanceDetails" style="margin-top: 0.5rem; font-size: 0.9rem;">
                 <p>⏳ 正在加载角色数据...</p>
             </div>
-------- SEARCH
-    <!-- Toast 消息 -->
-    <div class="toast" id="toast"></div>
-</body>
-</html>
-=======
+        </div>
+
+        <!-- 剧情介绍 -->
+        <section class="scene-intro">
+            <h2 style="color: var(--primary); margin-bottom: 1rem;">👑 权力的游戏</h2>
+            <p><strong style="color: var(--danger);">皇后驾崩的一年后</strong>，因宰相投靠南疆，战事不断，百姓流离失所，朝臣人心惶惶。</p>
+            <p>皇帝却安享于没有宰相牵制的一言堂，你们三人也成了最受宠的妃子，<strong style="color: var(--success);">好感度+10</strong>。</p>
+            <p>但你们不满足于此，想获得更大的权力。随着开始追名逐利，<strong style="color: var(--warning);">三姐妹的感情也荡然无存</strong>。</p>
+            <p><strong style="color: var(--primary);">你们都有一个共同的目的，那就是成为新后！</strong></p>
+            <p>接下来请开始招兵买马然后解决掉那两个碍眼的家伙。</p>
+            
+            <div style="background: rgba(212, 175, 55, 0.2); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid var(--accent);">
+                <strong>💰 重要：</strong>本幕开始，锁定好感度，好感度兑换成皇帝给你们的银两，<strong>1好感等于1千两</strong>。
+            </div>
+        </section>
+
+        <!-- 角色状态显示 -->
+        <div class="character-stats">
+            <div class="character-card" id="susu">
+                <div class="character-name">秀女素素</div>
+                <div>生命值: <span id="susu-hp">3</span></div>
+                <div>好感度: <span id="susu-favor">75</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="susu-silver">75000</span> 两</div>
+                <div>道具: <span id="susu-items">无</span></div>
+            </div>
+            <div class="character-card" id="haiyan">
+                <div class="character-name">民女海燕</div>
+                <div>生命值: <span id="haiyan-hp">5</span></div>
+                <div>好感度: <span id="haiyan-favor">50</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="haiyan-silver">50000</span> 两</div>
+                <div>道具: <span id="haiyan-items">无</span></div>
+            </div>
+            <div class="character-card" id="dazhuang">
+                <div class="character-name">高女大壮</div>
+                <div>生命值: <span id="dazhuang-hp">9</span></div>
+                <div>好感度: <span id="dazhuang-favor">5</span> (已锁定)</div>
+                <div class="silver-amount">银两: <span id="dazhuang-silver">5000</span> 两</div>
+                <div>道具: <span id="dazhuang-items">无</span></div>
+            </div>
+        </div>
+
+        <!-- 拍卖会系统 -->
+        <section class="auction-section">
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">🏺 拍卖会</h3>
+            <p><strong>说明：</strong>接下来开始拍卖，这个拍卖会尤其重要，拍品可在下一环节对敌方或自己使用，效果未知。</p>
+            
+            <div class="item-grid" id="auctionItems">
+                <!-- 拍卖物品将动态生成 -->
+            </div>
+        </section>
+
+        <!-- 道具库存 -->
+        <section class="inventory-section">
+            <h3 style="color: #3498db; margin-bottom: 1rem;">🎒 道具库存</h3>
+            <div class="inventory-grid" id="inventoryGrid">
+                <div class="inventory-item">
+                    <p>暂无道具</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 决斗系统 -->
+        <section class="battle-section">
+            <h3 style="color: var(--danger); margin-bottom: 1rem;">⚔️ 杀出重围</h3>
+            <p><strong>目标：</strong>杀死其他人，成为皇后！</p>
+            <p><strong>注意：</strong>若无道具，可使用巴掌对自己或他人造成0.5伤害。好感度最高者请安排接下来的行动顺序。</p>
+            
+            <div class="action-controls">
+                <button class="action-btn" onclick="useSlap()">👋 使用巴掌 (0.5伤害)</button>
+                <button class="action-btn" onclick="useItem()">🎁 使用道具</button>
+                <button class="action-btn" onclick="checkWinner()">👑 检查获胜者</button>
+            </div>
+        </section>
+
+        <!-- 手动控制面板 -->
+        <section class="manual-controls">
+            <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎮 手动控制面板</h3>
+            <p><strong>说明：</strong>通过手动输入来调整角色的银两和生命值变化。</p>
+            
+            <div class="control-grid">
+                <div class="control-group">
+                    <h4>银两调整</h4>
+                    <select id="silverCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="number" id="silverAmount" placeholder="金额 (正数增加，负数减少)">
+                    <button onclick="adjustSilver()" class="bid-btn">调整银两</button>
+                </div>
+                
+                <div class="control-group">
+                    <h4>生命值调整</h4>
+                    <select id="hpCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="number" id="hpAmount" placeholder="数值 (正数增加，负数减少)" step="0.5">
+                    <button onclick="adjustHP()" class="bid-btn">调整生命值</button>
+                </div>
+                
+                <div class="control-group">
+                    <h4>道具管理</h4>
+                    <select id="itemCharacter">
+                        <option value="susu">秀女素素</option>
+                        <option value="haiyan">民女海燕</option>
+                        <option value="dazhuang">高女大壮</option>
+                    </select>
+                    <input type="text" id="itemName" placeholder="道具名称">
+                    <button onclick="addItem()" class="bid-btn">添加道具</button>
+                    <button onclick="removeItem()" class="action-btn" style="margin-top: 0.5rem;">移除道具</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 导航按钮 -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="goToPreviousScene()">← 上一幕</button>
+            <button class="nav-btn" onclick="goToNextScene()" id="nextBtn" style="display: none;">下一幕 →</button>
+        </div>
+
+        <footer style="text-align: center; margin-top: 2rem; color: var(--secondary);">
+            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
+        </footer>
+    </div>
+
     <!-- Toast 消息 -->
     <div class="toast" id="toast"></div>
 
@@ -377,7 +497,7 @@
             }
         };
 
-        // 拍卖道具数据
+        // 拍卖道具数据 - 根据您的最新要求更新
         const auctionItems = [
             {
                 id: 1,
@@ -386,10 +506,10 @@
                 startPrice: 1000,
                 currentBid: 1000,
                 bidder: '',
-                description: '兵部尚书的宝物',
+                description: '兵部尚书追寻一生的宝物',
                 effects: {
-                    self: '可与拥有回魂丹的角色交换道具',
-                    others: '威慑效果'
+                    self: '把宝刀给了尚书，他拿出回魂丹与你交换。获得回魂丹S级：死亡时自动复活1次',
+                    others: '把宝刀给了尚书，他帮你解决了XXX的暗卫。XXX生命值-1'
                 }
             },
             {
@@ -399,53 +519,118 @@
                 startPrice: 5000,
                 currentBid: 5000,
                 bidder: '',
-                description: '剧毒药丸，使用需谨慎',
+                description: '剧毒药丸，病毒伤害递增',
                 effects: {
-                    self: '解毒：清除所有负面状态',
-                    others: '接触类攻击：每回合-1生命值（递增）'
+                    self: '对XX使用了毒丹，XX每回合扣除1点生命值',
+                    others: '毒丹具有病毒，每回合伤害+1 (仅接触类攻击有效：刀、剑、巴掌等)'
                 }
             },
             {
                 id: 3,
+                name: '十全大补丹',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '补充生命力的神药',
+                effects: {
+                    self: '任何人使用：生命值+2',
+                    others: '任何人使用：生命值+2'
+                }
+            },
+            {
+                id: 4,
                 name: '圣火令',
                 grade: 'A',
                 startPrice: 3000,
                 currentBid: 3000,
                 bidder: '',
-                description: '武林至宝',
+                description: '武林至宝，结交武林人士',
                 effects: {
-                    self: '护体：免疫一次攻击',
-                    others: '翔龙十八掌：伤害翻倍'
+                    self: '武林人士会帮你挡下本回合所有伤害或负面效果',
+                    others: '武林人士教了你翔龙十八掌，你的巴掌(普通攻击)伤害翻倍'
                 }
             },
             {
-                id: 4,
+                id: 5,
+                name: '南疆往来的书信',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '危险的通敌证据',
+                effects: {
+                    self: '你暗中勾结南疆，除你外的其他人都被牵制，下回合其他玩家停止行动',
+                    others: '向皇上举报XX与南疆往来，皇帝信以为真，XX生命值-2'
+                }
+            },
+            {
+                id: 6,
                 name: '火铳',
                 grade: 'SS',
                 startPrice: 10000,
                 currentBid: 10000,
                 bidder: '',
-                description: '时代变了，大人！',
+                description: '大人，时代变了！',
                 effects: {
-                    self: '威慑：其他人下回合无法行动',
-                    others: '射击：瞬间-3生命值'
+                    self: '真是明智的决定，你注定成为今晚的笑料。牛！生命值-99',
+                    others: '你对XX说：大人，时代变了。随后扣动了扳机。XX生命值-3'
                 }
             },
             {
-                id: 5,
-                name: '回魂丹',
+                id: 7,
+                name: '金钟罩',
                 grade: 'A',
                 startPrice: 3000,
                 currentBid: 3000,
                 bidder: '',
-                description: '起死回生的神丹',
+                description: '神功护体，无坚不摧',
                 effects: {
-                    self: '复活：生命值恢复到满值',
-                    others: '强制喂药：对方生命值-2'
+                    self: 'XX神功护体，防御本回合所有攻击性伤害',
+                    others: 'XX神功护体，防御本回合所有攻击性伤害'
                 }
             },
             {
-                id: 6,
+                id: 8,
+                name: '狐狸',
+                grade: 'unknown',
+                startPrice: 3000,
+                currentBid: 3000,
+                bidder: '',
+                description: '神秘的小动物',
+                effects: {
+                    self: '你脚下一滑，吧唧摔了，丢了一个道具(被使用者主动选择)',
+                    others: '你脚下一滑，吧唧摔了，丢了一个道具(被使用者主动选择)'
+                }
+            },
+            {
+                id: 9,
+                name: '鼓上蚤',
+                grade: 'S',
+                startPrice: 5000,
+                currentBid: 5000,
+                bidder: '',
+                description: '飞贼技能，神偷手法',
+                effects: {
+                    self: '你脑子一抽，想劫富济贫，于是偷了自己的道具，给另外两名玩家(主动选择要给的道具)',
+                    others: '你对XX使出了飞龙探云手，获得了XX的道具(使用者指定)'
+                }
+            },
+            {
+                id: 10,
+                name: '水漫金山',
+                grade: 'SS',
+                startPrice: 10000,
+                currentBid: 10000,
+                bidder: '',
+                description: '天灾，无人能免',
+                effects: {
+                    self: '天灾面前人人平等，每人生命值-2',
+                    others: '天灾面前人人平等，每人生命值-2'
+                }
+            },
+            {
+                id: 11,
                 name: '送子观音',
                 grade: 'SSS',
                 startPrice: 30000,
@@ -453,25 +638,51 @@
                 bidder: '',
                 description: '神秘雕像，蕴含神力',
                 effects: {
-                    self: '喜脉：获得皇帝特殊宠爱',
-                    others: '私通告发：对方直接出局'
+                    self: '恭喜小主！是喜脉！皇帝认为是祥瑞！生命值+3，三回合不参与行动(无法被选定)',
+                    others: '臣妾告发X妃私通秽乱后宫！滴血验亲发现是九王爷的！XX生命值-5，三回合不能行动(可被选定)'
                 }
             },
             {
-                id: 7,
-                name: '倚天剑',
+                id: 12,
+                name: '玉玺',
+                grade: 'SS',
+                startPrice: 10000,
+                currentBid: 10000,
+                bidder: '',
+                description: '传国玉玺',
+                effects: {
+                    self: '你以为拿到玉玺就能当皇上？卸载番茄小说找太医看脑子！皇上大怒，生命值-2',
+                    others: '你嫁祸XX偷了玉玺，皇上大怒，XX生命值-3'
+                }
+            },
+            {
+                id: 13,
+                name: '皇后遗物',
                 grade: 'A',
                 startPrice: 3000,
                 currentBid: 3000,
                 bidder: '',
-                description: '海燕的专属武器',
+                description: '先皇后的衣物',
                 effects: {
-                    self: '海燕专用：剑来！威力无穷',
-                    others: '其他人使用无效果'
+                    self: 'XX穿上了品如的衣服，勾起皇上回忆，爱屋及乌赏赐宝物。生命值+2',
+                    others: 'XX穿上了品如的衣服，勾起皇上回忆，爱屋及乌赏赐宝物。生命值+2'
                 }
             },
             {
-                id: 8,
+                id: 14,
+                name: '生锈的菜刀',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
+                bidder: '',
+                description: '大壮的专属武器',
+                effects: {
+                    self: '【大壮专用】获得专属武器破伤风砍刀，砍向XX造成生命值-1，并感染破伤风每回合-1生命',
+                    others: '【其他人】用生锈菜刀砍向XX，刀把断了掉在自己脚上，生命值-1'
+                }
+            },
+            {
+                id: 15,
                 name: '账本',
                 grade: 'S',
                 startPrice: 5000,
@@ -479,138 +690,47 @@
                 bidder: '',
                 description: '素素的专属道具',
                 effects: {
-                    self: '素素专用：查账获得额外银两',
-                    others: '其他人使用：暴露贪污被罚银两'
-                }
-            },
-            {
-                id: 9,
-                name: '生锈菜刀',
-                grade: 'B',
-                startPrice: 1000,
-                currentBid: 1000,
-                bidder: '',
-                description: '大壮的专属武器',
-                effects: {
-                    self: '大壮专用：破伤风砍刀，伤害加倍',
-                    others: '其他人使用：可能割伤自己'
-                }
-            },
-            {
-                id: 10,
-                name: '美人计',
-                grade: 'A',
-                startPrice: 3000,
-                currentBid: 3000,
-                bidder: '',
-                description: '魅惑之术',
-                effects: {
-                    self: '魅惑：下回合免受伤害',
-                    others: '诱惑：对方跳过下回合'
-                }
-            },
-            {
-                id: 11,
-                name: '毒针',
-                grade: 'B',
-                startPrice: 1000,
-                currentBid: 1000,
-                bidder: '',
-                description: '暗器',
-                effects: {
-                    self: '防身：反击伤害',
-                    others: '暗杀：-1.5生命值'
-                }
-            },
-            {
-                id: 12,
-                name: '金创药',
-                grade: 'B',
-                startPrice: 1000,
-                currentBid: 1000,
-                bidder: '',
-                description: '治疗圣药',
-                effects: {
-                    self: '治疗：+2生命值',
-                    others: '强制治疗：清除对方毒素状态'
-                }
-            },
-            {
-                id: 13,
-                name: '烟花',
-                grade: 'A',
-                startPrice: 3000,
-                currentBid: 3000,
-                bidder: '',
-                description: '节庆用品',
-                effects: {
-                    self: '庆祝：增加皇帝好感',
-                    others: '爆炸：范围伤害-1生命值'
-                }
-            },
-            {
-                id: 14,
-                name: '铁链',
-                grade: 'A',
-                startPrice: 3000,
-                currentBid: 3000,
-                bidder: '',
-                description: '束缚道具',
-                effects: {
-                    self: '防御：降低受到的伤害',
-                    others: '束缚：对方无法行动一回合'
-                }
-            },
-            {
-                id: 15,
-                name: '夜行衣',
-                grade: 'S',
-                startPrice: 5000,
-                currentBid: 5000,
-                bidder: '',
-                description: '潜行装备',
-                effects: {
-                    self: '隐身：免疫下次攻击',
-                    others: '偷袭：无视防御造成伤害'
+                    self: '【素素对自己】贪污了一些银两用来壮大自身，生命值+3 【素素对他人】做假账克扣其他妃嫔月俸，除你外其他人生命值-2',
+                    others: '【其他人使用】翻阅账本找到户部尚书贪污证据，素素玩家生命值-2'
                 }
             },
             {
                 id: 16,
-                name: '千里马',
-                grade: 'SS',
-                startPrice: 10000,
-                currentBid: 10000,
+                name: '倚天剑',
+                grade: 'A',
+                startPrice: 3000,
+                currentBid: 3000,
                 bidder: '',
-                description: '神驹宝马',
+                description: '海燕的专属武器',
                 effects: {
-                    self: '逃跑：可选择退出战斗',
-                    others: '冲撞：-2.5生命值'
+                    self: '【海燕】以血祭剑，下回合攻击力+3 【其他人】试图完成自裁，生命值-2',
+                    others: '【海燕对他人】剑来！可搬山断江倒海降妖镇魔砍妃子！XX生命值-3 【其他人对他人】用宝剑砍XX，生命值-2 【其他人对海燕】剑有灵性调转刺向自己，生命值-2'
                 }
             },
             {
                 id: 17,
-                name: '龙袍',
-                grade: 'SSS',
-                startPrice: 30000,
-                currentBid: 30000,
+                name: '八卦阵',
+                grade: 'SS',
+                startPrice: 10000,
+                currentBid: 10000,
                 bidder: '',
-                description: '皇帝的衣物',
+                description: '神秘阵法，扭转乾坤',
                 effects: {
-                    self: '威严：获得皇权威慑',
-                    others: '僭越：对方被处极刑'
+                    self: '反弹本回合所有伤害，给指定玩家',
+                    others: '本回合所有玩家承受的所有伤害、增益、负面效果，由XX一人承担'
                 }
             },
             {
                 id: 18,
-                name: '玉玺',
-                grade: 'SSS',
-                startPrice: 30000,
-                currentBid: 30000,
+                name: '诗经',
+                grade: 'B',
+                startPrice: 1000,
+                currentBid: 1000,
                 bidder: '',
-                description: '传国玉玺',
+                description: '知识的力量',
                 effects: {
-                    self: '正统：直接获胜',
-                    others: '抢夺：强制交出所有道具'
+                    self: '你看了一会书，本回合过去了',
+                    others: '你约XX看书，取消XX本回合原有行动(任何，无法反弹)，你们俩沉浸在知识的海洋'
                 }
             }
         ];
@@ -986,136 +1106,5 @@
             saveGameState();
         };
     </script>
-</body>
-</html>
-+++++++ REPLACE
-
-        <!-- 剧情介绍 -->
-        <section class="scene-intro">
-            <h2 style="color: var(--primary); margin-bottom: 1rem;">👑 权力的游戏</h2>
-            <p><strong style="color: var(--danger);">皇后驾崩的一年后</strong>，因宰相投靠南疆，战事不断，百姓流离失所，朝臣人心惶惶。</p>
-            <p>皇帝却安享于没有宰相牵制的一言堂，你们三人也成了最受宠的妃子，<strong style="color: var(--success);">好感度+10</strong>。</p>
-            <p>但你们不满足于此，想获得更大的权力。随着开始追名逐利，<strong style="color: var(--warning);">三姐妹的感情也荡然无存</strong>。</p>
-            <p><strong style="color: var(--primary);">你们都有一个共同的目的，那就是成为新后！</strong></p>
-            <p>接下来请开始招兵买马然后解决掉那两个碍眼的家伙。</p>
-            
-            <div style="background: rgba(212, 175, 55, 0.2); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 4px solid var(--accent);">
-                <strong>💰 重要：</strong>本幕开始，锁定好感度，好感度兑换成皇帝给你们的银两，<strong>1好感等于1千两</strong>。
-            </div>
-        </section>
-
-        <!-- 角色状态显示 -->
-        <div class="character-stats">
-            <div class="character-card" id="susu">
-                <div class="character-name">秀女素素</div>
-                <div>生命值: <span id="susu-hp">3</span></div>
-                <div>好感度: <span id="susu-favor">75</span> (已锁定)</div>
-                <div class="silver-amount">银两: <span id="susu-silver">75000</span> 两</div>
-                <div>道具: <span id="susu-items">无</span></div>
-            </div>
-            <div class="character-card" id="haiyan">
-                <div class="character-name">民女海燕</div>
-                <div>生命值: <span id="haiyan-hp">5</span></div>
-                <div>好感度: <span id="haiyan-favor">50</span> (已锁定)</div>
-                <div class="silver-amount">银两: <span id="haiyan-silver">50000</span> 两</div>
-                <div>道具: <span id="haiyan-items">无</span></div>
-            </div>
-            <div class="character-card" id="dazhuang">
-                <div class="character-name">高女大壮</div>
-                <div>生命值: <span id="dazhuang-hp">9</span></div>
-                <div>好感度: <span id="dazhuang-favor">5</span> (已锁定)</div>
-                <div class="silver-amount">银两: <span id="dazhuang-silver">5000</span> 两</div>
-                <div>道具: <span id="dazhuang-items">无</span></div>
-            </div>
-        </div>
-
-        <!-- 拍卖会系统 -->
-        <section class="auction-section">
-            <h3 style="color: var(--accent); margin-bottom: 1rem;">🏺 拍卖会</h3>
-            <p><strong>说明：</strong>接下来开始拍卖，这个拍卖会尤其重要，拍品可在下一环节对敌方或自己使用，效果未知。</p>
-            
-            <div class="item-grid" id="auctionItems">
-                <!-- 拍卖物品将动态生成 -->
-            </div>
-        </section>
-
-        <!-- 道具库存 -->
-        <section class="inventory-section">
-            <h3 style="color: #3498db; margin-bottom: 1rem;">🎒 道具库存</h3>
-            <div class="inventory-grid" id="inventoryGrid">
-                <div class="inventory-item">
-                    <p>暂无道具</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 决斗系统 -->
-        <section class="battle-section">
-            <h3 style="color: var(--danger); margin-bottom: 1rem;">⚔️ 杀出重围</h3>
-            <p><strong>目标：</strong>杀死其他人，成为皇后！</p>
-            <p><strong>注意：</strong>若无道具，可使用巴掌对自己或他人造成0.5伤害。好感度最高者请安排接下来的行动顺序。</p>
-            
-            <div class="action-controls">
-                <button class="action-btn" onclick="useSlap()">👋 使用巴掌 (0.5伤害)</button>
-                <button class="action-btn" onclick="useItem()">🎁 使用道具</button>
-                <button class="action-btn" onclick="checkWinner()">👑 检查获胜者</button>
-            </div>
-        </section>
-
-        <!-- 手动控制面板 -->
-        <section class="manual-controls">
-            <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎮 手动控制面板</h3>
-            <p><strong>说明：</strong>通过手动输入来调整角色的银两和生命值变化。</p>
-            
-            <div class="control-grid">
-                <div class="control-group">
-                    <h4>银两调整</h4>
-                    <select id="silverCharacter">
-                        <option value="susu">秀女素素</option>
-                        <option value="haiyan">民女海燕</option>
-                        <option value="dazhuang">高女大壮</option>
-                    </select>
-                    <input type="number" id="silverAmount" placeholder="金额 (正数增加，负数减少)">
-                    <button onclick="adjustSilver()" class="bid-btn">调整银两</button>
-                </div>
-                
-                <div class="control-group">
-                    <h4>生命值调整</h4>
-                    <select id="hpCharacter">
-                        <option value="susu">秀女素素</option>
-                        <option value="haiyan">民女海燕</option>
-                        <option value="dazhuang">高女大壮</option>
-                    </select>
-                    <input type="number" id="hpAmount" placeholder="数值 (正数增加，负数减少)" step="0.5">
-                    <button onclick="adjustHP()" class="bid-btn">调整生命值</button>
-                </div>
-                
-                <div class="control-group">
-                    <h4>道具管理</h4>
-                    <select id="itemCharacter">
-                        <option value="susu">秀女素素</option>
-                        <option value="haiyan">民女海燕</option>
-                        <option value="dazhuang">高女大壮</option>
-                    </select>
-                    <input type="text" id="itemName" placeholder="道具名称">
-                    <button onclick="addItem()" class="bid-btn">添加道具</button>
-                    <button onclick="removeItem()" class="action-btn" style="margin-top: 0.5rem;">移除道具</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 导航按钮 -->
-        <div class="nav-buttons">
-            <button class="nav-btn" onclick="goToPreviousScene()">← 上一幕</button>
-            <button class="nav-btn" onclick="goToNextScene()" id="nextBtn" style="display: none;">下一幕 →</button>
-        </div>
-
-        <footer style="text-align: center; margin-top: 2rem; color: var(--secondary);">
-            <p>© 2023 宫斗游戏 · 朱墙玉碎系列</p>
-        </footer>
-    </div>
-
-    <!-- Toast 消息 -->
-    <div class="toast" id="toast"></div>
 </body>
 </html>
