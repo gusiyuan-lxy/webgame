@@ -1722,18 +1722,10 @@ function updateCharacterStats() {
             // 移除当前的查询参数，然后替换文件名
             let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
             
-            let targetUrl;
-            if (baseUrl.endsWith('test.py')) {
-                targetUrl = baseUrl.replace('test.py', `third_scene.py?${urlParams.toString()}`);
-            } else {
-                // 如果不是从test.py跳转，尝试构建标准路径
-                const pathParts = baseUrl.split('/');
-                pathParts[pathParts.length - 1] = 'third_scene.py';
-                targetUrl = pathParts.join('/') + `?${urlParams.toString()}`;
-            }
+            // 使用固定的第三幕链接
+            const targetUrl = `https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/third-scene.html/?${urlParams.toString()}`;
             
             console.log('跳转到第三幕');
-            console.log('当前URL:', currentUrl);
             console.log('目标URL:', targetUrl);
             
             // 跳转到第三幕
