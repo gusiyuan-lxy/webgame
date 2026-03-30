@@ -504,7 +504,7 @@
             <div class="intro-highlight">
                 <h2 style="color: var(--contest); margin: 0;">第三幕 百花争艳</h2>
             </div>
-            <p>不知不觉你们已经入宫一年了，各角色状态已从前置页面自动更新！</p>
+            <p>不知不觉你们已经入宫一年了！<strong style="color: #27ae60;">入宫一年奖励：所有角色好感度+5</strong></p>
             
             <!-- 数据继承状态显示 -->
             <div id="dataInheritanceStatus" style="background: rgba(52, 152, 219, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 3px solid #3498db;">
@@ -907,7 +907,7 @@
                     gameState.characters.dazhuang.hp = parseInt(urlParams.get('dazhuang_hp')) || 9;
                     gameState.characters.dazhuang.favor = parseInt(urlParams.get('dazhuang_favor')) || 0;
                     
-                    showToast(`✅ 已从第二幕继承角色数据！素素HP:${gameState.characters.susu.hp} 好感:${gameState.characters.susu.favor}`, 4000);
+                    showToast(`✅ 已从第二幕继承角色数据！`, 2000);
                     dataLoaded = true;
                 }
                 
@@ -924,7 +924,7 @@
                             gameState.characters.dazhuang.hp = data.dazhuang.hp || 9;
                             gameState.characters.dazhuang.favor = data.dazhuang.favor || 0;
                             
-                            showToast(`💾 已从本地存储加载角色数据！素素好感:${gameState.characters.susu.favor}`, 3000);
+                            showToast(`💾 已从本地存储加载角色数据！`, 2000);
                             dataLoaded = true;
                         }
                     }
@@ -935,11 +935,32 @@
                     showToast('⚠️ 未检测到前置页面数据，使用默认角色数据', 3000);
                 }
                 
-                // 显示数据加载详情
-                console.log('角色数据加载完成:', gameState.characters);
+                // 🎉 重要：入宫一年奖励 - 所有角色好感度+5
+                const originalFavorValues = {
+                    susu: gameState.characters.susu.favor,
+                    haiyan: gameState.characters.haiyan.favor,
+                    dazhuang: gameState.characters.dazhuang.favor
+                };
+                
+                gameState.characters.susu.favor += 5;
+                gameState.characters.haiyan.favor += 5;
+                gameState.characters.dazhuang.favor += 5;
+                
+                // 显示入宫一年的奖励提示
+                setTimeout(() => {
+                    showToast(`🏛️ 入宫一年奖励：所有角色好感度+5！`, 3000);
+                }, 1000);
+                
+                // 显示数据加载详情（加奖励后的最终值）
+                console.log('继承的原始数据:', originalFavorValues);
+                console.log('加上入宫奖励后的最终数据:', {
+                    susu: gameState.characters.susu.favor,
+                    haiyan: gameState.characters.haiyan.favor,
+                    dazhuang: gameState.characters.dazhuang.favor
+                });
                 
                 // 更新数据继承状态显示
-                updateDataInheritanceDisplay(dataLoaded);
+                updateDataInheritanceDisplay(dataLoaded, false, originalFavorValues);
                 
             } catch (error) {
                 console.error('加载角色数据时出错:', error);
@@ -949,33 +970,40 @@
         }
         
         // 更新数据继承状态显示
-        function updateDataInheritanceDisplay(dataLoaded, hasError = false) {
+        function updateDataInheritanceDisplay(dataLoaded, hasError = false, originalFavorValues = null) {
             const detailsElement = document.getElementById('inheritanceDetails');
             if (!detailsElement) return;
             
             if (hasError) {
                 detailsElement.innerHTML = `
-                    <p>❌ <strong>数据加载出错</strong>，使用默认值</p>
-                `;
-                return;
-            }
-            
-            if (dataLoaded) {
-                detailsElement.innerHTML = `
-                    <p>✅ <strong>数据继承成功！</strong>来自第二幕的角色状态：</p>
+                    <p>❌ <strong>数据加载出错</strong>，使用默认值 + 入宫一年奖励</p>
                     <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
                         <div><strong>素素:</strong> HP ${gameState.characters.susu.hp} | 好感 ${gameState.characters.susu.favor}</div>
                         <div><strong>海燕:</strong> HP ${gameState.characters.haiyan.hp} | 好感 ${gameState.characters.haiyan.favor}</div>
                         <div><strong>大壮:</strong> HP ${gameState.characters.dazhuang.hp} | 好感 ${gameState.characters.dazhuang.favor}</div>
                     </div>
                 `;
-            } else {
+                return;
+            }
+            
+            if (dataLoaded && originalFavorValues) {
                 detailsElement.innerHTML = `
-                    <p>⚠️ <strong>未检测到前置页面数据</strong>，使用默认角色数据</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
-                        <div><strong>素素:</strong> HP 3 | 好感 70</div>
-                        <div><strong>海燕:</strong> HP 5 | 好感 40</div>
-                        <div><strong>大壮:</strong> HP 9 | 好感 0</div>
+                    <p>✅ <strong>数据继承成功！</strong>来自第二幕 + 入宫一年奖励(好感+5)：</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; font-size: 0.9rem;">
+                        <div><strong>素素:</strong> HP ${gameState.characters.susu.hp} | 好感 ${originalFavorValues.susu}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.susu.favor}</span></div>
+                        <div><strong>海燕:</strong> HP ${gameState.characters.haiyan.hp} | 好感 ${originalFavorValues.haiyan}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.haiyan.favor}</span></div>
+                        <div><strong>大壮:</strong> HP ${gameState.characters.dazhuang.hp} | 好感 ${originalFavorValues.dazhuang}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.dazhuang.favor}</span></div>
+                    </div>
+                `;
+            } else {
+                // 未加载数据但仍有入宫奖励
+                const defaultOriginal = { susu: 70, haiyan: 40, dazhuang: 0 };
+                detailsElement.innerHTML = `
+                    <p>⚠️ <strong>未检测到前置页面数据</strong>，使用默认角色数据 + 入宫一年奖励：</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; font-size: 0.9rem;">
+                        <div><strong>素素:</strong> HP ${gameState.characters.susu.hp} | 好感 ${defaultOriginal.susu}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.susu.favor}</span></div>
+                        <div><strong>海燕:</strong> HP ${gameState.characters.haiyan.hp} | 好感 ${defaultOriginal.haiyan}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.haiyan.favor}</span></div>
+                        <div><strong>大壮:</strong> HP ${gameState.characters.dazhuang.hp} | 好感 ${defaultOriginal.dazhuang}→<span style="color: #27ae60; font-weight: bold;">${gameState.characters.dazhuang.favor}</span></div>
                     </div>
                 `;
             }
