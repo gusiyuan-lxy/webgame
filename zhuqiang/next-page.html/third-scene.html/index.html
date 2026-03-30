@@ -1132,11 +1132,12 @@
                 from: 'act3'
             });
             
-            // 跳转到第四幕（如果存在）或提示用户
+            // 跳转到第四幕
             if (confirm('确定要前往第四幕吗？当前积分数据将被保存。')) {
-                // 这里可以跳转到第四幕页面
-                // window.location.href = `https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fourth-scene.html/?${urlParams.toString()}`;
-                showToast('第四幕开发中，数据已保存！', 3000);
+                // 跳转到第四幕页面
+                const targetUrl = `https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fourth-scene.html/?${urlParams.toString()}`;
+                console.log('跳转到第四幕，URL:', targetUrl);
+                window.location.href = targetUrl;
             }
         }
         
