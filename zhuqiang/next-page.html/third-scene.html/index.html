@@ -505,6 +505,15 @@
                 <h2 style="color: var(--contest); margin: 0;">第三幕 百花争艳</h2>
             </div>
             <p>不知不觉你们已经入宫一年了，各角色状态已从前置页面自动更新！</p>
+            
+            <!-- 数据继承状态显示 -->
+            <div id="dataInheritanceStatus" style="background: rgba(52, 152, 219, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0; border-left: 3px solid #3498db;">
+                <strong>📊 数据继承状态：</strong>
+                <div id="inheritanceDetails" style="margin-top: 0.5rem; font-size: 0.9rem;">
+                    <p>⏳ 正在加载角色数据...</p>
+                </div>
+            </div>
+            
             <p>今年国泰民安。皇帝闲出屁来，突发奇想。弄了一个比赛——<strong style="color: var(--contest);">《乘风破浪的妃子！》</strong>将通过<strong>诗、乐、才</strong>三个方向考验妃子们，奖惩都有。</p>
             <p>顺便一提，皇帝最看好的就是你们三人，加油，练习妃！</p>
         </section>
@@ -782,8 +791,8 @@
         </div>
         
         <div class="nav-buttons">
-            <a href="test.html" class="nav-btn">← 上一幕</a>
-            <a href="fourth-scene.html" class="nav-btn" id="nextBtn">下一幕 →</a>
+            <button class="nav-btn" onclick="goToPreviousScene()">← 上一幕</button>
+            <button class="nav-btn" onclick="goToNextScene()" id="nextBtn">下一幕 →</button>
         </div>
         
         <footer>
@@ -885,46 +894,90 @@
         // 从前置页面获取角色数据
         function loadCharacterDataFromPreviousPage() {
             try {
-                // 尝试从URL参数获取数据
+                let dataLoaded = false;
+                
+                // 优先从URL参数获取数据
                 const urlParams = new URLSearchParams(window.location.search);
                 
-                if (urlParams.get('susu_hp')) {
+                if (urlParams.get('susu_hp') && urlParams.get('from') === 'act2') {
                     gameState.characters.susu.hp = parseInt(urlParams.get('susu_hp')) || 3;
                     gameState.characters.susu.favor = parseInt(urlParams.get('susu_favor')) || 70;
                     gameState.characters.haiyan.hp = parseInt(urlParams.get('haiyan_hp')) || 5;
                     gameState.characters.haiyan.favor = parseInt(urlParams.get('haiyan_favor')) || 40;
                     gameState.characters.dazhuang.hp = parseInt(urlParams.get('dazhuang_hp')) || 9;
                     gameState.characters.dazhuang.favor = parseInt(urlParams.get('dazhuang_favor')) || 0;
-                    showToast('已从前置页面加载角色数据');
-                    return;
+                    
+                    showToast(`✅ 已从第二幕继承角色数据！素素HP:${gameState.characters.susu.hp} 好感:${gameState.characters.susu.favor}`, 4000);
+                    dataLoaded = true;
                 }
                 
-                // 尝试从localStorage获取数据
-                const savedData = localStorage.getItem('palaceGameCharacters');
-                if (savedData) {
-                    const data = JSON.parse(savedData);
-                    if (data.susu) {
-                        gameState.characters.susu.hp = data.susu.hp || 3;
-                        gameState.characters.susu.favor = data.susu.favor || 70;
+                // 如果URL没有数据，尝试从localStorage获取
+                if (!dataLoaded) {
+                    const savedData = localStorage.getItem('palaceGameCharacters');
+                    if (savedData) {
+                        const data = JSON.parse(savedData);
+                        if (data.susu && data.haiyan && data.dazhuang) {
+                            gameState.characters.susu.hp = data.susu.hp || 3;
+                            gameState.characters.susu.favor = data.susu.favor || 70;
+                            gameState.characters.haiyan.hp = data.haiyan.hp || 5;
+                            gameState.characters.haiyan.favor = data.haiyan.favor || 40;
+                            gameState.characters.dazhuang.hp = data.dazhuang.hp || 9;
+                            gameState.characters.dazhuang.favor = data.dazhuang.favor || 0;
+                            
+                            showToast(`💾 已从本地存储加载角色数据！素素好感:${gameState.characters.susu.favor}`, 3000);
+                            dataLoaded = true;
+                        }
                     }
-                    if (data.haiyan) {
-                        gameState.characters.haiyan.hp = data.haiyan.hp || 5;
-                        gameState.characters.haiyan.favor = data.haiyan.favor || 40;
-                    }
-                    if (data.dazhuang) {
-                        gameState.characters.dazhuang.hp = data.dazhuang.hp || 9;
-                        gameState.characters.dazhuang.favor = data.dazhuang.favor || 0;
-                    }
-                    showToast('已从本地存储加载角色数据');
-                    return;
                 }
                 
-                // 如果没有找到数据，使用默认值并提示
-                showToast('使用默认角色数据');
+                // 如果还是没有数据，使用默认值
+                if (!dataLoaded) {
+                    showToast('⚠️ 未检测到前置页面数据，使用默认角色数据', 3000);
+                }
+                
+                // 显示数据加载详情
+                console.log('角色数据加载完成:', gameState.characters);
+                
+                // 更新数据继承状态显示
+                updateDataInheritanceDisplay(dataLoaded);
                 
             } catch (error) {
                 console.error('加载角色数据时出错:', error);
-                showToast('使用默认角色数据');
+                showToast('❌ 数据加载出错，使用默认角色数据', 3000);
+                updateDataInheritanceDisplay(false, true);
+            }
+        }
+        
+        // 更新数据继承状态显示
+        function updateDataInheritanceDisplay(dataLoaded, hasError = false) {
+            const detailsElement = document.getElementById('inheritanceDetails');
+            if (!detailsElement) return;
+            
+            if (hasError) {
+                detailsElement.innerHTML = `
+                    <p>❌ <strong>数据加载出错</strong>，使用默认值</p>
+                `;
+                return;
+            }
+            
+            if (dataLoaded) {
+                detailsElement.innerHTML = `
+                    <p>✅ <strong>数据继承成功！</strong>来自第二幕的角色状态：</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
+                        <div><strong>素素:</strong> HP ${gameState.characters.susu.hp} | 好感 ${gameState.characters.susu.favor}</div>
+                        <div><strong>海燕:</strong> HP ${gameState.characters.haiyan.hp} | 好感 ${gameState.characters.haiyan.favor}</div>
+                        <div><strong>大壮:</strong> HP ${gameState.characters.dazhuang.hp} | 好感 ${gameState.characters.dazhuang.favor}</div>
+                    </div>
+                `;
+            } else {
+                detailsElement.innerHTML = `
+                    <p>⚠️ <strong>未检测到前置页面数据</strong>，使用默认角色数据</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
+                        <div><strong>素素:</strong> HP 3 | 好感 70</div>
+                        <div><strong>海燕:</strong> HP 5 | 好感 40</div>
+                        <div><strong>大壮:</strong> HP 9 | 好感 0</div>
+                    </div>
+                `;
             }
         }
         
@@ -1016,6 +1069,40 @@
             
             // 滚动到结果区域
             document.getElementById('finalScores').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 导航函数
+        function goToPreviousScene() {
+            // 保存当前数据
+            saveCharacterDataForNextPage();
+            // 跳转回第二幕
+            window.location.href = 'test.py';
+        }
+        
+        function goToNextScene() {
+            // 保存当前数据
+            saveCharacterDataForNextPage();
+            
+            // 构建URL参数传递到第四幕
+            const urlParams = new URLSearchParams({
+                susu_hp: gameState.characters.susu.hp,
+                susu_favor: gameState.characters.susu.favor,
+                susu_score: gameState.characters.susu.contestScore,
+                haiyan_hp: gameState.characters.haiyan.hp,
+                haiyan_favor: gameState.characters.haiyan.favor,
+                haiyan_score: gameState.characters.haiyan.contestScore,
+                dazhuang_hp: gameState.characters.dazhuang.hp,
+                dazhuang_favor: gameState.characters.dazhuang.favor,
+                dazhuang_score: gameState.characters.dazhuang.contestScore,
+                from: 'act3'
+            });
+            
+            // 跳转到第四幕（如果存在）或提示用户
+            if (confirm('确定要前往第四幕吗？当前积分数据将被保存。')) {
+                // 这里可以跳转到第四幕页面
+                // window.location.href = `fourth_scene.py?${urlParams.toString()}`;
+                showToast('第四幕开发中，数据已保存！', 3000);
+            }
         }
         
         // 页面加载时的初始化
