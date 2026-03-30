@@ -1715,8 +1715,29 @@ function updateCharacterStats() {
                 from: 'act2'
             });
             
+            // 更简单的URL替换方法
+            const currentUrl = window.location.href;
+            const currentSearch = window.location.search; // 获取当前的查询参数
+            
+            // 移除当前的查询参数，然后替换文件名
+            let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
+            
+            let targetUrl;
+            if (baseUrl.endsWith('test.py')) {
+                targetUrl = baseUrl.replace('test.py', `third_scene.py?${urlParams.toString()}`);
+            } else {
+                // 如果不是从test.py跳转，尝试构建标准路径
+                const pathParts = baseUrl.split('/');
+                pathParts[pathParts.length - 1] = 'third_scene.py';
+                targetUrl = pathParts.join('/') + `?${urlParams.toString()}`;
+            }
+            
+            console.log('跳转到第三幕');
+            console.log('当前URL:', currentUrl);
+            console.log('目标URL:', targetUrl);
+            
             // 跳转到第三幕
-            window.location.href = `third_scene.py?${urlParams.toString()}`;
+            window.location.href = targetUrl;
         }
         
         // 初始化
