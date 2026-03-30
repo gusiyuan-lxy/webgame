@@ -1130,7 +1130,7 @@
         </div>
         <div class="nav-buttons">
             <a href="first-scene.html" class="nav-btn">← 上一幕</a>
-            <a href="third-scene.html" class="nav-btn" id="nextBtn">下一幕 →</a>
+            <button class="nav-btn" onclick="goToNextScene()" id="nextBtn">下一幕 →</button>
         </div>
         
         <footer>
@@ -1678,6 +1678,45 @@ function updateCharacterStats() {
                     btn.classList.remove('completed');
                 }
             });
+        }
+        
+        // 跳转到下一幕并传递角色数据
+        function goToNextScene() {
+            // 保存当前角色数据到localStorage
+            const characterData = {
+                susu: {
+                    hp: gameState.characters.susu.hp,
+                    favor: gameState.characters.susu.favor,
+                    name: gameState.characters.susu.name
+                },
+                haiyan: {
+                    hp: gameState.characters.haiyan.hp,
+                    favor: gameState.characters.haiyan.favor,
+                    name: gameState.characters.haiyan.name
+                },
+                dazhuang: {
+                    hp: gameState.characters.dazhuang.hp,
+                    favor: gameState.characters.dazhuang.favor,
+                    name: gameState.characters.dazhuang.name
+                }
+            };
+            
+            // 保存到localStorage
+            localStorage.setItem('palaceGameCharacters', JSON.stringify(characterData));
+            
+            // 构建URL参数
+            const urlParams = new URLSearchParams({
+                susu_hp: gameState.characters.susu.hp,
+                susu_favor: gameState.characters.susu.favor,
+                haiyan_hp: gameState.characters.haiyan.hp,
+                haiyan_favor: gameState.characters.haiyan.favor,
+                dazhuang_hp: gameState.characters.dazhuang.hp,
+                dazhuang_favor: gameState.characters.dazhuang.favor,
+                from: 'act2'
+            });
+            
+            // 跳转到第三幕
+            window.location.href = `third_scene.py?${urlParams.toString()}`;
         }
         
         // 初始化
