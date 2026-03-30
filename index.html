@@ -215,6 +215,32 @@
             margin-top: 1rem;
             line-height: 1.6;
         }
+        
+        /* 源代码保护样式 */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* 隐藏高亮 */
+        ::selection {
+            background: transparent;
+        }
+        
+        ::-moz-selection {
+            background: transparent;
+        }
     </style>
 </head>
 <body>
@@ -310,15 +336,99 @@ webgame/
                 </div>
                 
                 <p class="modal-subtitle">
-                    欢迎来到 Gusiyuan 的 Web 游戏站！<br>
-                    这里汇集了各种精彩的角色扮演游戏<br>
+                    制作不易，希望能获取到大家的一点点打赏，多少随意。
+                    当然弹窗可以直接关闭，不影响游戏体验哈<br>
+                    这里汇集了各种精彩的角色扮演游戏，后续持续更新<br>
                     愿您在这里找到属于自己的乐趣！
+                    未成年禁止打赏哈！
                 </p>
             </div>
         </div>
     </div>
 
     <script>
+        // 源代码保护措施
+        (function() {
+            'use strict';
+            
+            // 禁用右键菜单
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showProtectionAlert();
+                return false;
+            });
+            
+            // 禁用常用快捷键
+            document.addEventListener('keydown', function(e) {
+                // 禁用F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+Shift+C
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                    (e.ctrlKey && e.key === 'u')) {
+                    e.preventDefault();
+                    showProtectionAlert();
+                    return false;
+                }
+            });
+            
+            // 检测开发者工具
+            let devtools = {
+                open: false,
+                orientation: null
+            };
+            
+            const threshold = 160;
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > threshold || 
+                    window.outerWidth - window.innerWidth > threshold) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        showProtectionAlert();
+                        // 可选：跳转到其他页面或关闭窗口
+                        // window.location.href = 'about:blank';
+                    }
+                } else {
+                    devtools.open = false;
+                }
+            }, 500);
+            
+            // 保护提示函数
+            function showProtectionAlert() {
+                alert('⚠️ 页面受到保护\n\n为了维护游戏体验和知识产权，此页面的源代码受到保护。\n\n如有技术问题，请联系开发者。');
+            }
+            
+            // 禁用文本选择
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 禁用拖拽
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 禁用打印
+            window.addEventListener('beforeprint', function(e) {
+                showProtectionAlert();
+                e.preventDefault();
+                return false;
+            });
+            
+            // 控制台警告
+            console.clear();
+            console.log('%c🛡️ 源代码保护', 'color: red; font-size: 20px; font-weight: bold;');
+            console.log('%c此页面源代码受到保护，请勿尝试获取或修改代码。', 'color: orange; font-size: 14px;');
+            console.log('%c如有技术需求，请联系开发者。', 'color: blue; font-size: 12px;');
+            
+            // 定期清理控制台
+            setInterval(function() {
+                console.clear();
+                console.log('%c🛡️ 页面保护中...', 'color: red; font-size: 16px;');
+            }, 3000);
+            
+        })();
+
         // 动态适配基础URL（解决本地开发与线上路径差异）
         document.addEventListener('DOMContentLoaded', function() {
             // 判断是否在GitHub Pages环境
