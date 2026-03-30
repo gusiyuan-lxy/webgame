@@ -1076,15 +1076,8 @@
             // 保存当前数据
             saveCharacterDataForNextPage();
             
-            // 更简单的URL替换方法
-            const currentUrl = window.location.href;
-            const currentSearch = window.location.search; // 获取当前的查询参数
-            
-            // 移除当前的查询参数，然后替换文件名
-            let baseUrl = currentUrl.replace(currentSearch, ''); // 移除查询参数
-            
-            // 使用第二幕的固定链接（需要根据实际情况调整）
-            let targetUrl = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/test.html/';
+            // 使用第二幕的固定链接
+            const targetUrl = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html';
             
             console.log('跳转回第二幕');
             console.log('目标URL:', targetUrl);
@@ -1110,10 +1103,6 @@
                 dazhuang_score: gameState.characters.dazhuang.contestScore,
                 from: 'act3'
             });
-            
-            // 获取当前URL的基础路径
-            const currentUrl = window.location.href;
-            const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
             
             // 跳转到第四幕（如果存在）或提示用户
             if (confirm('确定要前往第四幕吗？当前积分数据将被保存。')) {
