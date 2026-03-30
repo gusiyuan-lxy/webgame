@@ -350,6 +350,63 @@
             background-color: #1a252f;
         }
         
+        .manual-scoring-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+        }
+        
+        .scoring-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .character-scoring {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .scoring-name {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .character-scoring input[type="number"],
+        .character-scoring select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .add-score-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .add-score-btn:hover {
+            background-color: #e67e22;
+        }
+        
         .final-scores {
             margin: 2rem 0;
             padding: 1.5rem;
@@ -415,6 +472,14 @@
             .scores-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .scoring-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-scoring {
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
@@ -439,7 +504,7 @@
             <div class="intro-highlight">
                 <h2 style="color: var(--contest); margin: 0;">第三幕 百花争艳</h2>
             </div>
-            <p>不知不觉你们已经入宫一年了，<strong style="color: var(--primary);">好感度+5</strong></p>
+            <p>不知不觉你们已经入宫一年了，各角色状态已从前置页面自动更新！</p>
             <p>今年国泰民安。皇帝闲出屁来，突发奇想。弄了一个比赛——<strong style="color: var(--contest);">《乘风破浪的妃子！》</strong>将通过<strong>诗、乐、才</strong>三个方向考验妃子们，奖惩都有。</p>
             <p>顺便一提，皇帝最看好的就是你们三人，加油，练习妃！</p>
         </section>
@@ -537,9 +602,70 @@
                 </div>
             </div>
             
-            <!-- 才 -->
+            <!-- 诗 - 加分系统 -->
+            <div class="contest-category poetry-section">
+                <div class="category-title">诗词比赛 - 手动加分</div>
+                <div class="manual-scoring-section">
+                    <div class="scoring-grid">
+                        <div class="character-scoring">
+                            <div class="scoring-name">秀女素素</div>
+                            <input type="number" id="susu-poetry-score" min="0" max="10" value="0" placeholder="0-10分">
+                            <button onclick="addScore('susu', 'poetry')" class="add-score-btn">添加积分</button>
+                        </div>
+                        <div class="character-scoring">
+                            <div class="scoring-name">民女海燕</div>
+                            <input type="number" id="haiyan-poetry-score" min="0" max="10" value="0" placeholder="0-10分">
+                            <button onclick="addScore('haiyan', 'poetry')" class="add-score-btn">添加积分</button>
+                        </div>
+                        <div class="character-scoring">
+                            <div class="scoring-name">高女大壮</div>
+                            <input type="number" id="dazhuang-poetry-score" min="0" max="10" value="0" placeholder="0-10分">
+                            <button onclick="addScore('dazhuang', 'poetry')" class="add-score-btn">添加积分</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 乐 - 加分系统 -->
+            <div class="contest-category music-section">
+                <div class="category-title">音乐比赛 - 手动加分</div>
+                <div class="manual-scoring-section">
+                    <p><strong>奖励规则：</strong>冠军+7分，亚军+3分</p>
+                    <div class="scoring-grid">
+                        <div class="character-scoring">
+                            <div class="scoring-name">秀女素素</div>
+                            <select id="susu-music-rank">
+                                <option value="0">未获奖</option>
+                                <option value="7">冠军(+7分)</option>
+                                <option value="3">亚军(+3分)</option>
+                            </select>
+                            <button onclick="addScore('susu', 'music')" class="add-score-btn">添加积分</button>
+                        </div>
+                        <div class="character-scoring">
+                            <div class="scoring-name">民女海燕</div>
+                            <select id="haiyan-music-rank">
+                                <option value="0">未获奖</option>
+                                <option value="7">冠军(+7分)</option>
+                                <option value="3">亚军(+3分)</option>
+                            </select>
+                            <button onclick="addScore('haiyan', 'music')" class="add-score-btn">添加积分</button>
+                        </div>
+                        <div class="character-scoring">
+                            <div class="scoring-name">高女大壮</div>
+                            <select id="dazhuang-music-rank">
+                                <option value="0">未获奖</option>
+                                <option value="7">冠军(+7分)</option>
+                                <option value="3">亚军(+3分)</option>
+                            </select>
+                            <button onclick="addScore('dazhuang', 'music')" class="add-score-btn">添加积分</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 才 - 加分系统 -->
             <div class="contest-category talent-section">
-                <div class="category-title">三、才</div>
+                <div class="category-title">才艺比赛 - 手动加分</div>
                 <div class="category-description">
                     <p><strong>玩法：</strong>请抢答皇帝出的文化题（每题5分）</p>
                     
@@ -574,6 +700,26 @@
                             <div class="quiz-option">D 五指山</div>
                         </div>
                         <div class="quiz-answer">正确答案：A</div>
+                    </div>
+                    
+                    <div class="manual-scoring-section">
+                        <div class="scoring-grid">
+                            <div class="character-scoring">
+                                <div class="scoring-name">秀女素素</div>
+                                <input type="number" id="susu-talent-score" min="0" max="15" value="0" placeholder="答对题数×5">
+                                <button onclick="addScore('susu', 'talent')" class="add-score-btn">添加积分</button>
+                            </div>
+                            <div class="character-scoring">
+                                <div class="scoring-name">民女海燕</div>
+                                <input type="number" id="haiyan-talent-score" min="0" max="15" value="0" placeholder="答对题数×5">
+                                <button onclick="addScore('haiyan', 'talent')" class="add-score-btn">添加积分</button>
+                            </div>
+                            <div class="character-scoring">
+                                <div class="scoring-name">高女大壮</div>
+                                <input type="number" id="dazhuang-talent-score" min="0" max="15" value="0" placeholder="答对题数×5">
+                                <button onclick="addScore('dazhuang', 'talent')" class="add-score-btn">添加积分</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -630,10 +776,9 @@
             </div>
         </section>
         
-        <!-- 开始比赛按钮 -->
+        <!-- 统计积分按钮 -->
         <div style="text-align: center; margin: 2rem 0;">
-            <button class="contest-btn" onclick="startContest()" id="startContestBtn">🎬 开始比赛</button>
-            <button class="contest-btn" onclick="calculateFinalResults()" id="calculateBtn" style="display: none;">📊 计算最终结果</button>
+            <button class="contest-btn" onclick="calculateFinalResults()" id="calculateBtn">📊 统计积分</button>
         </div>
         
         <div class="nav-buttons">
@@ -652,33 +797,25 @@
             characters: {
                 susu: { 
                     hp: 3, 
-                    favor: 75,  // 继承前置页面的好感度+5
+                    favor: 70,  // 基础值，会从前置页面动态更新
                     name: '秀女素素',
                     contestScore: 0
                 },
                 haiyan: { 
                     hp: 5, 
-                    favor: 45,  // 继承前置页面的好感度+5
+                    favor: 40,  // 基础值，会从前置页面动态更新
                     name: '民女海燕',
                     contestScore: 0
                 },
                 dazhuang: { 
                     hp: 9, 
-                    favor: 5,   // 继承前置页面的好感度+5
+                    favor: 0,   // 基础值，会从前置页面动态更新
                     name: '高女大壮',
                     contestScore: 0
                 }
             },
             currentCharacter: null,
-            contestStarted: false,
             contestFinished: false
-        };
-        
-        // 比赛结果模拟数据（可根据实际需要调整）
-        const contestResults = {
-            poetry: { susu: 8, haiyan: 6, dazhuang: 4 },
-            music: { winner: 'susu', second: 'haiyan', eliminated: 'dazhuang' },
-            talent: { susu: 15, haiyan: 10, dazhuang: 5 }
         };
         
         function showToast(message, duration = 2000) {
@@ -712,67 +849,109 @@
             });
         }
         
-        function startContest() {
-            if (!gameState.currentCharacter) {
-                showToast('请先选择角色');
-                return;
+        // 手动加分功能
+        function addScore(character, category) {
+            let scoreToAdd = 0;
+            
+            if (category === 'poetry') {
+                const input = document.getElementById(`${character}-poetry-score`);
+                scoreToAdd = parseInt(input.value) || 0;
+                if (scoreToAdd < 0 || scoreToAdd > 10) {
+                    showToast('诗词比赛分数范围为0-10分');
+                    return;
+                }
+                input.value = 0; // 重置输入框
+            } else if (category === 'music') {
+                const select = document.getElementById(`${character}-music-rank`);
+                scoreToAdd = parseInt(select.value) || 0;
+                select.selectedIndex = 0; // 重置选择框
+            } else if (category === 'talent') {
+                const input = document.getElementById(`${character}-talent-score`);
+                scoreToAdd = parseInt(input.value) || 0;
+                if (scoreToAdd < 0 || scoreToAdd > 15) {
+                    showToast('才艺比赛分数范围为0-15分');
+                    return;
+                }
+                input.value = 0; // 重置输入框
             }
             
-            if (gameState.contestStarted) {
-                showToast('比赛已经开始');
-                return;
+            if (scoreToAdd > 0) {
+                gameState.characters[character].contestScore += scoreToAdd;
+                updateCharacterStats();
+                showToast(`${gameState.characters[character].name} ${category}比赛 +${scoreToAdd}分`);
             }
-            
-            gameState.contestStarted = true;
-            
-            // 模拟比赛过程
-            simulateContest();
-            
-            // 隐藏开始按钮，显示计算结果按钮
-            document.getElementById('startContestBtn').style.display = 'none';
-            document.getElementById('calculateBtn').style.display = 'inline-block';
-            
-            showToast('比赛开始！各项比赛正在进行中...');
         }
         
-        function simulateContest() {
-            // 诗词比赛
-            gameState.characters.susu.contestScore += contestResults.poetry.susu;
-            gameState.characters.haiyan.contestScore += contestResults.poetry.haiyan;
-            gameState.characters.dazhuang.contestScore += contestResults.poetry.dazhuang;
-            
-            // 音乐比赛
-            if (contestResults.music.winner === 'susu') {
-                gameState.characters.susu.contestScore += 7;
-            } else if (contestResults.music.winner === 'haiyan') {
-                gameState.characters.haiyan.contestScore += 7;
-            } else if (contestResults.music.winner === 'dazhuang') {
-                gameState.characters.dazhuang.contestScore += 7;
+        // 从前置页面获取角色数据
+        function loadCharacterDataFromPreviousPage() {
+            try {
+                // 尝试从URL参数获取数据
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                if (urlParams.get('susu_hp')) {
+                    gameState.characters.susu.hp = parseInt(urlParams.get('susu_hp')) || 3;
+                    gameState.characters.susu.favor = parseInt(urlParams.get('susu_favor')) || 70;
+                    gameState.characters.haiyan.hp = parseInt(urlParams.get('haiyan_hp')) || 5;
+                    gameState.characters.haiyan.favor = parseInt(urlParams.get('haiyan_favor')) || 40;
+                    gameState.characters.dazhuang.hp = parseInt(urlParams.get('dazhuang_hp')) || 9;
+                    gameState.characters.dazhuang.favor = parseInt(urlParams.get('dazhuang_favor')) || 0;
+                    showToast('已从前置页面加载角色数据');
+                    return;
+                }
+                
+                // 尝试从localStorage获取数据
+                const savedData = localStorage.getItem('palaceGameCharacters');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    if (data.susu) {
+                        gameState.characters.susu.hp = data.susu.hp || 3;
+                        gameState.characters.susu.favor = data.susu.favor || 70;
+                    }
+                    if (data.haiyan) {
+                        gameState.characters.haiyan.hp = data.haiyan.hp || 5;
+                        gameState.characters.haiyan.favor = data.haiyan.favor || 40;
+                    }
+                    if (data.dazhuang) {
+                        gameState.characters.dazhuang.hp = data.dazhuang.hp || 9;
+                        gameState.characters.dazhuang.favor = data.dazhuang.favor || 0;
+                    }
+                    showToast('已从本地存储加载角色数据');
+                    return;
+                }
+                
+                // 如果没有找到数据，使用默认值并提示
+                showToast('使用默认角色数据');
+                
+            } catch (error) {
+                console.error('加载角色数据时出错:', error);
+                showToast('使用默认角色数据');
             }
+        }
+        
+        // 保存当前角色数据到localStorage，供下一幕使用
+        function saveCharacterDataForNextPage() {
+            const dataToSave = {
+                susu: {
+                    hp: gameState.characters.susu.hp,
+                    favor: gameState.characters.susu.favor,
+                    contestScore: gameState.characters.susu.contestScore
+                },
+                haiyan: {
+                    hp: gameState.characters.haiyan.hp,
+                    favor: gameState.characters.haiyan.favor,
+                    contestScore: gameState.characters.haiyan.contestScore
+                },
+                dazhuang: {
+                    hp: gameState.characters.dazhuang.hp,
+                    favor: gameState.characters.dazhuang.favor,
+                    contestScore: gameState.characters.dazhuang.contestScore
+                }
+            };
             
-            if (contestResults.music.second === 'susu') {
-                gameState.characters.susu.contestScore += 3;
-            } else if (contestResults.music.second === 'haiyan') {
-                gameState.characters.haiyan.contestScore += 3;
-            } else if (contestResults.music.second === 'dazhuang') {
-                gameState.characters.dazhuang.contestScore += 3;
-            }
-            
-            // 才艺比赛
-            gameState.characters.susu.contestScore += contestResults.talent.susu;
-            gameState.characters.haiyan.contestScore += contestResults.talent.haiyan;
-            gameState.characters.dazhuang.contestScore += contestResults.talent.dazhuang;
-            
-            // 更新显示
-            updateCharacterStats();
+            localStorage.setItem('palaceGameCharacters', JSON.stringify(dataToSave));
         }
         
         function calculateFinalResults() {
-            if (!gameState.contestStarted) {
-                showToast('请先开始比赛');
-                return;
-            }
-            
             if (gameState.contestFinished) {
                 showToast('结果已计算');
                 return;
@@ -791,15 +970,21 @@
             characters.sort((a, b) => b.score - a.score);
             
             // 应用奖励和惩罚
-            // 第一名
-            gameState.characters[characters[0].key].favor += 20;
-            gameState.characters[characters[0].key].hp += 2;
-            
-            // 第二名
-            gameState.characters[characters[1].key].hp += 1;
-            
-            // 第三名（吊车尾）
-            gameState.characters[characters[2].key].favor -= 10;
+            if (characters.length >= 3) {
+                // 第一名
+                gameState.characters[characters[0].key].favor += 20;
+                gameState.characters[characters[0].key].hp += 2;
+                
+                // 第二名
+                gameState.characters[characters[1].key].hp += 1;
+                
+                // 第三名（吊车尾）
+                gameState.characters[characters[2].key].favor -= 10;
+                // 确保好感度不会变成负数
+                if (gameState.characters[characters[2].key].favor < 0) {
+                    gameState.characters[characters[2].key].favor = 0;
+                }
+            }
             
             // 更新最终显示
             Object.keys(gameState.characters).forEach(character => {
@@ -816,11 +1001,18 @@
             
             gameState.contestFinished = true;
             
+            // 保存数据供下一幕使用
+            saveCharacterDataForNextPage();
+            
             // 隐藏计算按钮
             document.getElementById('calculateBtn').style.display = 'none';
             
             // 显示结果消息
-            showToast(`比赛结束！第一名：${characters[0].name}(${characters[0].score}分)`);
+            let resultMessage = '';
+            if (characters.length >= 3) {
+                resultMessage = `比赛结束！🥇第一名：${characters[0].name}(${characters[0].score}分) 🥈第二名：${characters[1].name}(${characters[1].score}分) 🥉第三名：${characters[2].name}(${characters[2].score}分)`;
+            }
+            showToast(resultMessage, 5000);
             
             // 滚动到结果区域
             document.getElementById('finalScores').scrollIntoView({ behavior: 'smooth' });
@@ -828,11 +1020,13 @@
         
         // 页面加载时的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 继承前置页面的角色状态（入宫一年，好感度+5）
-            Object.keys(gameState.characters).forEach(character => {
-                // 这里的初始值已经在gameState中设置了，包含了+5的好感度
-                updateCharacterStats();
-            });
+            // 从前置页面加载角色数据
+            loadCharacterDataFromPreviousPage();
+            
+            // 更新角色状态显示
+            updateCharacterStats();
+            
+            showToast('第三幕：百花争艳 已加载完成');
         });
     </script>
 </body>
