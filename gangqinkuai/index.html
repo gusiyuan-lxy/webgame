@@ -122,7 +122,7 @@
         <div class="hit-zone" id="hitZone"></div>
     </div>
     <button class="start-button" id="startButton">开始游戏</button>
-
+    <a href="https://gusiyuan-lxy.github.io/webgame/" classclass="nav-btn">🎭 返回主页</a>
     <script>
         const gameContainer = document.getElementById('gameContainer');
         const startButton = document.getElementById('startButton');
@@ -248,7 +248,7 @@ function createBlock() {
     
     // 设置方块文字内容
     const smallTexts = ["老婆", "真爱", "真棒", "爱你", "亲亲", "么么"];
-    const bigTexts = ["爱你老婆", "燕子你最棒", "白头偕老", "老婆暴富", "一生一世", "永远爱你"];
+    const bigTexts = ["爱你老婆", "老婆你最棒", "白头偕老", "老婆暴富", "一生一世", "永远爱你"];
     const randomText = isBigBlock ? 
         bigTexts[Math.floor(Math.random() * bigTexts.length)] :
         smallTexts[Math.floor(Math.random() * smallTexts.length)];
