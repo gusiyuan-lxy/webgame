@@ -112,6 +112,7 @@
         .control-btn:active {
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #2980b9, #3498db);
         }
 
         .up-btn {
@@ -303,7 +304,7 @@
             <strong>游戏说明：</strong><br>
             🎮 使用方向键或点击按钮控制蛇的移动<br>
             🍎 吃到食物可以增加分数和长度<br>
-            ⚡ 每吃10个食物速度会增加<br>
+            ⚡ 每100分速度会增加一级<br>
             💀 撞到墙壁或自己身体游戏结束
         </div>
     </div>
@@ -334,7 +335,9 @@
                 this.tileCount = this.canvas.width / this.gridSize;
                 
                 // 游戏状态
-                this.snake = [{x: 10, y: 10}];
+                const centerX = Math.floor(this.tileCount / 2);
+                const centerY = Math.floor(this.tileCount / 2);
+                this.snake = [{x: centerX, y: centerY}];
                 this.food = {};
                 this.dx = 0;
                 this.dy = 0;
@@ -342,6 +345,7 @@
                 this.speed = 1;
                 this.gameRunning = false;
                 this.gamePaused = false;
+                this.gameLoopRunning = false;
                 
                 // 加载最高分
                 this.highScore = localStorage.getItem('snakeHighScore') || 0;
@@ -379,6 +383,7 @@
                             if (this.dy !== 1) {
                                 this.dx = 0;
                                 this.dy = -1;
+                                this.startMoving();
                             }
                             e.preventDefault();
                             break;
@@ -388,6 +393,7 @@
                             if (this.dy !== -1) {
                                 this.dx = 0;
                                 this.dy = 1;
+                                this.startMoving();
                             }
                             e.preventDefault();
                             break;
@@ -397,6 +403,7 @@
                             if (this.dx !== 1) {
                                 this.dx = -1;
                                 this.dy = 0;
+                                this.startMoving();
                             }
                             e.preventDefault();
                             break;
@@ -406,6 +413,7 @@
                             if (this.dx !== -1) {
                                 this.dx = 1;
                                 this.dy = 0;
+                                this.startMoving();
                             }
                             e.preventDefault();
                             break;
@@ -421,6 +429,7 @@
                     if (this.gameRunning && !this.gamePaused && this.dy !== 1) {
                         this.dx = 0;
                         this.dy = -1;
+                        this.startMoving();
                     }
                 });
 
@@ -428,6 +437,7 @@
                     if (this.gameRunning && !this.gamePaused && this.dy !== -1) {
                         this.dx = 0;
                         this.dy = 1;
+                        this.startMoving();
                     }
                 });
 
@@ -435,6 +445,7 @@
                     if (this.gameRunning && !this.gamePaused && this.dx !== 1) {
                         this.dx = -1;
                         this.dy = 0;
+                        this.startMoving();
                     }
                 });
 
@@ -442,6 +453,7 @@
                     if (this.gameRunning && !this.gamePaused && this.dx !== -1) {
                         this.dx = 1;
                         this.dy = 0;
+                        this.startMoving();
                     }
                 });
 
@@ -483,10 +495,12 @@
                                 // 右滑
                                 this.dx = 1;
                                 this.dy = 0;
+                                this.startMoving();
                             } else if (deltaX < 0 && this.dx !== 1) {
                                 // 左滑
                                 this.dx = -1;
                                 this.dy = 0;
+                                this.startMoving();
                             }
                         }
                     } else {
@@ -496,10 +510,12 @@
                                 // 下滑
                                 this.dx = 0;
                                 this.dy = 1;
+                                this.startMoving();
                             } else if (deltaY < 0 && this.dy !== 1) {
                                 // 上滑
                                 this.dx = 0;
                                 this.dy = -1;
+                                this.startMoving();
                             }
                         }
                     }
@@ -527,12 +543,22 @@
                 }
             }
 
+            startMoving() {
+                if (this.gameRunning && !this.gamePaused && (this.dx !== 0 || this.dy !== 0)) {
+                    document.getElementById('startBtn').textContent = '游戏中...';
+                    if (!this.gameLoopRunning) {
+                        this.gameLoopRunning = true;
+                        this.gameLoop();
+                    }
+                }
+            }
+
             startGame() {
                 if (!this.gameRunning) {
                     this.gameRunning = true;
                     this.gamePaused = false;
-                    this.gameLoop();
-                    document.getElementById('startBtn').textContent = '游戏中...';
+                    // 等待用户输入方向后再开始游戏循环
+                    document.getElementById('startBtn').textContent = '请选择方向开始';
                     document.getElementById('startBtn').style.opacity = '0.6';
                 }
             }
@@ -552,7 +578,11 @@
             resetGame() {
                 this.gameRunning = false;
                 this.gamePaused = false;
-                this.snake = [{x: 10, y: 10}];
+                this.gameLoopRunning = false;
+                // 确保蛇的初始位置在画布范围内
+                const centerX = Math.floor(this.tileCount / 2);
+                const centerY = Math.floor(this.tileCount / 2);
+                this.snake = [{x: centerX, y: centerY}];
                 this.dx = 0;
                 this.dy = 0;
                 this.score = 0;
@@ -596,7 +626,7 @@
                     this.score += 10;
                     this.scoreElement.textContent = this.score;
                     
-                    // 每10分增加速度
+                    // 每100分增加速度
                     if (this.score % 100 === 0) {
                         this.speed++;
                         this.speedElement.textContent = this.speed;
@@ -675,18 +705,21 @@
             }
 
             gameLoop() {
-                if (!this.gameRunning || this.gamePaused) return;
+                if (!this.gameRunning || this.gamePaused || !this.gameLoopRunning) return;
 
                 this.update();
                 this.draw();
 
-                setTimeout(() => {
-                    this.gameLoop();
-                }, Math.max(50, 200 - this.speed * 10));
+                if (this.gameRunning && !this.gamePaused && this.gameLoopRunning) {
+                    setTimeout(() => {
+                        this.gameLoop();
+                    }, Math.max(50, 200 - this.speed * 10));
+                }
             }
 
             gameOver() {
                 this.gameRunning = false;
+                this.gameLoopRunning = false;
                 
                 // 更新最高分
                 if (this.score > this.highScore) {
