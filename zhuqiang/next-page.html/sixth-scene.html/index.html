@@ -180,6 +180,130 @@
             font-style: italic;
         }
         
+        /* 打赏相关样式 */
+        .reward-btn {
+            background: linear-gradient(135deg, var(--accent), #b8860b);
+            font-size: 1.1rem;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+        }
+        
+        .reward-btn:hover {
+            background: linear-gradient(135deg, #b8860b, var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.4);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: #a93226;
+            transform: rotate(90deg);
+        }
+        
+        .reward-qr-code {
+            width: 250px;
+            height: 250px;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--accent);
+        }
+        
+        .reward-text {
+            font-size: 1.3rem;
+            color: var(--primary);
+            text-align: center;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 0, 0, 0.1));
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        .modal-body {
+            text-align: center;
+        }
+        
+        .reward-subtitle {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 1rem;
@@ -192,6 +316,15 @@
             
             .winner-name {
                 font-size: 1.5rem;
+            }
+            
+            .reward-qr-code {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .modal-content {
+                max-width: 350px;
             }
         }
     </style>
@@ -262,6 +395,38 @@
             <strong>📝 说明：</strong>
             <p>因视频观赏性，玩法与主持人手册有所出入，建议大家按主持人手册玩法进行游戏，以达到更好的体验。</p>
             <p>线上游戏时，建议主持人准备另一部手机/笔记本记入数值。</p>
+        </div>
+        
+        <!-- 求打赏按钮 -->
+        <div style="text-align: center; margin: 2rem 0; padding: 1rem 0; border-top: 2px solid var(--accent);">
+            <button class="btn reward-btn" onclick="showRewardModal()">☕ 请开发者喝杯咖啡</button>
+        </div>
+    </div>
+
+    <!-- 打赏弹窗 -->
+    <div class="modal-overlay" id="rewardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">☕ 感谢您的支持</h3>
+                <button class="modal-close" onclick="closeRewardModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 这里可以插入您的收款二维码 -->
+                <img src="https://via.placeholder.com/250x250/d4af37/ffffff?text=%E6%94%B6%E6%AC%BE%E7%A0%81" 
+                     alt="收款二维码" 
+                     class="reward-qr-code"
+                     onerror="this.style.display='none'">
+                
+                <div class="reward-text">
+                    您的支持是我继续开发的动力！
+                </div>
+                
+                <p class="reward-subtitle">
+                    如果您喜欢这个游戏，<br>
+                    请考虑请开发者喝杯咖啡 ☕<br>
+                    感谢您的慷慨支持！ 🙏
+                </p>
+            </div>
         </div>
     </div>
 
@@ -502,6 +667,35 @@
         function goToPreviousScene() {
             window.location.href = 'https://gusiyuan-lxy.github.io/webgame/zhuqiang/next-page.html/fifth-scene.html/';
         }
+
+        // 打赏弹窗控制函数
+        function showRewardModal() {
+            const modal = document.getElementById('rewardModal');
+            modal.classList.add('show');
+        }
+
+        function closeRewardModal() {
+            const modal = document.getElementById('rewardModal');
+            modal.classList.remove('show');
+        }
+
+        // 点击弹窗背景关闭打赏弹窗
+        document.addEventListener('click', function(event) {
+            const rewardModal = document.getElementById('rewardModal');
+            if (event.target === rewardModal) {
+                closeRewardModal();
+            }
+        });
+
+        // ESC键关闭打赏弹窗
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const rewardModal = document.getElementById('rewardModal');
+                if (rewardModal.classList.contains('show')) {
+                    closeRewardModal();
+                }
+            }
+        });
     </script>
 </body>
 </html>
