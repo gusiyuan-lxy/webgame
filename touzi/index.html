@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>大话骰子 - Dice Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            user-select: none;
+            padding: 10px;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 95vw;
+            max-height: none;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .dice-count-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dice-count-control label {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .count-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .count-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .count-btn:active {
+            transform: translateY(0);
+        }
+
+        .count-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .dice-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-width: 60px;
+        }
+
+        .roll-button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roll-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .roll-button:active {
+            transform: translateY(0);
+        }
+
+        .roll-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .roll-button.rolling {
+            animation: pulse 0.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .dice-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 针对不同骰子数量优化布局 */
+        .dice-container[data-count="1"] {
+            grid-template-columns: 1fr;
+            max-width: 150px;
+        }
+
+        .dice-container[data-count="2"] {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 250px;
+        }
+
+        .dice-container[data-count="3"] {
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 350px;
+        }
+
+        .dice-container[data-count="4"] {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 250px;
+        }
+
+        .dice-container[data-count="5"] {
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 380px;
+        }
+
+        .dice-container[data-count="6"] {
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 380px;
+        }
+
+        .dice-container[data-count="7"] {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 480px;
+        }
+
+        .dice-container[data-count="8"] {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 480px;
+        }
+
+        .dice {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border: 4px solid #2c3e50;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .dice:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .dice.rolling {
+            animation: roll 0.1s infinite linear;
+            border-color: #e74c3c;
+        }
+
+        @keyframes roll {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            25% { transform: rotateX(90deg) rotateY(0deg); }
+            50% { transform: rotateX(90deg) rotateY(90deg); }
+            75% { transform: rotateX(0deg) rotateY(90deg); }
+            100% { transform: rotateX(0deg) rotateY(0deg); }
+        }
+
+        .dice-face {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            background: transparent;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #2c3e50;
+        }
+
+        .dot.red {
+            background: #e74c3c;
+        }
+
+        .result-panel {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s;
+        }
+
+        .result-panel.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .stat-item.total-score {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item.total-score::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #f39c12, #e67e22, #f39c12);
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .total-score .stat-label {
+            font-size: 1rem;
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .total-score .stat-value {
+            font-size: 1.6rem;
+            color: #f39c12;
+        }
+
+        .game-rules {
+            background: rgba(52, 73, 94, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .rules-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .rules-list {
+            list-style: none;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        .rules-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .rules-list li:before {
+            content: "🎲";
+            position: absolute;
+            left: 0;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                padding: 5px;
+            }
+
+            .game-container {
+                padding: 20px;
+                border-radius: 15px;
+                max-width: 100%;
+            }
+
+            .game-title {
+                font-size: 2.2rem;
+                margin-bottom: 8px;
+            }
+
+            .game-subtitle {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+
+            .control-panel {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .dice-count-control {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .roll-button {
+                width: 100%;
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+
+            .dice-container {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            /* 移动端骰子数量优化布局 */
+            .dice-container[data-count="1"] {
+                grid-template-columns: 1fr;
+                max-width: 100px;
+            }
+
+            .dice-container[data-count="2"] {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 180px;
+            }
+
+            .dice-container[data-count="3"] {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 260px;
+            }
+
+            .dice-container[data-count="4"] {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 180px;
+            }
+
+            .dice-container[data-count="5"],
+            .dice-container[data-count="6"] {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 260px;
+            }
+
+            .dice-container[data-count="7"],
+            .dice-container[data-count="8"] {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 340px;
+            }
+
+            .dice {
+                width: 80px;
+                height: 80px;
+            }
+
+            .dice-face {
+                gap: 6px;
+                padding: 10px;
+            }
+
+            .dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .dot.active {
+                background: #2c3e50;
+            }
+
+            .dot.red {
+                background: #e74c3c;
+            }
+
+            .dot.red {
+                background: #e74c3c;
+            }
+
+            .result-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .total-score .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .game-rules {
+                padding: 15px;
+                margin-top: 20px;
+            }
+
+            .rules-title {
+                font-size: 1.1rem;
+            }
+
+            .rules-list {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 15px;
+                margin: 0;
+            }
+
+            .game-title {
+                font-size: 1.8rem;
+            }
+
+            .dice-container {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 12px;
+            }
+
+            .dice {
+                width: 70px;
+                height: 70px;
+            }
+
+            .dice-face {
+                gap: 5px;
+                padding: 8px;
+            }
+
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .dot.active {
+                background: #2c3e50;
+            }
+
+            .control-panel {
+                padding: 12px;
+            }
+
+            .roll-button {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .result-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .total-score .stat-value {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">🎲 大话骰子</h1>
+        <p class="game-subtitle">选择骰子数量，点击摇骰子开始游戏！</p>
+
+        <div class="control-panel">
+            <div class="dice-count-control">
+                <label>骰子数量：</label>
+                <button class="count-btn" id="decreaseBtn">-</button>
+                <div class="dice-count" id="diceCount">4</div>
+                <button class="count-btn" id="increaseBtn">+</button>
+            </div>
+            <button class="roll-button" id="rollBtn">🎲 摇骰子</button>
+        </div>
+
+        <div class="dice-container" id="diceContainer">
+            <!-- 骰子将通过JavaScript动态生成 -->
+        </div>
+
+        <div class="result-panel" id="resultPanel">
+            <div class="result-title">🎉 摇骰子结果</div>
+            <div id="resultText"></div>
+            <div class="result-stats" id="resultStats">
+                <!-- 统计信息将通过JavaScript生成 -->
+            </div>
+        </div>
+
+        <div class="game-rules">
+            <div class="rules-title">🎯 游戏规则说明</div>
+            <ul class="rules-list">
+                <li><strong>基础玩法：</strong>开始游戏时，各玩家需要摇骰，然后自己看自己骰盅里面的骰子，不让其他人看到。首局尊者先“叫”或者“女士优先”，按顺时针轮到下一家。叫骰起步个数为总玩家数的1.5倍，如4个人即6个起叫，6个人即9个起叫，5个人即自定7个起或8个起，若叫斋则至少叫“人头数”个“1"。
+
+下一家需要在上家“叫”的骰子个数或者骰子点数基础上往上加，直到开骰。输者接受惩罚，游戏重新开始，输者先叫。</li>
+                
+            </ul>
+          <a href="https://gusiyuan-lxy.github.io/webgame/" classclass="nav-btn">🎭 返回主页</a>
+        </div>
+    </div>
+
+    <script>
+        class DiceGame {
+            constructor() {
+                this.diceCount = 4;
+                this.minDice = 1;
+                this.maxDice = 8;
+                this.isRolling = false;
+                this.currentResults = [];
+                
+                this.initElements();
+                this.setupEventListeners();
+                this.generateDice();
+            }
+
+            initElements() {
+                this.diceCountElement = document.getElementById('diceCount');
+                this.decreaseBtn = document.getElementById('decreaseBtn');
+                this.increaseBtn = document.getElementById('increaseBtn');
+                this.rollBtn = document.getElementById('rollBtn');
+                this.diceContainer = document.getElementById('diceContainer');
+                this.resultPanel = document.getElementById('resultPanel');
+                this.resultText = document.getElementById('resultText');
+                this.resultStats = document.getElementById('resultStats');
+            }
+
+            setupEventListeners() {
+                this.decreaseBtn.addEventListener('click', () => this.changeDiceCount(-1));
+                this.increaseBtn.addEventListener('click', () => this.changeDiceCount(1));
+                this.rollBtn.addEventListener('click', () => this.rollDice());
+            }
+
+            changeDiceCount(change) {
+                if (this.isRolling) return;
+                
+                const newCount = this.diceCount + change;
+                if (newCount >= this.minDice && newCount <= this.maxDice) {
+                    this.diceCount = newCount;
+                    this.diceCountElement.textContent = this.diceCount;
+                    this.generateDice();
+                    this.hideResult();
+                }
+                
+                this.updateCountButtons();
+            }
+
+            updateCountButtons() {
+                this.decreaseBtn.disabled = this.diceCount <= this.minDice;
+                this.increaseBtn.disabled = this.diceCount >= this.maxDice;
+            }
+
+            generateDice() {
+                this.diceContainer.innerHTML = '';
+                this.diceContainer.setAttribute('data-count', this.diceCount);
+                
+                for (let i = 0; i < this.diceCount; i++) {
+                    const dice = document.createElement('div');
+                    dice.className = 'dice';
+                    dice.innerHTML = this.createDiceFace(1);
+                    this.diceContainer.appendChild(dice);
+                }
+            }
+
+            createDiceFace(number) {
+                const face = document.createElement('div');
+                face.className = 'dice-face';
+                
+                // 创建9个点的位置
+                for (let i = 0; i < 9; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    face.appendChild(dot);
+                }
+                
+                this.updateDiceFace(face, number);
+                return face.outerHTML;
+            }
+
+            updateDiceFace(face, number) {
+                const dots = face.querySelectorAll('.dot');
+                
+                // 清除所有点的状态
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                    dot.classList.remove('red');
+                });
+                
+                // 根据数字显示对应的点
+                const patterns = {
+                    1: [4], // 中心
+                    2: [0, 8], // 对角
+                    3: [0, 4, 8], // 对角线
+                    4: [0, 2, 6, 8], // 四角
+                    5: [0, 2, 4, 6, 8], // 四角加中心
+                    6: [0, 1, 2, 6, 7, 8] // 两列
+                };
+                
+                if (patterns[number]) {
+                    patterns[number].forEach(index => {
+                        if (dots[index]) {
+                            dots[index].classList.add('active');
+                            // 1点和4点显示红色，其他显示黑色
+                            if (number === 1 || number === 4) {
+                                dots[index].classList.add('red');
+                            }
+                        }
+                    });
+                }
+            }
+
+            async rollDice() {
+                if (this.isRolling) return;
+                
+                this.isRolling = true;
+                this.rollBtn.disabled = true;
+                this.rollBtn.classList.add('rolling');
+                this.rollBtn.textContent = '🎲 摇骰中...';
+                this.hideResult();
+                
+                const dice = this.diceContainer.querySelectorAll('.dice');
+                
+                // 开始滚动动画
+                dice.forEach(die => {
+                    die.classList.add('rolling');
+                });
+                
+                // 在滚动过程中快速切换点数
+                const rollInterval = setInterval(() => {
+                    dice.forEach(die => {
+                        const randomNumber = Math.floor(Math.random() * 6) + 1;
+                        const face = die.querySelector('.dice-face');
+                        this.updateDiceFace(face, randomNumber);
+                    });
+                }, 100);
+                
+                // 2秒后停止滚动并显示最终结果
+                setTimeout(() => {
+                    clearInterval(rollInterval);
+                    
+                    // 生成最终结果
+                    this.currentResults = [];
+                    dice.forEach((die, index) => {
+                        const finalNumber = Math.floor(Math.random() * 6) + 1;
+                        this.currentResults.push(finalNumber);
+                    });
+                    
+                    // 按点数从小到大排序
+                    this.currentResults.sort((a, b) => a - b);
+                    
+                    // 更新骰子显示（按排序后的结果）
+                    dice.forEach((die, index) => {
+                        const sortedNumber = this.currentResults[index];
+                        const face = die.querySelector('.dice-face');
+                        this.updateDiceFace(face, sortedNumber);
+                        die.classList.remove('rolling');
+                    });
+                    
+                    this.showResult();
+                    this.isRolling = false;
+                    this.rollBtn.disabled = false;
+                    this.rollBtn.classList.remove('rolling');
+                    this.rollBtn.textContent = '🎲 重新摇骰子';
+                }, 2000);
+            }
+
+            showResult() {
+                const results = this.currentResults;
+                const total = results.reduce((sum, num) => sum + num, 0);
+                
+                // 统计各点数的出现次数
+                const counts = {};
+                for (let i = 1; i <= 6; i++) {
+                    counts[i] = 0;
+                }
+                results.forEach(num => {
+                    counts[num]++;
+                });
+                
+                // 检查特殊组合
+                const maxCount = Math.max(...Object.values(counts));
+                let specialResult = '';
+                
+                if (maxCount === results.length) {
+                    specialResult = '🎉 豹子！所有骰子点数相同！';
+                } else if (maxCount >= results.length - 1) {
+                    specialResult = '✨ 几乎全部相同！';
+                } else if (maxCount >= Math.ceil(results.length / 2)) {
+                    specialResult = '🎯 多个相同点数！';
+                }
+                
+                this.resultText.innerHTML = `
+                    <div style="font-size: 1.2rem; margin-bottom: 10px;">
+                        骰子点数：${results.join(' - ')}
+                    </div>
+                    ${specialResult ? `<div style="font-size: 1.1rem; color: #f39c12;">${specialResult}</div>` : ''}
+                `;
+                
+                // 生成点数统计
+                let statsHTML = `
+                    <div class="stat-item total-score">
+                        <div class="stat-label">总点数</div>
+                        <div class="stat-value">${total}</div>
+                    </div>
+                `;
+                
+                // 只显示出现过的点数
+                for (let i = 1; i <= 6; i++) {
+                    if (counts[i] > 0) {
+                        statsHTML += `
+                            <div class="stat-item">
+                                <div class="stat-label">${i}点</div>
+                                <div class="stat-value">${counts[i]}个</div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                this.resultStats.innerHTML = statsHTML;
+                this.resultPanel.classList.add('show');
+            }
+
+            hideResult() {
+                this.resultPanel.classList.remove('show');
+            }
+        }
+
+        // 初始化游戏
+        window.addEventListener('DOMContentLoaded', () => {
+            new DiceGame();
+        });
+
+        // 防止页面滚动
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.game-container')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
