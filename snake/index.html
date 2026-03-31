@@ -84,24 +84,26 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr 1fr;
-            gap: 10px;
-            max-width: 200px;
+            gap: 15px;
+            max-width: 280px;
             margin: 0 auto 20px;
-            height: 150px;
+            height: 200px;
         }
 
         .control-btn {
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
-            border-radius: 15px;
-            font-size: 1.5rem;
+            border-radius: 20px;
+            font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
             user-select: none;
             touch-action: manipulation;
+            min-height: 60px;
+            min-width: 60px;
         }
 
         .control-btn:hover {
@@ -146,18 +148,19 @@
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
         }
 
         .game-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .game-btn.start {
@@ -189,15 +192,23 @@
             visibility: visible;
         }
 
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transform: scale(0.7);
-            transition: transform 0.3s;
-        }
+            .modal-content {
+                background: white;
+                padding: 25px;
+                border-radius: 20px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                transform: scale(0.7);
+                transition: transform 0.3s;
+                max-width: 90vw;
+            }
+
+            .modal-buttons {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
 
         .game-over-modal.show .modal-content {
             transform: scale(1);
@@ -238,17 +249,29 @@
             }
 
             .controls {
-                max-width: 180px;
-                height: 135px;
+                max-width: 300px;
+                height: 220px;
+                gap: 20px;
             }
 
             .control-btn {
-                font-size: 1.3rem;
+                font-size: 2.2rem;
+                min-height: 70px;
+                min-width: 70px;
             }
 
             .game-canvas {
                 width: 100% !important;
                 max-width: 350px;
+            }
+
+            .game-buttons {
+                gap: 10px;
+            }
+
+            .game-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
         }
 
@@ -263,12 +286,20 @@
             }
 
             .controls {
-                max-width: 160px;
-                height: 120px;
+                max-width: 240px;
+                height: 180px;
+                gap: 15px;
             }
 
             .control-btn {
-                font-size: 1.1rem;
+                font-size: 1.8rem;
+                min-height: 55px;
+                min-width: 55px;
+            }
+
+            .game-btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -297,7 +328,7 @@
         <div class="game-buttons">
             <button class="game-btn start" id="startBtn">开始游戏</button>
             <button class="game-btn pause" id="pauseBtn">暂停</button>
-            <button class="game-btn" id="resetBtn">重新开始</button>
+            <button class="https://gusiyuan-lxy.github.io/webgame" id="resetBtn">返回主页</button>
         </div>
 
         <div class="instructions">
@@ -317,7 +348,10 @@
                 <div>本次分数: <span id="finalScore">0</span></div>
                 <div>最高分数: <span id="modalHighScore">0</span></div>
             </div>
-            <button class="game-btn" onclick="restartGame()">再来一局</button>
+            <div class="modal-buttons">
+                <button class="game-btn" onclick="restartGame()">再来一局</button>
+                <button class="game-btn" onclick="returnToMainPageFromModal()">返回主页</button>
+            </div>
         </div>
     </div>
 
@@ -467,7 +501,7 @@
                 });
 
                 document.getElementById('resetBtn').addEventListener('click', () => {
-                    this.resetGame();
+                    this.returnToMainPage();
                 });
 
                 // 触摸滑动控制
@@ -740,6 +774,15 @@
             hideGameOverModal() {
                 document.getElementById('gameOverModal').classList.remove('show');
             }
+
+            returnToMainPage() {
+                // 可以在这里添加返回主页的逻辑
+                // 目前先执行重置游戏的功能
+                this.resetGame();
+                
+                // 如果有主页URL，可以使用：
+                // window.location.href = 'main-page.html';
+            }
         }
 
         // 初始化游戏
@@ -752,6 +795,12 @@
         function restartGame() {
             game.hideGameOverModal();
             game.resetGame();
+        }
+
+        // 返回主页函数（供弹窗调用）
+        function returnToMainPageFromModal() {
+            game.hideGameOverModal();
+            game.returnToMainPage();
         }
 
         // 防止页面滚动
