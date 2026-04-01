@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>海龟汤 - 推理游戏中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            user-select: none;
+            padding: 20px;
+        }
+
+        .page-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            border-color: #3498db;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+        }
+
+        .module-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .module-description {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .module-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .module-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        .module-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-home-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-home-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 不同模块的特色颜色 */
+        .module-card:nth-child(1) .module-image {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .module-card:nth-child(2) .module-image {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+        }
+
+        .module-card:nth-child(3) .module-image {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        .module-card:nth-child(4) .module-image {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            box-shadow: 0 6px 12px rgba(155, 89, 182, 0.3);
+        }
+
+        .module-card:nth-child(5) .module-image {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            box-shadow: 0 6px 12px rgba(52, 73, 94, 0.3);
+        }
+
+        .module-card:nth-child(6) .module-image {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+            box-shadow: 0 6px 12px rgba(22, 160, 133, 0.3);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .page-container {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+                margin-bottom: 10px;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+
+            .module-image {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .module-title {
+                font-size: 1.3rem;
+            }
+
+            .module-description {
+                font-size: 0.9rem;
+            }
+
+            .module-btn {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+
+            .back-home-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-container {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .module-image {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .module-title {
+                font-size: 1.2rem;
+            }
+
+            .modules-grid {
+                gap: 15px;
+            }
+        }
+
+        /* 页面加载动画 */
+        .module-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .module-card:nth-child(1) { animation-delay: 0.1s; }
+        .module-card:nth-child(2) { animation-delay: 0.2s; }
+        .module-card:nth-child(3) { animation-delay: 0.3s; }
+        .module-card:nth-child(4) { animation-delay: 0.4s; }
+        .module-card:nth-child(5) { animation-delay: 0.5s; }
+        .module-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <h1 class="page-title">🐢 海龟汤</h1>
+        <p class="page-subtitle">欢迎来到推理游戏世界<br>选择您喜欢的游戏模式，开始推理之旅</p>
+
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-image">🔍</div>
+                <h3 class="module-title">经典海龟汤</h3>
+                <p class="module-description">传统的海龟汤推理游戏，通过是否问题来推断出完整的故事情节</p>
+                <a href="classic.html" class="module-btn">开始游戏</a>
+            </div>
+
+            <div class="module-card">
+                <div class="module-image">⚡</div>
+                <h3 class="module-title">快速推理</h3>
+                <p class="module-description">限时推理模式，在规定时间内解开谜题，挑战你的推理速度</p>
+                <a href="quick.html" class="module-btn">开始游戏</a>
+            </div>
+
+            <div class="module-card">
+                <div class="module-image">👥</div>
+                <h3 class="module-title">多人模式</h3>
+                <p class="module-description">与朋友一起推理，协作解开复杂的海龟汤谜题</p>
+                <a href="multiplayer.html" class="module-btn">开始游戏</a>
+            </div>
+
+            <div class="module-card">
+                <div class="module-image">📚</div>
+                <h3 class="module-title">题库大全</h3>
+                <p class="module-description">海量海龟汤题库，从简单到困难，满足不同推理水平的需求</p>
+                <a href="library.html" class="module-btn">浏览题库</a>
+            </div>
+
+            <div class="module-card">
+                <div class="module-image">✏️</div>
+                <h3 class="module-title">创作模式</h3>
+                <p class="module-description">创作属于你自己的海龟汤题目，分享给其他玩家挑战</p>
+                <a href="create.html" class="module-btn">开始创作</a>
+            </div>
+
+            <div class="module-card">
+                <div class="module-image">🏆</div>
+                <h3 class="module-title">排行榜</h3>
+                <p class="module-description">查看推理高手排行榜，挑战成为最强推理大师</p>
+                <a href="ranking.html" class="module-btn">查看排行</a>
+            </div>
+        </div>
+    </div>
+
+    <a href="../index.html" class="back-home-btn">🏠 返回主页</a>
+
+    <script>
+        // 页面加载完成后的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有模块按钮添加点击反馈
+            const moduleButtons = document.querySelectorAll('.module-btn');
+            moduleButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // 如果链接文件不存在，显示提示
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // 创建提示弹窗
+                    showComingSoonModal(this.closest('.module-card').querySelector('.module-title').textContent);
+                });
+            });
+
+            // 返回主页按钮交互
+            const backHomeBtn = document.querySelector('.back-home-btn');
+            backHomeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // 添加页面切换动画
+                document.body.style.opacity = '0.5';
+                document.body.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    window.location.href = this.getAttribute('href');
+                }, 300);
+            });
+        });
+
+        // 显示即将推出的提示弹窗
+        function showComingSoonModal(moduleName) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s;
+            `;
+
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white;
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+                max-width: 400px;
+                margin: 20px;
+                transform: scale(0.7);
+                transition: transform 0.3s;
+            `;
+
+            content.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 20px;">🚧</div>
+                <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.5rem;">${moduleName}</h3>
+                <p style="color: #7f8c8d; margin-bottom: 25px; line-height: 1.5;">该模块正在开发中，敬请期待！</p>
+                <button id="closeModal" style="
+                    background: linear-gradient(135deg, #3498db, #2980b9);
+                    color: white;
+                    border: none;
+                    padding: 10px 25px;
+                    border-radius: 20px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                ">知道了</button>
+            `;
+
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+
+            // 显示动画
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                content.style.transform = 'scale(1)';
+            }, 10);
+
+            // 关闭按钮事件
+            content.querySelector('#closeModal').addEventListener('click', () => {
+                modal.style.opacity = '0';
+                content.style.transform = 'scale(0.7)';
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                }, 300);
+            });
+
+            // 点击背景关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.opacity = '0';
+                    content.style.transform = 'scale(0.7)';
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                    }, 300);
+                }
+            });
+        }
+
+        // 防止页面滚动
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.page-container')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
