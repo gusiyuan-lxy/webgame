@@ -495,7 +495,6 @@
 
         <div class="modules-grid">
             <div class="module-card">
-               
                 <h3 class="module-title">生日</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
@@ -507,8 +506,8 @@
                     查看汤底
                 </button>
             </div>
+            
             <div class="module-card">
-               
                 <h3 class="module-title">永远在一起</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
@@ -521,9 +520,7 @@
                 </button>
             </div>
 
-          <div class="modules-grid">
             <div class="module-card">
-               
                 <h3 class="module-title">喝水</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
@@ -536,13 +533,11 @@
                 </button>
             </div>
               
-            <div class="modules-grid">
             <div class="module-card">
-               
                 <h3 class="module-title">三胞胎</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
-                    <div class="soup-surface-content">我们被关在一个小房间。“别过来！”妹妹靠近了我，姐姐也靠近了我，我们都死了。</div>
+                    <div class="soup-surface-content">我们被关在一个小房间。"别过来！"妹妹靠近了我，姐姐也靠近了我，我们都死了。</div>
                 </div>
                 <button class="module-btn" 
                         data-title="三胞胎"
@@ -551,24 +546,20 @@
                 </button>
             </div>
 
-            <div class="modules-grid">
             <div class="module-card">
-               
                 <h3 class="module-title">杀了我</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
-                    <div class="soup-surface-content">一刀，两刀，三刀。那个相处不久的女人还是要杀了我。嘴里却说“傻瓜，不要哭啊！”</div>
+                    <div class="soup-surface-content">一刀，两刀，三刀。那个相处不久的女人还是要杀了我。嘴里却说"傻瓜，不要哭啊！"</div>
                 </div>
                 <button class="module-btn" 
                         data-title="杀了我"
-                        data-bottom="我是洋葱，女人在切洋葱时因流泪而说“不要哭啊”。">
+                        data-bottom="我是洋葱，女人在切洋葱时因流泪而说"不要哭啊"。">
                     查看汤底
                 </button>
             </div>
                 
-           <div class="modules-grid">
             <div class="module-card">
-               
                 <h3 class="module-title">约饭</h3>
                 <div class="soup-surface">
                     <div class="soup-surface-label">汤面：</div>
@@ -589,10 +580,6 @@
     <div class="soup-modal" id="soupModal">
         <div class="soup-modal-content">
             <h2 class="modal-title" id="modalTitle"></h2>
-            <div class="modal-soup-surface">
-                <div class="modal-soup-surface-label">汤面：</div>
-                <div class="modal-soup-surface-content" id="modalSurface"></div>
-            </div>
             <div class="modal-soup-bottom">
                 <div class="modal-soup-bottom-label">汤底：</div>
                 <div class="modal-soup-bottom-content" id="modalBottom"></div>
@@ -645,11 +632,9 @@
         // 显示汤底弹窗
         function showSoupBottomModal(button) {
             const title = button.getAttribute('data-title');
-            const surface = button.getAttribute('data-surface');
             const bottom = button.getAttribute('data-bottom');
             
             document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalSurface').textContent = surface;
             document.getElementById('modalBottom').textContent = bottom;
             
             const modal = document.getElementById('soupModal');
