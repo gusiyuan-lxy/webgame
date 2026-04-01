@@ -98,17 +98,158 @@
         }
 
         .module-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            color: #e74c3c;
+            margin-bottom: 15px;
             font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: '华文行楷', 'STXingkai', '楷体', 'KaiTi', serif;
+            letter-spacing: 2px;
         }
 
-        .module-description {
+        .soup-surface {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .soup-surface-label {
+            font-size: 0.9rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .soup-surface-content {
+            font-size: 1rem;
+            color: #2c3e50;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .soup-bottom {
+            display: none; /* 隐藏汤底，通过弹窗显示 */
+        }
+
+        /* 弹窗样式 */
+        .soup-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .soup-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .soup-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            margin: 20px;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .soup-modal.show .soup-modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: '华文行楷', 'STXingkai', '楷体', 'KaiTi', serif;
+            letter-spacing: 2px;
+        }
+
+        .modal-soup-surface {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            text-align: left;
+        }
+
+        .modal-soup-surface-label {
+            font-size: 1rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .modal-soup-surface-content {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .modal-soup-bottom {
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.1), rgba(44, 62, 80, 0.1));
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #34495e;
+            text-align: left;
+        }
+
+        .modal-soup-bottom-label {
+            font-size: 1rem;
+            color: #34495e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .modal-soup-bottom-content {
             font-size: 1rem;
             color: #7f8c8d;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close-btn:active {
+            transform: translateY(0);
         }
 
         .module-btn {
@@ -230,11 +371,21 @@
             }
 
             .module-title {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
+                letter-spacing: 1px;
             }
 
-            .module-description {
+            .soup-surface-content {
                 font-size: 0.9rem;
+            }
+
+            .soup-bottom-content {
+                font-size: 0.85rem;
+            }
+
+            .soup-surface, .soup-bottom {
+                padding: 10px;
+                margin-bottom: 10px;
             }
 
             .module-btn {
@@ -265,7 +416,49 @@
             }
 
             .module-title {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                letter-spacing: 1px;
+            }
+
+            .soup-surface-content {
+                font-size: 0.85rem;
+            }
+
+            .soup-bottom-content {
+                font-size: 0.8rem;
+            }
+
+            .soup-surface, .soup-bottom {
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .soup-surface-label, .soup-bottom-label {
+                font-size: 0.8rem;
+            }
+
+            /* 移动端弹窗优化 */
+            .soup-modal-content {
+                padding: 20px;
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-soup-surface, .modal-soup-bottom {
+                padding: 12px;
+            }
+
+            .modal-soup-surface-content, .modal-soup-bottom-content {
+                font-size: 0.9rem;
+            }
+
+            .modal-close-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
 
             .modules-grid {
@@ -302,64 +495,122 @@
 
         <div class="modules-grid">
             <div class="module-card">
-                <img src="https://raw.githubusercontent.com/gusiyuan-lxy/webgame/refs/heads/main/%7B69375b9f-569d-43b5-a86c-ea2c963ac5c8%7D.png" alt="海龟汤" class="module-title">
-                <h3 class="module-title">经典海龟汤</h3>
-                <p class="module-description">传统的海龟汤推理游戏，通过是否问题来推断出完整的故事情节</p>
-                <a href="classic.html" class="module-btn">开始游戏</a>
+               
+                <h3 class="module-title">生日</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">一个人过生日，邀请他所有的好朋友来参加。吹完蜡烛的时候，这个人把他所有的好朋友都杀了。</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="天台跳楼案"
+                        data-surface="一个人过生日，邀请他所有的好朋友来参加。吹完蜡烛的时候，这个人把他所有的好朋友都杀了。"
+                        data-bottom="男主和朋友曾经一起去探险，一段时间后没有了食物，因为男主本身是一个盲人，所以这帮朋友都骗他说每人砍下一只手来吃，可最后只砍了男主一个人的手。之后有一次男主邀请朋友们来参加自己的生日聚会，吹完蜡烛后所有人都鼓掌了，男主发现只有自己的手被砍下来吃了，男主无法忍受这样的欺骗于是杀了所有的好朋友。">
+                    查看汤底
+                </button>
             </div>
 
             <div class="module-card">
-                <div class="module-image">⚡</div>
-                <h3 class="module-title">快速推理</h3>
-                <p class="module-description">限时推理模式，在规定时间内解开谜题，挑战你的推理速度</p>
-                <a href="quick.html" class="module-btn">开始游戏</a>
+               
+                <h3 class="module-title">半夜敲门声</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">深夜，一个人听到有人敲门，透过猫眼看到一个女人，但他没有开门。第二天发现女人死在门口。</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="半夜敲门声"
+                        data-surface="深夜，一个人听到有人敲门，透过猫眼看到一个女人，但他没有开门。第二天发现女人死在门口。"
+                        data-bottom="女人其实早就死了，凶手把她的尸体靠在门上敲门，想引人开门制造不在场证明。男人从猫眼看到的是尸体的后脑勺。">
+                    查看汤底
+                </button>
             </div>
 
             <div class="module-card">
-                <div class="module-image">👥</div>
-                <h3 class="module-title">多人模式</h3>
-                <p class="module-description">与朋友一起推理，协作解开复杂的海龟汤谜题</p>
-                <a href="multiplayer.html" class="module-btn">开始游戏</a>
+                
+                <h3 class="module-title">雨夜杀机</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">雨天，一个男人开车撞死了一个女人。警察来了，不但没抓他，反而安慰他。</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="雨夜杀机"
+                        data-surface="雨天，一个男人开车撞死了一个女人。警察来了，不但没抓他，反而安慰他。"
+                        data-bottom="那个女人是男人的妻子，她患了抑郁症想自杀，故意冲向丈夫的车。丈夫刹车不及，警察了解情况后安慰这位失去妻子的男人。">
+                    查看汤底
+                </button>
             </div>
 
             <div class="module-card">
-                <div class="module-image">📚</div>
-                <h3 class="module-title">题库大全</h3>
-                <p class="module-description">海量海龟汤题库，从简单到困难，满足不同推理水平的需求</p>
-                <a href="library.html" class="module-btn">浏览题库</a>
+                
+                <h3 class="module-title">电梯惊魂</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">一个矮子住在20层，每天坐电梯只坐到19层，然后走楼梯上去。雨天的时候可以直接坐到20层。</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="电梯惊魂"
+                        data-surface="一个矮子住在20层，每天坐电梯只坐到19层，然后走楼梯上去。雨天的时候可以直接坐到20层。"
+                        data-bottom="矮子够不到电梯里的20层按钮，只能按到19层。雨天带伞的话，可以用雨伞戳到20层的按钮。">
+                    查看汤底
+                </button>
             </div>
 
             <div class="module-card">
-                <div class="module-image">✏️</div>
-                <h3 class="module-title">创作模式</h3>
-                <p class="module-description">创作属于你自己的海龟汤题目，分享给其他玩家挑战</p>
-                <a href="create.html" class="module-btn">开始创作</a>
+                <h3 class="module-title">深夜来电</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">一个女人深夜接到电话，对方什么都没说就挂了。女人立刻报警说有人要杀她。</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="深夜来电"
+                        data-surface="一个女人深夜接到电话，对方什么都没说就挂了。女人立刻报警说有人要杀她。"
+                        data-bottom="女人是盲人，她听出电话里传来的是她家的音乐声，说明有人在她家里。凶手不知道她是盲人，以为打错了电话就挂了。">
+                    查看汤底
+                </button>
             </div>
 
-            <div class="module-card">
-                <div class="module-image">🏆</div>
-                <h3 class="module-title">排行榜</h3>
-                <p class="module-description">查看推理高手排行榜，挑战成为最强推理大师</p>
-                <a href="ranking.html" class="module-btn">查看排行</a>
+            <div class="module-card"
+                <h3 class="module-title">无声的求救</h3>
+                <div class="soup-surface">
+                    <div class="soup-surface-label">汤面：</div>
+                    <div class="soup-surface-content">一个哑巴去五金店买钉子，用手势比划后成功买到。后来一个盲人来买剪刀，该怎么比划？</div>
+                </div>
+                <button class="module-btn" 
+                        data-title="无声的求救"
+                        data-surface="一个哑巴去五金店买钉子，用手势比划后成功买到。后来一个盲人来买剪刀，该怎么比划？"
+                        data-bottom="盲人不需要比划，直接说&quot;我要买剪刀&quot;就行了。盲人只是看不见，但能正常说话。">
+                    查看汤底
+                </button>
             </div>
         </div>
     </div>
 
     <a href="../index.html" class="back-home-btn">🏠 返回主页</a>
 
+    <!-- 汤底弹窗 -->
+    <div class="soup-modal" id="soupModal">
+        <div class="soup-modal-content">
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-soup-surface">
+                <div class="modal-soup-surface-label">汤面：</div>
+                <div class="modal-soup-surface-content" id="modalSurface"></div>
+            </div>
+            <div class="modal-soup-bottom">
+                <div class="modal-soup-bottom-label">汤底：</div>
+                <div class="modal-soup-bottom-content" id="modalBottom"></div>
+            </div>
+            <button class="modal-close-btn" id="closeModal">知道了</button>
+        </div>
+    </div>
+
     <script>
         // 页面加载完成后的交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 为所有模块按钮添加点击反馈
+            // 为所有模块按钮添加点击事件
             const moduleButtons = document.querySelectorAll('.module-btn');
             moduleButtons.forEach(btn => {
                 btn.addEventListener('click', function(e) {
-                    // 如果链接文件不存在，显示提示
                     e.preventDefault();
-                    const href = this.getAttribute('href');
-                    
-                    // 创建提示弹窗
-                    showComingSoonModal(this.closest('.module-card').querySelector('.module-title').textContent);
+                    showSoupBottomModal(this);
                 });
             });
 
@@ -375,82 +626,41 @@
                     window.location.href = this.getAttribute('href');
                 }, 300);
             });
-        });
 
-        // 显示即将推出的提示弹窗
-        function showComingSoonModal(moduleName) {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.8);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-                opacity: 0;
-                transition: opacity 0.3s;
-            `;
-
-            const content = document.createElement('div');
-            content.style.cssText = `
-                background: white;
-                padding: 30px;
-                border-radius: 20px;
-                text-align: center;
-                max-width: 400px;
-                margin: 20px;
-                transform: scale(0.7);
-                transition: transform 0.3s;
-            `;
-
-            content.innerHTML = `
-                <div style="font-size: 3rem; margin-bottom: 20px;">🚧</div>
-                <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.5rem;">${moduleName}</h3>
-                <p style="color: #7f8c8d; margin-bottom: 25px; line-height: 1.5;">该模块正在开发中，敬请期待！</p>
-                <button id="closeModal" style="
-                    background: linear-gradient(135deg, #3498db, #2980b9);
-                    color: white;
-                    border: none;
-                    padding: 10px 25px;
-                    border-radius: 20px;
-                    font-size: 1rem;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                ">知道了</button>
-            `;
-
-            modal.appendChild(content);
-            document.body.appendChild(modal);
-
-            // 显示动画
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                content.style.transform = 'scale(1)';
-            }, 10);
-
-            // 关闭按钮事件
-            content.querySelector('#closeModal').addEventListener('click', () => {
-                modal.style.opacity = '0';
-                content.style.transform = 'scale(0.7)';
-                setTimeout(() => {
-                    document.body.removeChild(modal);
-                }, 300);
+            // 弹窗关闭事件
+            const modal = document.getElementById('soupModal');
+            const closeBtn = document.getElementById('closeModal');
+            
+            closeBtn.addEventListener('click', () => {
+                hideSoupModal();
             });
 
-            // 点击背景关闭
+            // 点击背景关闭弹窗
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
-                    modal.style.opacity = '0';
-                    content.style.transform = 'scale(0.7)';
-                    setTimeout(() => {
-                        document.body.removeChild(modal);
-                    }, 300);
+                    hideSoupModal();
                 }
             });
+        });
+
+        // 显示汤底弹窗
+        function showSoupBottomModal(button) {
+            const title = button.getAttribute('data-title');
+            const surface = button.getAttribute('data-surface');
+            const bottom = button.getAttribute('data-bottom');
+            
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalSurface').textContent = surface;
+            document.getElementById('modalBottom').textContent = bottom;
+            
+            const modal = document.getElementById('soupModal');
+            modal.classList.add('show');
+        }
+
+        // 隐藏汤底弹窗
+        function hideSoupModal() {
+            const modal = document.getElementById('soupModal');
+            modal.classList.remove('show');
         }
 
         // 防止页面滚动
